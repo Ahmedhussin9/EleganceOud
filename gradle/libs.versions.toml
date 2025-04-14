@@ -58,7 +58,6 @@ androidx-animation-core-lint = { group = "androidx.compose.animation", name = "a
 compose-material-icons = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "compose" }
 
 
-
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

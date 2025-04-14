@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,6 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import com.webenia.eleganceoud.presentation.composables.UnderLinedEditText
@@ -31,9 +33,9 @@ class MainActivity : ComponentActivity() {
             EleganceOudTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()){ paddingValues ->
                     Column(
-                        modifier = Modifier.padding(paddingValues).fillMaxSize(),
+                        modifier = Modifier.background(Color.White).padding(paddingValues).fillMaxSize(),
                         verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
+                        horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
                         SignUpScreenSetup()
                     }
