@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">EleganceOud</string>
+    <string name="agree_signup"><![CDATA[By creating an account you have to agree with our them & condication.]]></string>
+
 </resources>
