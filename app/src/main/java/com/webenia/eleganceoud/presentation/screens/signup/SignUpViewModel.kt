@@ -32,6 +32,14 @@ class SignUpViewModel @Inject constructor(
             is SignUpEvent.ConfirmPasswordChanged -> {
                 uiState = uiState.copy(confirmPassword = event.value)
             }
+            is SignUpEvent.ToggleTermsAndConditions -> {
+                uiState = uiState.copy(
+                    termsAndConditions = event.value
+                )
+            }
+            is SignUpEvent.AlreadyHaveAnAccount -> {
+                // Navigate to login screen
+            }
             is SignUpEvent.Submit -> {
                 // Submit logic (validation, API call, etc.)
             }
