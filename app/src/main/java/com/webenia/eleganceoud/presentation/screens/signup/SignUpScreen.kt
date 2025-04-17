@@ -68,7 +68,6 @@ fun SignUpScreenSetup(
         state = viewModel.uiState, onEvent = viewModel::onEvent,
         onSubmitClick = {
             navController.navigateToSignInScreen()
-
         }
     )
 
@@ -202,7 +201,9 @@ fun SignUpScreenContent(
             .padding(8.dp)
             .fillMaxWidth()
             .height(50.dp), shape = RoundedCornerShape(20.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = Primary), onClick = {}) {
+            colors = ButtonDefaults.buttonColors(containerColor = Primary), onClick = {
+                onSubmitClick()
+            }) {
             Text(
                 text = "Sign up",
                 color = Color.White,

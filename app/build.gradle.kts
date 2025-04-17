@@ -3,7 +3,6 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.hilt.android)
-
     id("kotlin-kapt")
 
 
@@ -41,6 +40,9 @@ android {
     }
     buildFeatures {
         compose = true
+    }
+    hilt {
+        enableAggregatingTask = false
     }
 }
 
@@ -81,7 +83,7 @@ dependencies {
     implementation(libs.retrofit.converter.gson)
 
     implementation(libs.compose.material.icons)
-
+    implementation(libs.javapoet)
 }
 kapt {
     correctErrorTypes = true
