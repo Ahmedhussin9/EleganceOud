@@ -37,11 +37,11 @@ import com.webenia.eleganceoud.presentation.composables.BackButton
 import com.webenia.eleganceoud.presentation.composables.UnderLinedEditText
 import com.webenia.eleganceoud.presentation.screens.otp.navigateToOTPScreen
 import com.webenia.eleganceoud.presentation.screens.signup.SignUpEvent
+import com.webenia.eleganceoud.presentation.screens.signup.navigateToSignUpScreen
 import com.webenia.eleganceoud.ui.theme.LightGrey
 import com.webenia.eleganceoud.ui.theme.MidGrey
 import com.webenia.eleganceoud.ui.theme.Primary
 import com.webenia.eleganceoud.ui.theme.poppinsFamily
-
 
 
 @Composable
@@ -50,7 +50,9 @@ fun SignInScreenSetup(
     navController: NavController
 ) {
     SignInScreenContent(state = viewModel.uiState, onEvent = viewModel::onEvent,
-        onSignInClick = { navController.navigateToOTPScreen() })
+        onSignInClick = { navController.navigateToOTPScreen() },
+        onBackClick = { navController.popBackStack() },
+        onSignUpClick = { navController.navigateToSignUpScreen() })
 }
 
 @Composable
@@ -58,6 +60,8 @@ fun SignInScreenContent(
     state: SignInUiState = SignInUiState(),
     onEvent: (SignInEvent) -> Unit,
     onSignInClick: () -> Unit,
+    onBackClick: () -> Unit,
+    onSignUpClick: () -> Unit
 
 ) {
     val focusRequesterEmail = remember { FocusRequester() }
@@ -72,7 +76,7 @@ fun SignInScreenContent(
         horizontalAlignment = CenterHorizontally
     ) {
         BackButton {
-
+            onBackClick()
         }
         Image(
             painter = painterResource(R.drawable.img_logo),
@@ -127,6 +131,8 @@ fun SignInScreenContent(
                 fontSize = 16.sp,
                 modifier = Modifier.clickable {
 
+
+                    onSignUpClick()
                 }
             )
         }
@@ -155,6 +161,8 @@ fun SignInScreenContentPreview() {
     SignInScreenContent(
         state = SignInUiState(),
         onEvent = {},
-        onSignInClick = {}
+        onSignInClick = {},
+        onBackClick = {},
+        onSignUpClick = {}
     )
 }

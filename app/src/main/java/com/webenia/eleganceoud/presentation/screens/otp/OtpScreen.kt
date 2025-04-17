@@ -12,7 +12,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
@@ -48,22 +50,27 @@ fun OtpScreenSetup(
     navController: NavController
 ) {
     val timer by viewModel.timerSeconds.collectAsState()
-    OtpScreenContent(state = viewModel.uiState, onEvent = viewModel::onEvent, timer = timer)
+    OtpScreenContent(state = viewModel.uiState, onEvent = viewModel::onEvent, timer = timer,
+        onBackClick = { navController.popBackStack() })
 }
 
 @Composable
 fun OtpScreenContent(
     state: OtpUiState = OtpUiState(),
     timer: Int = 60,
-    onEvent: (OtpEvents) -> Unit
+    onEvent: (OtpEvents) -> Unit,
+    onBackClick: () -> Unit,
 ) {
     Column(
         modifier = Modifier
+            .verticalScroll(rememberScrollState())
             .padding(20.dp)
-            .fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally
+            .fillMaxSize()  ,
+        verticalArrangement = Arrangement.spacedBy(10.dp),
+        horizontalAlignment = CenterHorizontally
     ) {
         BackButton {
-
+            onBackClick()
         }
         Image(
             painter = painterResource(R.drawable.img_logo),
@@ -169,7 +176,9 @@ fun OtpScreenContent(
 fun OtpScreenPreview() {
     OtpScreenContent(
         state = OtpUiState(),
-        onEvent = {}
+        onEvent = {},
+        timer = 60,
+        onBackClick = {}
     )
 
 }

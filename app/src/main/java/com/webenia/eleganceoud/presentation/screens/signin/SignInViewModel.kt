@@ -22,13 +22,7 @@ class SignInViewModel @Inject constructor() : ViewModel() {
                 uiState = uiState.copy(password = event.value)
             }
 
-            is SignInEvent.SignIn -> {
-                // Handle sign-in logic
-            }
 
-            is SignInEvent.CreateAnAccount -> {
-                // Navigate to sign-up screen
-            }
         }
     }
 
