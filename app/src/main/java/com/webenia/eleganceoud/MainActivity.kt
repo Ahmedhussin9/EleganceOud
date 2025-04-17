@@ -22,6 +22,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import com.webenia.eleganceoud.presentation.composables.UnderLinedEditText
+import com.webenia.eleganceoud.presentation.screens.otp.OtpScreenSetup
 import com.webenia.eleganceoud.presentation.screens.signin.SignInScreenSetup
 import com.webenia.eleganceoud.presentation.screens.signup.SignUpScreenSetup
 import com.webenia.eleganceoud.ui.theme.EleganceOudTheme
@@ -38,7 +39,7 @@ class MainActivity : ComponentActivity() {
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
-                        SignInScreenSetup()
+                        OtpScreenSetup()
                     }
                 }
             }
