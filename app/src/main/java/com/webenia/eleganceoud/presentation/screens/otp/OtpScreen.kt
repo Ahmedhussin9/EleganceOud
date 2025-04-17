@@ -33,6 +33,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.webenia.eleganceoud.R
 import com.webenia.eleganceoud.presentation.composables.BackButton
 import com.webenia.eleganceoud.presentation.composables.OtpTextField
@@ -44,6 +45,7 @@ import com.webenia.eleganceoud.ui.theme.poppinsFamily
 @Composable
 fun OtpScreenSetup(
     viewModel: OtpScreenViewModel = hiltViewModel(),
+    navController: NavController
 ) {
     val timer by viewModel.timerSeconds.collectAsState()
     OtpScreenContent(state = viewModel.uiState, onEvent = viewModel::onEvent, timer = timer)

@@ -48,9 +48,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.webenia.eleganceoud.R
-import com.webenia.eleganceoud.presentation.composables.BackButton
 import com.webenia.eleganceoud.presentation.composables.UnderLinedEditText
+import com.webenia.eleganceoud.presentation.screens.signin.navigateToSignInScreen
+
 import com.webenia.eleganceoud.ui.theme.LightGrey
 import com.webenia.eleganceoud.ui.theme.MidGrey
 import com.webenia.eleganceoud.ui.theme.Primary
@@ -60,15 +62,23 @@ import com.webenia.eleganceoud.ui.theme.poppinsFamily
 @Composable
 fun SignUpScreenSetup(
     viewModel: SignUpViewModel = hiltViewModel(),
+    navController: NavController
 ) {
-    SignUpScreenContent(state = viewModel.uiState, onEvent = viewModel::onEvent)
+    SignUpScreenContent(
+        state = viewModel.uiState, onEvent = viewModel::onEvent,
+        onSubmitClick = {
+            navController.navigateToSignInScreen()
+
+        }
+    )
 
 }
 
 @Composable
 fun SignUpScreenContent(
     state: SignUpUiState,
-    onEvent: (SignUpEvent) -> Unit
+    onEvent: (SignUpEvent) -> Unit,
+    onSubmitClick: () -> Unit
 ) {
 
     val focusRequesterName = remember { FocusRequester() }
@@ -209,5 +219,5 @@ fun SignUpScreenContent(
 @Composable
 @Preview(showBackground = true)
 fun SignUpScreenContentPreview() {
-    SignUpScreenContent(state = SignUpUiState(), onEvent = {})
+    SignUpScreenContent(state = SignUpUiState(), onEvent = {}, onSubmitClick = {})
 }

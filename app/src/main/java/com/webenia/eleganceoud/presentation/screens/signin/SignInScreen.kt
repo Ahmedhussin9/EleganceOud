@@ -31,26 +31,34 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.webenia.eleganceoud.R
 import com.webenia.eleganceoud.presentation.composables.BackButton
 import com.webenia.eleganceoud.presentation.composables.UnderLinedEditText
+import com.webenia.eleganceoud.presentation.screens.otp.navigateToOTPScreen
 import com.webenia.eleganceoud.presentation.screens.signup.SignUpEvent
 import com.webenia.eleganceoud.ui.theme.LightGrey
 import com.webenia.eleganceoud.ui.theme.MidGrey
 import com.webenia.eleganceoud.ui.theme.Primary
 import com.webenia.eleganceoud.ui.theme.poppinsFamily
 
+
+
 @Composable
 fun SignInScreenSetup(
     viewModel: SignInViewModel = hiltViewModel(),
+    navController: NavController
 ) {
-    SignInScreenContent(state = viewModel.uiState, onEvent = viewModel::onEvent)
+    SignInScreenContent(state = viewModel.uiState, onEvent = viewModel::onEvent,
+        onSignInClick = { navController.navigateToOTPScreen() })
 }
 
 @Composable
 fun SignInScreenContent(
     state: SignInUiState = SignInUiState(),
-    onEvent: (SignInEvent) -> Unit
+    onEvent: (SignInEvent) -> Unit,
+    onSignInClick: () -> Unit,
+
 ) {
     val focusRequesterEmail = remember { FocusRequester() }
     val focusRequesterPassword = remember { FocusRequester() }
@@ -127,7 +135,9 @@ fun SignInScreenContent(
             .padding(8.dp)
             .fillMaxWidth()
             .height(50.dp), shape = RoundedCornerShape(20.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = Primary), onClick = {}) {
+            colors = ButtonDefaults.buttonColors(containerColor = Primary), onClick = {
+                onSignInClick()
+            }) {
             Text(
                 text = "Sign in",
                 color = Color.White,
@@ -144,6 +154,7 @@ fun SignInScreenContent(
 fun SignInScreenContentPreview() {
     SignInScreenContent(
         state = SignInUiState(),
-        onEvent = {}
+        onEvent = {},
+        onSignInClick = {}
     )
 }
