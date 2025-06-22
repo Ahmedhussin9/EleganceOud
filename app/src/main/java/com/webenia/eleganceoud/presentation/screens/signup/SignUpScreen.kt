@@ -1,5 +1,6 @@
 package com.webenia.eleganceoud.presentation.screens.signup
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -26,6 +27,7 @@ import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -38,6 +40,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -50,6 +53,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.webenia.eleganceoud.R
+import com.webenia.eleganceoud.presentation.composables.LoadingOverlay
 import com.webenia.eleganceoud.presentation.composables.UnderLinedEditText
 import com.webenia.eleganceoud.presentation.screens.signin.navigateToSignInScreen
 
@@ -67,7 +71,9 @@ fun SignUpScreenSetup(
     SignUpScreenContent(
         state = viewModel.uiState, onEvent = viewModel::onEvent,
         onSubmitClick = {
-            navController.navigateToSignInScreen()
+            viewModel.onEvent(
+                SignUpEvent.Submit
+            )
         }
     )
 
@@ -79,6 +85,7 @@ fun SignUpScreenContent(
     onEvent: (SignUpEvent) -> Unit,
     onSubmitClick: () -> Unit
 ) {
+    val context = LocalContext.current
 
     val focusRequesterName = remember { FocusRequester() }
     val focusRequesterEmail = remember { FocusRequester() }
@@ -87,6 +94,19 @@ fun SignUpScreenContent(
     val focusRequesterConfirmPassword = remember { FocusRequester() }
 
     val keyboardController = LocalSoftwareKeyboardController.current
+
+
+    LaunchedEffect(state.success) {
+        if (state.success) {
+            Toast.makeText(context, "Done ya kaber", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    LaunchedEffect(state.errorMessage) {
+        state.errorMessage?.let {
+            Toast.makeText(context, it.asString(context), Toast.LENGTH_SHORT).show()
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -214,6 +234,7 @@ fun SignUpScreenContent(
         }
 
     }
+    LoadingOverlay(isLoading = state.isLoading)
 
 }
 

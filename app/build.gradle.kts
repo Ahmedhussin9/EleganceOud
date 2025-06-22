@@ -84,6 +84,9 @@ dependencies {
 
     implementation(libs.compose.material.icons)
     implementation(libs.javapoet)
+
+    implementation(libs.okhttp.logging.interceptor)
+
 }
 kapt {
     correctErrorTypes = true
