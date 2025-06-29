@@ -1,5 +1,6 @@
 package com.webenia.eleganceoud.presentation.screens.signin
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -18,6 +19,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
@@ -27,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -37,7 +40,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.webenia.eleganceoud.R
 import com.webenia.eleganceoud.presentation.composables.BackButton
+import com.webenia.eleganceoud.presentation.composables.LoadingOverlay
 import com.webenia.eleganceoud.presentation.composables.UnderLinedEditText
+import com.webenia.eleganceoud.presentation.navigation.AppDestination
 import com.webenia.eleganceoud.presentation.screens.signup.SignUpEvent
 import com.webenia.eleganceoud.ui.theme.LightGrey
 import com.webenia.eleganceoud.ui.theme.MidGrey
@@ -50,20 +55,41 @@ fun SignInScreenSetup(
     viewModel: SignInViewModel = hiltViewModel(),
     navController: NavController
 ) {
-    SignInScreenContent(state = viewModel.uiState, onEvent = viewModel::onEvent,
-        onSignInClick = { },
+    val context = LocalContext.current
+    LaunchedEffect(true) {
+        viewModel.uiEvent.collect { event ->
+            when (event) {
+                is SignInUiEvents.Navigate -> {
+                    when (val destination = event.destination) {
+                        is AppDestination.Home -> navController.navigate(destination.route)
+                        is AppDestination.Otp -> navController.navigate(
+                            destination.createRoute(
+                                destination.email
+                            )
+                        )
+
+                        else -> Unit
+                    }
+                }
+
+                is SignInUiEvents.ShowToast -> {
+                    Toast.makeText(context, event.message.asString(context), Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
+        }
+    }
+    SignInScreenContent(
+        state = viewModel.uiState, onEvent = viewModel::onEvent,
         onBackClick = { navController.popBackStack() },
-        onSignUpClick = { })
+    )
 }
 
 @Composable
 fun SignInScreenContent(
     state: SignInUiState = SignInUiState(),
     onEvent: (SignInEvent) -> Unit,
-    onSignInClick: () -> Unit,
     onBackClick: () -> Unit,
-    onSignUpClick: () -> Unit
-
 ) {
     val focusRequesterEmail = remember { FocusRequester() }
     val focusRequesterPassword = remember { FocusRequester() }
@@ -142,9 +168,7 @@ fun SignInScreenContent(
                 fontWeight = FontWeight.Normal,
                 fontSize = 16.sp,
                 modifier = Modifier.clickable {
-
-
-                    onSignUpClick()
+                    onEvent(SignInEvent.ForgotPassword)
                 }
             )
         }
@@ -154,7 +178,7 @@ fun SignInScreenContent(
             .fillMaxWidth()
             .height(50.dp), shape = RoundedCornerShape(20.dp),
             colors = ButtonDefaults.buttonColors(containerColor = Primary), onClick = {
-                onSignInClick()
+                onEvent(SignInEvent.Submit)
             }) {
             Text(
                 text = "Sign in",
@@ -165,6 +189,7 @@ fun SignInScreenContent(
             )
         }
     }
+    LoadingOverlay(isLoading = state.isLoading)
 }
 
 @Preview(showBackground = true, showSystemUi = true)
@@ -173,8 +198,7 @@ fun SignInScreenContentPreview() {
     SignInScreenContent(
         state = SignInUiState(),
         onEvent = {},
-        onSignInClick = {},
         onBackClick = {},
-        onSignUpClick = {}
-    )
+
+        )
 }
