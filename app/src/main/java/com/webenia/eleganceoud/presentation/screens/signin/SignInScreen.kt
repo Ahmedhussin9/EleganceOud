@@ -21,7 +21,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
+import androidx.compose.ui.Alignment.Companion.Start
+import androidx.compose.ui.Alignment.Companion.TopStart
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -35,9 +38,7 @@ import androidx.navigation.NavController
 import com.webenia.eleganceoud.R
 import com.webenia.eleganceoud.presentation.composables.BackButton
 import com.webenia.eleganceoud.presentation.composables.UnderLinedEditText
-import com.webenia.eleganceoud.presentation.screens.otp.navigateToOTPScreen
 import com.webenia.eleganceoud.presentation.screens.signup.SignUpEvent
-import com.webenia.eleganceoud.presentation.screens.signup.navigateToSignUpScreen
 import com.webenia.eleganceoud.ui.theme.LightGrey
 import com.webenia.eleganceoud.ui.theme.MidGrey
 import com.webenia.eleganceoud.ui.theme.Primary
@@ -50,9 +51,9 @@ fun SignInScreenSetup(
     navController: NavController
 ) {
     SignInScreenContent(state = viewModel.uiState, onEvent = viewModel::onEvent,
-        onSignInClick = { navController.navigateToOTPScreen() },
+        onSignInClick = { },
         onBackClick = { navController.popBackStack() },
-        onSignUpClick = { navController.navigateToSignUpScreen() })
+        onSignUpClick = { })
 }
 
 @Composable
@@ -75,9 +76,20 @@ fun SignInScreenContent(
         verticalArrangement = Arrangement.spacedBy(10.dp),
         horizontalAlignment = CenterHorizontally
     ) {
-        BackButton {
-            onBackClick()
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Start
+        ) {
+            BackButton(
+                modifier = Modifier
+                    .clip(RoundedCornerShape(25.dp))
+                    .size(50.dp)
+            ) {
+                onBackClick()
+            }
         }
+
         Image(
             painter = painterResource(R.drawable.img_logo),
             contentDescription = "Logo",

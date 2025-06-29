@@ -25,7 +25,7 @@ fun BackButton(
     onClick: () -> Unit
 ) {
     Row(
-        modifier = modifier.fillMaxWidth().clickable{onClick()},
+        modifier = modifier.clickable{onClick()},
         verticalAlignment = Alignment.Top, horizontalArrangement = Arrangement.Start
     ) {
         Icon(

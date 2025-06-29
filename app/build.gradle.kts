@@ -86,6 +86,7 @@ dependencies {
     implementation(libs.javapoet)
 
     implementation(libs.okhttp.logging.interceptor)
+    implementation(libs.accompanist.navigation.animation)
 
 }
 kapt {

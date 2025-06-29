@@ -8,7 +8,7 @@ import retrofit2.http.Headers
 import retrofit2.http.POST
 
 interface WebServices {
-    @POST("api/client/register")
+    @POST("api/clients/register")
     @Headers("Accept: application/json")
     suspend fun registerUser(@Body body: RegisterRequest): Response<RegisterResponse>
 }

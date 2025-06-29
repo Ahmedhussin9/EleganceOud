@@ -47,7 +47,8 @@ import com.webenia.eleganceoud.ui.theme.poppinsFamily
 @Composable
 fun OtpScreenSetup(
     viewModel: OtpScreenViewModel = hiltViewModel(),
-    navController: NavController
+    navController: NavController,
+    email: String
 ) {
     val timer by viewModel.timerSeconds.collectAsState()
     OtpScreenContent(state = viewModel.uiState, onEvent = viewModel::onEvent, timer = timer,

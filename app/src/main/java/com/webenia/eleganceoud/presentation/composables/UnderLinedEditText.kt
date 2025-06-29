@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -53,14 +54,12 @@ fun UnderLinedEditText(
     isPasswordField: Boolean = false,
     keyboardType: KeyboardType = KeyboardType.Text,
     imeAction: ImeAction = ImeAction.Next,
-    focusRequester: FocusRequester = FocusRequester.Default
+    focusRequester: FocusRequester = FocusRequester.Default,
+    error: String? = null
 ) {
     var passwordVisible by remember { mutableStateOf(false) }
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Start
-    ) {
+
+    Column(modifier = modifier.fillMaxWidth()) {
         Text(
             text = filedName,
             color = Color.DarkGray,
@@ -68,47 +67,59 @@ fun UnderLinedEditText(
             fontFamily = poppinsFamily,
             fontWeight = FontWeight.Bold,
         )
-    }
-    TextField(
-        value = state,
-        onValueChange = { onValueChange(it) },
-        singleLine = isSingleLine,
-        maxLines = if (isSingleLine) 1 else Int.MAX_VALUE,
-        textStyle = TextStyle( // 👇 smaller text
-            fontSize = 14.sp,
-            lineHeight = 16.sp
-        ),
-        colors = TextFieldDefaults.colors(
-            focusedTextColor = Primary,
-            unfocusedTextColor = Primary,
-            focusedContainerColor = Color.Transparent,
-            unfocusedContainerColor =Color.Transparent,
-            focusedIndicatorColor = Primary,
-            unfocusedIndicatorColor = MidGrey,
+
+        TextField(
+            value = state,
+            onValueChange = { onValueChange(it) },
+            singleLine = isSingleLine,
+            maxLines = if (isSingleLine) 1 else Int.MAX_VALUE,
+            textStyle = TextStyle(
+                fontSize = 14.sp,
+                lineHeight = 16.sp
             ),
-        modifier = modifier
-            .fillMaxWidth()
-            .focusRequester(focusRequester),
-        keyboardOptions = KeyboardOptions(
-            keyboardType = keyboardType,
-            imeAction = imeAction
-        ),
-        visualTransformation = if (isPasswordField && !passwordVisible)
-            PasswordVisualTransformation()
-        else
-            VisualTransformation.None,
-        trailingIcon = {
-            if (isPasswordField) {
-                val icon =
-                    if (passwordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff
-                val description = if (passwordVisible) "Hide password" else "Show password"
-                IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                    Icon(imageVector = icon, contentDescription = description)
+            isError = error != null,
+            colors = TextFieldDefaults.colors(
+                focusedTextColor = Primary,
+                unfocusedTextColor = Primary,
+                focusedContainerColor = Color.Transparent,
+                unfocusedContainerColor = Color.Transparent,
+                focusedIndicatorColor = Primary,
+                unfocusedIndicatorColor = MidGrey,
+                errorIndicatorColor = Color.Red,
+                errorContainerColor = Color.Transparent
+            ),
+            modifier = Modifier
+                .fillMaxWidth()
+                .focusRequester(focusRequester),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = keyboardType,
+                imeAction = imeAction
+            ),
+            visualTransformation = if (isPasswordField && !passwordVisible)
+                PasswordVisualTransformation()
+            else
+                VisualTransformation.None,
+            trailingIcon = {
+                if (isPasswordField) {
+                    val icon =
+                        if (passwordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff
+                    val description = if (passwordVisible) "Hide password" else "Show password"
+                    IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                        Icon(imageVector = icon, contentDescription = description)
+                    }
                 }
             }
-        }
-    )
+        )
 
+        if (error != null) {
+            Text(
+                text = error,
+                color = Color.Red,
+                fontSize = 12.sp,
+                modifier = Modifier.padding(start = 4.dp, top = 2.dp)
+            )
+        }
+    }
 }
 
 @Composable

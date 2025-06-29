@@ -10,6 +10,12 @@ data class SignUpUiState(
     val confirmPassword: String = "",
     val termsAndConditions: Boolean = false,
 
+    val nameError: String? = null,
+    val emailError: String? = null,
+    val phoneError: String? = null,
+    val passwordError: String? = null,
+    val confirmPasswordError: String? = null,
+
     val isLoading: Boolean = false,
     val success: Boolean = false,
     val errorMessage: UiText? = null
