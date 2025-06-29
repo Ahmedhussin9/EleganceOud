@@ -1,4 +1,4 @@
-package com.webenia.eleganceoud.data.remote.response.signin
+package com.webenia.eleganceoud.data.remote.response.auth.signin
 
 data class SignInResponse (
     val token: String,

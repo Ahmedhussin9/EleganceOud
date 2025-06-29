@@ -1,4 +1,4 @@
-package com.webenia.eleganceoud.data.remote.response.signup
+package com.webenia.eleganceoud.data.remote.response.auth.signup
 
 data class RegisterResponse(
     val status: Boolean,

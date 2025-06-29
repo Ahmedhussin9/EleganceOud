@@ -5,8 +5,10 @@ import android.util.Log
 import com.elegance_oud.util.isNetworkAvailable
 import com.google.gson.GsonBuilder
 import com.webenia.eleganceoud.data.remote.WebServices
-import com.webenia.eleganceoud.data.remote.repositroy.RegisterRepositoryImpl
-import com.webenia.eleganceoud.data.remote.repositroy.SignInRepositoryImpl
+import com.webenia.eleganceoud.data.remote.repositroy.auth.OtpRepositoryImpl
+import com.webenia.eleganceoud.data.remote.repositroy.auth.RegisterRepositoryImpl
+import com.webenia.eleganceoud.data.remote.repositroy.auth.SignInRepositoryImpl
+import com.webenia.eleganceoud.domain.repository.OtpRepository
 import com.webenia.eleganceoud.domain.repository.RegisterRepository
 import com.webenia.eleganceoud.domain.repository.SignInRepository
 import dagger.Module
@@ -84,8 +86,14 @@ object AppModule {
     fun provideRegisterRepository(webServices: WebServices): RegisterRepository {
         return RegisterRepositoryImpl(webServices)
     }
+
     @Provides
-    fun provideSignInRepository(webServices: WebServices):SignInRepository{
+    fun provideSignInRepository(webServices: WebServices): SignInRepository {
         return SignInRepositoryImpl(webServices)
+    }
+
+    @Provides
+    fun provideOtpRepository(webServices: WebServices): OtpRepository {
+        return OtpRepositoryImpl(webServices)
     }
 }

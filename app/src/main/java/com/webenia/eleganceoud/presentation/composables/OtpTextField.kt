@@ -42,7 +42,7 @@ fun OtpTextField(
     val focusManager = LocalFocusManager.current
 
     LaunchedEffect(state) {
-        if (state.length == 5) {
+        if (state.length == 4) {
             focusManager.clearFocus() // Hide cursor and remove keyboard focus
         }
     }
@@ -61,7 +61,7 @@ fun OtpTextField(
                 horizontalArrangement = Arrangement.Center,
                 modifier = Modifier.height(60.dp)
             ) {
-                repeat(5) { index ->
+                repeat(4) { index ->
                     val char = when {
                         index >= state.length -> ""
                         else -> state[index].toString()

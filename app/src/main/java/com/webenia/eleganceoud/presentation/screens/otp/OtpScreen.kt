@@ -19,12 +19,14 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
@@ -50,6 +52,8 @@ fun OtpScreenSetup(
     navController: NavController,
     email: String
 ) {
+    viewModel.uiState = viewModel.uiState.copy(email = email)
+
     val timer by viewModel.timerSeconds.collectAsState()
     OtpScreenContent(state = viewModel.uiState, onEvent = viewModel::onEvent, timer = timer,
         onBackClick = { navController.popBackStack() })
@@ -66,12 +70,21 @@ fun OtpScreenContent(
         modifier = Modifier
             .verticalScroll(rememberScrollState())
             .padding(20.dp)
-            .fillMaxSize()  ,
+            .fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(10.dp),
         horizontalAlignment = CenterHorizontally
     ) {
-        BackButton {
-            onBackClick()
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Start
+        ) {
+            BackButton(
+                modifier = Modifier
+                    .clip(RoundedCornerShape(25.dp))
+                    .size(50.dp)
+            ) {
+                onBackClick()
+            }
         }
         Image(
             painter = painterResource(R.drawable.img_logo),
@@ -146,7 +159,7 @@ fun OtpScreenContent(
                     modifier = Modifier
                         .padding(start = 5.dp)
                         .clickable {
-                            onEvent(OtpEvents.ResendCode)
+                            onEvent(OtpEvents.ResendOtp)
                         }
                 )
             }
