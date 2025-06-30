@@ -1,6 +1,7 @@
 package com.webenia.eleganceoud.presentation.screens.otp
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -29,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -41,6 +43,7 @@ import androidx.navigation.NavController
 import com.webenia.eleganceoud.R
 import com.webenia.eleganceoud.presentation.composables.BackButton
 import com.webenia.eleganceoud.presentation.composables.OtpTextField
+import com.webenia.eleganceoud.presentation.navigation.AppDestination
 import com.webenia.eleganceoud.ui.theme.LightGrey
 import com.webenia.eleganceoud.ui.theme.MidGrey
 import com.webenia.eleganceoud.ui.theme.Primary
@@ -53,6 +56,28 @@ fun OtpScreenSetup(
     email: String
 ) {
     viewModel.uiState = viewModel.uiState.copy(email = email)
+    LaunchedEffect (true){
+        viewModel.onEvent(OtpEvents.ResendOtp)
+    }
+    val context = LocalContext.current
+    LaunchedEffect(true) {
+        viewModel.uiEvent.collect { event ->
+            when (event) {
+                is OtpUiEvent.Navigate -> {
+                    when (val destination = event.destination) {
+                        is AppDestination.Home -> navController.navigate(destination.route)
+                        else -> Unit
+                    }
+                }
+
+                is OtpUiEvent.ShowToast -> {
+                    Toast.makeText(context, event.message.asString(context), Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
+        }
+    }
+
 
     val timer by viewModel.timerSeconds.collectAsState()
     OtpScreenContent(state = viewModel.uiState, onEvent = viewModel::onEvent, timer = timer,
@@ -171,7 +196,9 @@ fun OtpScreenContent(
             .padding(8.dp)
             .fillMaxWidth()
             .height(50.dp), shape = RoundedCornerShape(20.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = Primary), onClick = {}) {
+            colors = ButtonDefaults.buttonColors(containerColor = Primary), onClick = {
+                onEvent(OtpEvents.SubmitOtp)
+            }) {
             Text(
                 text = "Submit",
                 color = Color.White,

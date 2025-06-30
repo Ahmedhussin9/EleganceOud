@@ -63,6 +63,7 @@ compose-material-icons = { group = "androidx.compose.material", name = "material
 javapoet = { module = "com.squareup:javapoet", version = "1.13.0" }
 okhttp-logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
 accompanist-navigation-animation = { module = "com.google.accompanist:accompanist-navigation-animation", version.ref = "accompanist" }
+security-crypto = { group = "androidx.security", name = "security-crypto", version = "1.1.0-alpha06" }
 
 
 [plugins]

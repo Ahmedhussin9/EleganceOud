@@ -7,9 +7,12 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.elegance_oud.util.UserUtil
 import com.elegance_oud.util.state.Resource
 import com.webenia.eleganceoud.data.remote.requests.resend_otp.ResendOtpRequest
+import com.webenia.eleganceoud.data.remote.requests.submit_otp.SubmitOtpRequest
 import com.webenia.eleganceoud.domain.repository.OtpRepository
+import com.webenia.eleganceoud.presentation.navigation.AppDestination
 import com.webenia.eleganceoud.presentation.screens.signin.SignInUiEvents
 import com.webenia.eleganceoud.util.state.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -46,7 +49,50 @@ class OtpScreenViewModel @Inject constructor(
             }
 
             is OtpEvents.SubmitOtp -> {
-                //submit otp
+                viewModelScope.launch(Dispatchers.IO) {
+                    val request = SubmitOtpRequest(
+                        email = uiState.email,
+                        otp = uiState.otp
+                    )
+                    repository.submitOtp(request).collect { state ->
+                        when (state) {
+                            is Resource.Success -> {
+                                uiState = uiState.copy(
+                                    isLoading = false
+                                )
+                                val user = state.data?.data?.user
+                                if (user != null) {
+                                    UserUtil.saveUserId(user.id.toString())
+                                    UserUtil.saveUserName(user.name)
+                                    UserUtil.saveUserEmail(user.email)
+                                    UserUtil.saveIsLogin(true)
+                                }
+                                sendUiEvent(
+                                    OtpUiEvent.Navigate(
+                                        AppDestination.Home
+                                    )
+                                )
+                            }
+
+                            is Resource.Error -> {
+                                uiState = uiState.copy(
+                                    isLoading = false
+                                )
+                                sendUiEvent(
+                                    OtpUiEvent.ShowToast(
+                                        state.message
+                                            ?: UiText.DynamicString("Please try again later")
+                                    )
+                                )
+                            }
+
+                            is Resource.Loading -> {
+                                uiState = uiState.copy(isLoading = true)
+                            }
+
+                        }
+                    }
+                }
             }
 
             is OtpEvents.ResendOtp -> {

@@ -88,6 +88,9 @@ dependencies {
     implementation(libs.okhttp.logging.interceptor)
     implementation(libs.accompanist.navigation.animation)
 
+    implementation(libs.security.crypto)
+
+
 }
 kapt {
     correctErrorTypes = true
