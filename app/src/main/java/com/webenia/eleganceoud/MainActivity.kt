@@ -14,15 +14,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.elegance_oud.util.UserUtil
 import com.webenia.eleganceoud.presentation.navigation.NavGraph
-import com.webenia.eleganceoud.presentation.screens.otp.OtpScreenSetup
-import com.webenia.eleganceoud.presentation.screens.signin.SignInScreenSetup
-import com.webenia.eleganceoud.presentation.screens.signup.SignUpScreenSetup
 import com.webenia.eleganceoud.ui.theme.EleganceOudTheme
 import dagger.hilt.android.AndroidEntryPoint
 

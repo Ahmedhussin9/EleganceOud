@@ -17,10 +17,13 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.elegance_oud.util.UserUtil
 import com.webenia.eleganceoud.presentation.screens.home.HomeScreenSetup
+import com.webenia.eleganceoud.presentation.screens.on_boarding.OnBoardingScreenSetup
 import com.webenia.eleganceoud.presentation.screens.otp.OtpScreenSetup
 import com.webenia.eleganceoud.presentation.screens.signin.SignInScreenSetup
 import com.webenia.eleganceoud.presentation.screens.signup.SignUpScreenSetup
+import com.webenia.eleganceoud.presentation.screens.splash.SplashScreenSetup
 
 @Composable
 fun NavGraph(navController: NavHostController) {
@@ -32,13 +35,33 @@ fun NavGraph(navController: NavHostController) {
     val scaleInOut =
         (scaleIn(initialScale = 0.8f) + fadeIn()).togetherWith(scaleOut(targetScale = 1.2f) + fadeOut())
 
-    NavHost(navController = navController, startDestination = AppDestination.SignUp.route,
+    NavHost(navController = navController, startDestination = AppDestination.Splash.route,
         enterTransition = {
             slideIn
         },
         exitTransition = { slideOut },
         popEnterTransition = { slideUp },
         popExitTransition = { slideDown }) {
+        composable(AppDestination.Splash.route) {
+            SplashScreenSetup(onDone = {
+                if (UserUtil.isFirstTime()) {
+                    navController.navigate(AppDestination.OnBoarding.route)
+                } else {
+                    if (UserUtil.isLogin()) {
+                        navController.navigate(AppDestination.Home.route)
+                    } else {
+                        navController.navigate(AppDestination.Login.route)
+                    }
+                }
+            })
+        }
+        composable(AppDestination.OnBoarding.route) {
+            OnBoardingScreenSetup(onDone = {
+
+                UserUtil.saveFirstTime(false)
+                navController.navigate(AppDestination.SignUp.route)
+            })
+        }
         composable(AppDestination.SignUp.route) {
             SignUpScreenSetup(navController = navController)
         }

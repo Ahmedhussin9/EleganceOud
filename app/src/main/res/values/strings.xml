@@ -3,5 +3,10 @@
     <string name="agree_signup"><![CDATA[By creating an account you have to agree with our them & condication.]]></string>
     <string name="something_went_wrong">Something went wrong</string>
     <string name="check_your_internet_connection">Check your internet connection.</string>
+    <string name="onboradingsecond">Take Advantage Of The Offer Shopping.</string>
+    <string name="onboradingfirst">20% Discount New Arrival Product.</string>
+    <string name="onboradingthird">All Types Offers Within Your Reach.</string>
+    <string name="subonboardingtext">Publish up your selfies to make yourself more beautiful with this app.</string>
+    <string name="secure">Secure</string>
 
 </resources>

@@ -90,6 +90,10 @@ dependencies {
 
     implementation(libs.security.crypto)
 
+    implementation(libs.accompanist.pager)
+    implementation(libs.accompanist.pager.indicators)
+    implementation(libs.compose.pager)
+
 
 }
 kapt {
