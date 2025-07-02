@@ -31,10 +31,19 @@ import com.webenia.eleganceoud.ui.theme.Primary
 
 @Composable
 fun HomeScreenSetup() {
+    HomeScreenContent()
 }
 
 @Composable
-fun HomeScreenContent() {
+fun HomeScreenContent(
+) {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text("Home Screen")
+    }
 
 }
 

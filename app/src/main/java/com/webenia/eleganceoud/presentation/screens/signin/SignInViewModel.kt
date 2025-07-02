@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.elegance_oud.util.UserUtil
 import com.elegance_oud.util.state.Resource
 import com.webenia.eleganceoud.data.remote.requests.login_request.SignInRequest
 import com.webenia.eleganceoud.data.remote.response.auth.signin.LoginResponse
@@ -62,7 +63,9 @@ class SignInViewModel @Inject constructor(
 
                                 when (state.data) {
                                     is LoginResponse.Success -> {
-                                        sendUiEvent(SignInUiEvents.Navigate(AppDestination.Home))
+                                        UserUtil.saveIsLogin(true)
+                                        UserUtil.saveToken(state.data.token)
+                                        sendUiEvent(SignInUiEvents.Navigate(AppDestination.Main))
                                     }
 
                                     is LoginResponse.Unverified -> {

@@ -61,7 +61,7 @@ fun SignInScreenSetup(
             when (event) {
                 is SignInUiEvents.Navigate -> {
                     when (val destination = event.destination) {
-                        is AppDestination.Home -> navController.navigate(destination.route)
+                        is AppDestination.Main -> navController.navigate(destination.route)
                         is AppDestination.Otp -> navController.navigate(
                             destination.createRoute(
                                 destination.email

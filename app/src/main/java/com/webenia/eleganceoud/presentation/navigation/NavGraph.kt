@@ -18,7 +18,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.elegance_oud.util.UserUtil
+import com.webenia.eleganceoud.presentation.screens.FavoriteScreenSetup
+import com.webenia.eleganceoud.presentation.screens.cart.CartScreenSetup
+import com.webenia.eleganceoud.presentation.screens.category.CategoryScreenSetup
 import com.webenia.eleganceoud.presentation.screens.home.HomeScreenSetup
+import com.webenia.eleganceoud.presentation.screens.main.MainScreenEntryPoint
+import com.webenia.eleganceoud.presentation.screens.main.MainScreenSetup
 import com.webenia.eleganceoud.presentation.screens.on_boarding.OnBoardingScreenSetup
 import com.webenia.eleganceoud.presentation.screens.otp.OtpScreenSetup
 import com.webenia.eleganceoud.presentation.screens.signin.SignInScreenSetup
@@ -48,7 +53,7 @@ fun NavGraph(navController: NavHostController) {
                     navController.navigate(AppDestination.OnBoarding.route)
                 } else {
                     if (UserUtil.isLogin()) {
-                        navController.navigate(AppDestination.Home.route)
+                        navController.navigate(AppDestination.Main.route)
                     } else {
                         navController.navigate(AppDestination.Login.route)
                     }
@@ -62,6 +67,19 @@ fun NavGraph(navController: NavHostController) {
                 navController.navigate(AppDestination.SignUp.route)
             })
         }
+        composable(AppDestination.Main.route) {
+            MainScreenEntryPoint()
+        }
+        composable(AppDestination.Category.route) {
+            CategoryScreenSetup()
+        }
+        composable(AppDestination.Favorite.route) {
+            FavoriteScreenSetup()
+        }
+        composable(AppDestination.Cart.route) {
+            CartScreenSetup()
+        }
+
         composable(AppDestination.SignUp.route) {
             SignUpScreenSetup(navController = navController)
         }
