@@ -100,7 +100,6 @@ class SignInViewModel @Inject constructor(
 
             is SignInEvent.ForgotPassword -> {
                 viewModelScope.launch {
-
                     sendUiEvent(SignInUiEvents.Navigate(AppDestination.ForgotPassword))
                 }
 

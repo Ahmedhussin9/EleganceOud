@@ -62,6 +62,7 @@ fun SignInScreenSetup(
                 is SignInUiEvents.Navigate -> {
                     when (val destination = event.destination) {
                         is AppDestination.Main -> navController.navigate(destination.route)
+                        is AppDestination.SignUp -> navController.navigate(destination.route)
                         is AppDestination.Otp -> navController.navigate(
                             destination.createRoute(
                                 destination.email
@@ -168,7 +169,7 @@ fun SignInScreenContent(
                 fontWeight = FontWeight.Normal,
                 fontSize = 16.sp,
                 modifier = Modifier.clickable {
-                    onEvent(SignInEvent.ForgotPassword)
+                    onEvent(SignInEvent.CreateAnAccount)
                 }
             )
         }
