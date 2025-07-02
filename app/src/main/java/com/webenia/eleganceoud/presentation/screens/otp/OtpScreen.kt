@@ -56,9 +56,7 @@ fun OtpScreenSetup(
     email: String
 ) {
     viewModel.uiState = viewModel.uiState.copy(email = email)
-    LaunchedEffect (true){
-        viewModel.onEvent(OtpEvents.ResendOtp)
-    }
+
     val context = LocalContext.current
     LaunchedEffect(true) {
         viewModel.uiEvent.collect { event ->
@@ -87,7 +85,7 @@ fun OtpScreenSetup(
 @Composable
 fun OtpScreenContent(
     state: OtpUiState = OtpUiState(),
-    timer: Int = 60,
+    timer: Int = 120,
     onEvent: (OtpEvents) -> Unit,
     onBackClick: () -> Unit,
 ) {
@@ -218,7 +216,7 @@ fun OtpScreenPreview() {
     OtpScreenContent(
         state = OtpUiState(),
         onEvent = {},
-        timer = 60,
+        timer = 120,
         onBackClick = {}
     )
 

@@ -6,10 +6,10 @@ data class SubmitOtpResponse(
     val data: VerifyOtpData
 )
 data class VerifyOtpData(
-    val user: User,
+    val user: UserDto,
     val token: String
 )
-data class User(
+data class UserDto(
     val id: Int,
     val name: String,
     val email: String,

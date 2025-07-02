@@ -58,12 +58,14 @@ class SignUpViewModel @Inject constructor(
                     termsAndConditions = event.value
                 )
             }
+
             is SignUpEvent.AlreadyHaveAccount -> {
                 if (event.value) {
                     viewModelScope.launch {
                         sendUiEvent(SignUpUiEvent.Navigate(AppDestination.Login))
                     }
-                }}
+                }
+            }
 
             is SignUpEvent.Submit -> {
 
@@ -82,7 +84,8 @@ class SignUpViewModel @Inject constructor(
                         phone = uiState.phone,
                         password = uiState.password,
                         password_confirmation = uiState.confirmPassword,
-                        country_id = "12"
+                        country_id = "12",
+                        role = "user"
                     )
                     repository.registerUser(
                         body = request
@@ -111,7 +114,12 @@ class SignUpViewModel @Inject constructor(
                                     success = false,
                                     errorMessage = state.message
                                 )
-                                sendUiEvent(SignUpUiEvent.ShowToast(state.message?:UiText.DynamicString("Please try again later")))
+                                sendUiEvent(
+                                    SignUpUiEvent.ShowToast(
+                                        state.message
+                                            ?: UiText.DynamicString("Please try again later")
+                                    )
+                                )
 
                             }
 

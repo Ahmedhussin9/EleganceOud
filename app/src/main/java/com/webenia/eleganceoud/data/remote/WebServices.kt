@@ -6,8 +6,8 @@ import com.webenia.eleganceoud.data.remote.requests.resgister_request.RegisterRe
 import com.webenia.eleganceoud.data.remote.requests.submit_otp.SubmitOtpRequest
 import com.webenia.eleganceoud.data.remote.response.auth.otp.ResendOtpResponse
 import com.webenia.eleganceoud.data.remote.response.auth.otp.SubmitOtpResponse
-import com.webenia.eleganceoud.data.remote.response.auth.signin.SignInResponse
 import com.webenia.eleganceoud.data.remote.response.auth.signup.RegisterResponse
+import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.Headers
@@ -22,7 +22,7 @@ interface WebServices {
     @Headers("Accept: application/json")
     suspend fun signIn(
         @Body body: SignInRequest
-    ): Response<SignInResponse>
+    ): Response<ResponseBody>
 
     @POST("api/resend-otp")
     @Headers("Accept: application/json")

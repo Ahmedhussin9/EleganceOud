@@ -7,9 +7,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elegance_oud.util.state.Resource
 import com.webenia.eleganceoud.data.remote.requests.login_request.SignInRequest
+import com.webenia.eleganceoud.data.remote.response.auth.signin.LoginResponse
+import com.webenia.eleganceoud.domain.model.User
 import com.webenia.eleganceoud.domain.repository.SignInRepository
 import com.webenia.eleganceoud.presentation.navigation.AppDestination
 import com.webenia.eleganceoud.presentation.screens.signup.SignUpUiEvent
+import com.webenia.eleganceoud.util.state.ApiState
 import com.webenia.eleganceoud.util.state.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -20,7 +23,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignInViewModel @Inject constructor(
-     val repository: SignInRepository
+    val repository: SignInRepository
 ) : ViewModel() {
     var uiState by mutableStateOf(SignInUiState())
         private set
@@ -38,35 +41,48 @@ class SignInViewModel @Inject constructor(
             }
 
             is SignInEvent.Submit -> {
+                val request = SignInRequest(
+                    email = uiState.email,
+                    password = uiState.password
+                )
 
                 viewModelScope.launch(Dispatchers.IO) {
-                    val request = SignInRequest(
-                        email = uiState.email,
-                        password = uiState.password
-                    )
                     repository.signInRequest(
-                        body = request
+                        email = request.email,
+                        password = request.password
                     ).collect { state ->
+
                         when (state) {
-                            is Resource.Success -> {
-                                uiState = uiState.copy(
-                                    isLoading = false,
-                                )
-                                val user = state.data?.user
-                                if (user != null) {
-                                    if (user.isVerified == 1) {
+                            is ApiState.Loading -> {
+                                uiState = uiState.copy(isLoading = true)
+                            }
+
+                            is ApiState.Success -> {
+                                uiState = uiState.copy(isLoading = false)
+
+                                when (state.data) {
+                                    is LoginResponse.Success -> {
                                         sendUiEvent(SignInUiEvents.Navigate(AppDestination.Home))
-                                    } else {
-                                        sendUiEvent(SignInUiEvents.Navigate(AppDestination.Otp(user.email)))
                                     }
 
+                                    is LoginResponse.Unverified -> {
+                                        sendUiEvent(
+                                            SignInUiEvents.Navigate(
+                                                AppDestination.Otp(
+                                                    uiState.email
+                                                )
+                                            )
+                                        )
+                                    }
+
+                                    else -> {
+                                        sendUiEvent(SignInUiEvents.ShowToast(UiText.DynamicString("Something went wrong")))
+                                    }
                                 }
                             }
 
-                            is Resource.Error -> {
-                                uiState = uiState.copy(
-                                    isLoading = false,
-                                )
+                            is ApiState.Error -> {
+                                uiState = uiState.copy(isLoading = false)
                                 sendUiEvent(
                                     SignInUiEvents.ShowToast(
                                         state.message
@@ -74,16 +90,9 @@ class SignInViewModel @Inject constructor(
                                     )
                                 )
                             }
-
-                            is Resource.Loading -> {
-                                uiState = uiState.copy(isLoading = true)
-
-                            }
                         }
-
                     }
                 }
-
             }
 
             is SignInEvent.ForgotPassword -> {
