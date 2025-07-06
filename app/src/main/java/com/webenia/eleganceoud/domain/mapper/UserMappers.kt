@@ -1,4 +1,4 @@
-package com.webenia.eleganceoud.data.remote.mapper
+package com.webenia.eleganceoud.domain.mapper
 
 import com.webenia.eleganceoud.data.remote.response.auth.signup.UserDto
 import com.webenia.eleganceoud.domain.model.User

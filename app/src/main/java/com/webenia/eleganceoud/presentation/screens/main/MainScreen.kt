@@ -1,6 +1,16 @@
 package com.webenia.eleganceoud.presentation.screens.main
 
 import android.annotation.SuppressLint
+import androidx.annotation.DrawableRes
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -38,6 +48,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.webenia.eleganceoud.R
 import com.webenia.eleganceoud.presentation.composables.ChipBottomNavigationBar
 import com.webenia.eleganceoud.presentation.composables.TopBar
 import com.webenia.eleganceoud.presentation.navigation.AppDestination
@@ -47,7 +58,11 @@ import com.webenia.eleganceoud.presentation.screens.category.CategoryScreenSetup
 import com.webenia.eleganceoud.presentation.screens.home.HomeScreenSetup
 import com.webenia.eleganceoud.ui.theme.Primary
 
-data class BottomNavItem(val label: String, val icon: ImageVector, val route: String)
+data class BottomNavItem(val label: String, @DrawableRes val iconRes: Int, val route: String)
+
+val slideIn = slideInHorizontally { it } + fadeIn()
+val slideOut = slideOutHorizontally { -it } + fadeOut()
+val slideUp = slideInVertically(initialOffsetY = { it }) + fadeIn()
 
 @Composable
 fun MainScreenEntryPoint() {
@@ -60,10 +75,10 @@ fun MainScreenSetup(
     navController: NavHostController,
 ) {
     val items = listOf(
-        BottomNavItem("home", Icons.Default.Home, AppDestination.Home.route),
-        BottomNavItem("category", Icons.Default.List, AppDestination.Category.route),
-        BottomNavItem("cart", Icons.Default.ShoppingCart, AppDestination.Cart.route),
-        BottomNavItem("favorite", Icons.Default.Favorite, AppDestination.Favorite.route)
+        BottomNavItem("home", R.drawable.ic_home, AppDestination.Home.route),
+        BottomNavItem("category", R.drawable.ic_category, AppDestination.Category.route),
+        BottomNavItem("cart", R.drawable.ic_cart, AppDestination.Cart.route),
+        BottomNavItem("favorite", R.drawable.ic_favorite, AppDestination.Favorite.route)
     )
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -96,6 +111,12 @@ fun MainScreenContent(
     onItemSelected: (Int) -> Unit
 ) {
     Scaffold(
+        topBar = {
+            TopBar(
+                onSearchClick = { },
+                onBurgerClick = { }
+            )
+        },
         bottomBar = {
             ChipBottomNavigationBar(
                 items = items,
@@ -105,51 +126,35 @@ fun MainScreenContent(
         },
         modifier = Modifier.background(Color.White)
     ) { innerPadding ->
-        Column(
+        Box(
             modifier = Modifier
+                .padding(innerPadding)
+                .fillMaxSize()
                 .background(Color.White)
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.Top
         ) {
-            TopBar(
-                onSearchClick = { },
-                onBurgerClick = { }
-            )
-        }
-        NavHost(
-            navController = navController,
-            startDestination = "home",
-            modifier = Modifier.background(Color.White)
-        ) {
-            composable("home") { HomeScreenSetup() }
-            composable("category") { CategoryScreenSetup() }
-            composable("cart") { CartScreenSetup() }
-            composable("favorite") { FavoriteScreenSetup() }
+            NavHost(
+                navController = navController,
+                startDestination = "home",
+                modifier = Modifier.fillMaxSize(),
+            ) {
+                composable("home") { HomeScreenSetup() }
+                composable("category") { CategoryScreenSetup() }
+                composable("cart") { CartScreenSetup() }
+                composable("favorite") { FavoriteScreenSetup() }
+            }
         }
     }
 }
 
 
 @Composable
-@Preview(showBackground = true, showSystemUi = true)
+@Preview(showBackground = true)
 fun PreviewMainScreen() {
     val items = listOf(
-        BottomNavItem(icon = Icons.Default.Home, label = "Home", route = AppDestination.Home.route),
-        BottomNavItem(
-            icon = Icons.Default.List,
-            label = "Category",
-            route = AppDestination.Category.route
-        ),
-        BottomNavItem(
-            icon = Icons.Default.ShoppingCart,
-            label = "Cart",
-            route = AppDestination.Cart.route
-        ),
-        BottomNavItem(
-            icon = Icons.Default.Favorite,
-            label = "Favorite",
-            route = AppDestination.Favorite.route
-        )
+        BottomNavItem("home", R.drawable.ic_home, AppDestination.Home.route),
+        BottomNavItem("category", R.drawable.ic_category, AppDestination.Category.route),
+        BottomNavItem("cart", R.drawable.ic_cart, AppDestination.Cart.route),
+        BottomNavItem("favorite", R.drawable.ic_favorite, AppDestination.Favorite.route)
     )
     var selectedIndex by remember { mutableIntStateOf(0) }
     MainScreenContent(

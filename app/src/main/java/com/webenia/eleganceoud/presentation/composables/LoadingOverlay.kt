@@ -21,13 +21,13 @@ fun LoadingOverlay(
         Box(
             modifier = modifier
                 .fillMaxSize()
-                .background(Color.Black.copy(alpha = 0.3f)) // semi-transparent
-                .zIndex(1f), // ensure it's above other content
+                .background(Color.Black.copy(alpha = 0.3f))
+                .zIndex(1f),
             contentAlignment = Alignment.Center
         ) {
             CircularProgressIndicator(
                 color = Primary,
-                strokeWidth = 4.dp
+                strokeWidth = 6.dp
             )
         }
     }

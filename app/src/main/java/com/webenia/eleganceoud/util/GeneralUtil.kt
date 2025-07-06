@@ -1,3 +1,4 @@
+
 package com.elegance_oud.util
 
 import android.content.Context
@@ -69,4 +70,5 @@ fun isNetworkAvailable(context: Context): Boolean {
     return activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
             activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
 }
+ const val imageUrlExt = "https://backend.webenia.org/public/storage/"
 // -------------------------------------------------------------- //
