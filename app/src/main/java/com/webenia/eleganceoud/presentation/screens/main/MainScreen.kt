@@ -1,6 +1,11 @@
 package com.webenia.eleganceoud.presentation.screens.main
 
+import android.annotation.SuppressLint
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
@@ -33,6 +38,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.webenia.eleganceoud.presentation.composables.ChipBottomNavigationBar
+import com.webenia.eleganceoud.presentation.composables.TopBar
 import com.webenia.eleganceoud.presentation.navigation.AppDestination
 import com.webenia.eleganceoud.presentation.screens.FavoriteScreenSetup
 import com.webenia.eleganceoud.presentation.screens.cart.CartScreenSetup
@@ -41,11 +48,13 @@ import com.webenia.eleganceoud.presentation.screens.home.HomeScreenSetup
 import com.webenia.eleganceoud.ui.theme.Primary
 
 data class BottomNavItem(val label: String, val icon: ImageVector, val route: String)
+
 @Composable
 fun MainScreenEntryPoint() {
     val navController = rememberNavController()
     MainScreenSetup(navController = navController)
 }
+
 @Composable
 fun MainScreenSetup(
     navController: NavHostController,
@@ -78,7 +87,7 @@ fun MainScreenSetup(
     )
 }
 
-
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MainScreenContent(
     navController: NavHostController,
@@ -93,12 +102,24 @@ fun MainScreenContent(
                 selectedIndex = selectedIndex,
                 onItemSelected = onItemSelected
             )
-        }
+        },
+        modifier = Modifier.background(Color.White)
     ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .background(Color.White)
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.Top
+        ) {
+            TopBar(
+                onSearchClick = { },
+                onBurgerClick = { }
+            )
+        }
         NavHost(
             navController = navController,
             startDestination = "home",
-            modifier = Modifier.padding(innerPadding)
+            modifier = Modifier.background(Color.White)
         ) {
             composable("home") { HomeScreenSetup() }
             composable("category") { CategoryScreenSetup() }
@@ -108,40 +129,6 @@ fun MainScreenContent(
     }
 }
 
-@Composable
-fun ChipBottomNavigationBar(
-    items: List<BottomNavItem>,
-    selectedIndex: Int,
-    onItemSelected: (Int) -> Unit
-) {
-    NavigationBar(
-        containerColor = Color.White,
-        tonalElevation = 8.dp
-    ) {
-        items.forEachIndexed { index, item ->
-            NavigationBarItem(
-                selected = selectedIndex == index,
-                onClick = { onItemSelected(index) },
-                icon = {
-                    Icon(
-                        imageVector = item.icon,
-                        contentDescription = item.label
-                    )
-                },
-                label = {
-//                    Text(text = item.label)
-                },
-                colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = Color.White,
-                    unselectedIconColor = Color.Gray,
-                    selectedTextColor = Color.White,
-                    unselectedTextColor = Color.Gray,
-                    indicatorColor = Primary // chip-like background
-                )
-            )
-        }
-    }
-}
 
 @Composable
 @Preview(showBackground = true, showSystemUi = true)
@@ -165,6 +152,11 @@ fun PreviewMainScreen() {
         )
     )
     var selectedIndex by remember { mutableIntStateOf(0) }
+    MainScreenContent(
+        navController = rememberNavController(),
+        items = items,
+        selectedIndex = selectedIndex,
+        onItemSelected = { index -> selectedIndex = index })
 
 
 }

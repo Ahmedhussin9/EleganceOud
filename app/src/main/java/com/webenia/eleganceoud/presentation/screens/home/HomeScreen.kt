@@ -26,6 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.webenia.eleganceoud.R
+import com.webenia.eleganceoud.presentation.composables.TopBar
 import com.webenia.eleganceoud.ui.theme.Primary
 
 
@@ -37,17 +38,11 @@ fun HomeScreenSetup() {
 @Composable
 fun HomeScreenContent(
 ) {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Text("Home Screen")
-    }
+
 
 }
 
-@Preview(showBackground = true, showSystemUi = true)
+@Preview(showBackground = true)
 @Composable
 fun HomeScreenContentPreview() {
     HomeScreenContent()
