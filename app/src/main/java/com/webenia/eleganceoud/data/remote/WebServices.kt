@@ -8,6 +8,7 @@ import com.webenia.eleganceoud.data.remote.response.home.our_products.ProductsRe
 import com.webenia.eleganceoud.data.remote.response.auth.otp.ResendOtpResponse
 import com.webenia.eleganceoud.data.remote.response.auth.otp.SubmitOtpResponse
 import com.webenia.eleganceoud.data.remote.response.auth.signup.RegisterResponse
+import com.webenia.eleganceoud.data.remote.response.home.best_sellings.HomeBestSellingResponse
 import com.webenia.eleganceoud.data.remote.response.home.brands.HomeBrandsResponse
 import com.webenia.eleganceoud.data.remote.response.home.category.HomeCategoriesResponse
 import okhttp3.ResponseBody
@@ -32,19 +33,23 @@ interface WebServices {
     @Headers("Accept: application/json")
     suspend fun resendOtp(
         @Body body: ResendOtpRequest
-    ):Response<ResendOtpResponse>
+    ): Response<ResendOtpResponse>
 
     @POST("api/client/verify-otp")
     @Headers("Accept: application/json")
     suspend fun submitOtp(
         @Body body: SubmitOtpRequest
-    ):Response<SubmitOtpResponse>
+    ): Response<SubmitOtpResponse>
+
     @GET("api/website/products/section")
-    suspend fun getOurProducts():Response<ProductsResponse>
+    suspend fun getOurProducts(): Response<ProductsResponse>
 
     @GET("api/website")
-    suspend fun getHomeCategories():Response<HomeCategoriesResponse>
+    suspend fun getHomeCategories(): Response<HomeCategoriesResponse>
 
     @GET("api/website/brands/section")
-    suspend fun getHomeBrands():Response<HomeBrandsResponse>
+    suspend fun getHomeBrands(): Response<HomeBrandsResponse>
+
+    @GET("api/website/best-selling/products")
+    suspend fun getHomeBestSellingProducts(): Response<HomeBestSellingResponse>
 }

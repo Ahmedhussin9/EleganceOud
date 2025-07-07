@@ -3,6 +3,7 @@ package com.webenia.eleganceoud.presentation.screens.home
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,10 +14,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -72,8 +78,10 @@ fun HomeScreenContent(
 ) {
     Column(
         modifier = Modifier
+            .verticalScroll(rememberScrollState())
             .padding(10.dp)
             .fillMaxSize()
+
     )
     {
         Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
@@ -163,7 +171,51 @@ fun HomeScreenContent(
 
         }
 
+        Spacer(modifier = Modifier.padding(10.dp))
+        Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+            Card(
+                modifier = Modifier
+                    .clip(CircleShape)
+                    .size(25.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = Primary
+                )
+            ) {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_star),
+                        contentDescription = "shopping",
+                        modifier = Modifier.size(16.dp),
+                        tint = Color.White
+                    )
+                }
+            }
+            Text(
+                "Best-selling Products",
+                color = Primary,
+                fontSize = 24.sp,
+                modifier = Modifier.padding(10.dp),
+                fontWeight = FontWeight.SemiBold
+            )
 
+        }
+        LazyRow(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(
+                10.dp
+            )
+        ) {
+            items(
+                state.bestSellingList.size,
+            ) { item ->
+                ProductItem(
+                    item = state.bestSellingList[item]
+                )
+            }
+        }
     }
 
 

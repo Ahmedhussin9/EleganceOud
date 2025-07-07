@@ -8,12 +8,14 @@ import com.webenia.eleganceoud.data.remote.WebServices
 import com.webenia.eleganceoud.data.remote.repositroy.auth.OtpRepositoryImpl
 import com.webenia.eleganceoud.data.remote.repositroy.auth.RegisterRepositoryImpl
 import com.webenia.eleganceoud.data.remote.repositroy.auth.SignInRepositoryImpl
+import com.webenia.eleganceoud.data.remote.repositroy.home.GetHomeBestSellingRepositoryImpl
 import com.webenia.eleganceoud.data.remote.repositroy.home.GetHomeBrandsRepositoryImpl
 import com.webenia.eleganceoud.data.remote.repositroy.home.GetHomeCategoriesRepositoryImpl
 import com.webenia.eleganceoud.data.remote.repositroy.home.GetOurProductsRepositoryImpl
 import com.webenia.eleganceoud.domain.repository.OtpRepository
 import com.webenia.eleganceoud.domain.repository.RegisterRepository
 import com.webenia.eleganceoud.domain.repository.SignInRepository
+import com.webenia.eleganceoud.domain.repository.home.GetHomeBestSellingRepository
 import com.webenia.eleganceoud.domain.repository.home.GetHomeBrandsRepository
 import com.webenia.eleganceoud.domain.repository.home.GetHomeCategoriesRepository
 import com.webenia.eleganceoud.domain.repository.home.GetOurProductsRepository
@@ -102,16 +104,24 @@ object AppModule {
     fun provideOtpRepository(webServices: WebServices): OtpRepository {
         return OtpRepositoryImpl(webServices)
     }
+
     @Provides
     fun provideGetOurProducts(webServices: WebServices): GetOurProductsRepository {
         return GetOurProductsRepositoryImpl(webServices)
     }
+
     @Provides
-    fun provideGetHomeCategories(webServices: WebServices):GetHomeCategoriesRepository{
+    fun provideGetHomeCategories(webServices: WebServices): GetHomeCategoriesRepository {
         return GetHomeCategoriesRepositoryImpl(webServices)
     }
+
     @Provides
-    fun provideGetHomeBrands(webServices: WebServices):GetHomeBrandsRepository{
+    fun provideGetHomeBrands(webServices: WebServices): GetHomeBrandsRepository {
         return GetHomeBrandsRepositoryImpl(webServices)
+    }
+
+    @Provides
+    fun provideGetHomeBestSelling(webServices: WebServices): GetHomeBestSellingRepository {
+        return GetHomeBestSellingRepositoryImpl(webServices)
     }
 }

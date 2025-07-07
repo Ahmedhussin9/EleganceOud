@@ -10,6 +10,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.elegance_oud.util.state.Resource
 import com.webenia.eleganceoud.domain.mapper.toUiModel
 import com.webenia.eleganceoud.domain.model.brands.toUiModel
+import com.webenia.eleganceoud.domain.repository.home.GetHomeBestSellingRepository
 import com.webenia.eleganceoud.domain.repository.home.GetHomeBrandsRepository
 import com.webenia.eleganceoud.domain.repository.home.GetHomeCategoriesRepository
 import com.webenia.eleganceoud.domain.repository.home.GetOurProductsRepository
@@ -26,7 +27,8 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val getOurProductsRepository: GetOurProductsRepository,
     private val getHomeCategoriesRepository: GetHomeCategoriesRepository,
-    private val getHomeBrandsRepository: GetHomeBrandsRepository
+    private val getHomeBrandsRepository: GetHomeBrandsRepository,
+    private val getHomeBestSellingRepository: GetHomeBestSellingRepository
 ) : ViewModel() {
     var uiState by mutableStateOf(HomeUiState())
         private set
@@ -38,6 +40,37 @@ class HomeViewModel @Inject constructor(
         getOurProducts()
         getHomeCategories()
         getHomeBrands()
+        getHomeBestSellingProducts()
+    }
+
+    private fun getHomeBestSellingProducts() {
+        viewModelScope.launch(Dispatchers.IO) {
+            getHomeBestSellingRepository.getHomeBestSellingProducts().collect { state ->
+                when (state) {
+                    is Resource.Loading -> {
+                        uiState = uiState.copy(isLoading = true)
+                    }
+
+                    is Resource.Error -> {
+                        uiState = uiState.copy(isLoading = false)
+                    }
+
+                    is Resource.Success -> {
+                        uiState = uiState.copy(
+                            isLoading = false,
+                            error = null,
+                            bestSellingList =
+                            if (state.data?.data?.isNotEmpty() == true) {
+                                state.data.data.map {
+                                    it.toUiModel()
+                                }
+                            } else {
+                                emptyList()
+                            })
+                    }
+                }
+            }
+        }
     }
 
     private fun getHomeBrands() {

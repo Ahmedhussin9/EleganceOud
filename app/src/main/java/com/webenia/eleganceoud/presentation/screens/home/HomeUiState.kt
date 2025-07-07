@@ -9,6 +9,7 @@ data class HomeUiState (
     val ourProductsList: List<ProductUiModel> = emptyList(),
     val categoriesList: List<CategoryUiModel> = emptyList(),
     val brandsList: List<BrandUiModel> = emptyList(),
+    val bestSellingList: List<ProductUiModel> = emptyList(),
     val isLoading:Boolean = true,
     val error: UiText? = null
     )
