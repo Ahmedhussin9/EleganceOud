@@ -170,7 +170,38 @@ fun HomeScreenContent(
             }
 
         }
+        Spacer(modifier = Modifier.padding(10.dp))
 
+        Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                painter = painterResource(R.drawable.ic_shopping),
+                contentDescription = "shopping",
+                tint = Primary,
+                modifier = Modifier.size(25.dp)
+            )
+            Text(
+                "Latest Products",
+                color = Primary,
+                fontSize = 24.sp,
+                modifier = Modifier.padding(10.dp),
+                fontWeight = FontWeight.SemiBold
+            )
+        }
+        LazyRow(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(
+                10.dp
+            )
+        ) {
+            items(
+                state.latestProductsList.size,
+            ) { product ->
+                ProductItem(
+                    item = state.latestProductsList[product]
+                )
+            }
+
+        }
         Spacer(modifier = Modifier.padding(10.dp))
         Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
             Card(

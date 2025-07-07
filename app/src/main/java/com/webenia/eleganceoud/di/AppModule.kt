@@ -11,6 +11,7 @@ import com.webenia.eleganceoud.data.remote.repositroy.auth.SignInRepositoryImpl
 import com.webenia.eleganceoud.data.remote.repositroy.home.GetHomeBestSellingRepositoryImpl
 import com.webenia.eleganceoud.data.remote.repositroy.home.GetHomeBrandsRepositoryImpl
 import com.webenia.eleganceoud.data.remote.repositroy.home.GetHomeCategoriesRepositoryImpl
+import com.webenia.eleganceoud.data.remote.repositroy.home.GetHomeLatestProductsRepositoryImpl
 import com.webenia.eleganceoud.data.remote.repositroy.home.GetOurProductsRepositoryImpl
 import com.webenia.eleganceoud.domain.repository.OtpRepository
 import com.webenia.eleganceoud.domain.repository.RegisterRepository
@@ -18,6 +19,7 @@ import com.webenia.eleganceoud.domain.repository.SignInRepository
 import com.webenia.eleganceoud.domain.repository.home.GetHomeBestSellingRepository
 import com.webenia.eleganceoud.domain.repository.home.GetHomeBrandsRepository
 import com.webenia.eleganceoud.domain.repository.home.GetHomeCategoriesRepository
+import com.webenia.eleganceoud.domain.repository.home.GetHomeLatestProductsRepository
 import com.webenia.eleganceoud.domain.repository.home.GetOurProductsRepository
 import dagger.Module
 import dagger.Provides
@@ -123,5 +125,9 @@ object AppModule {
     @Provides
     fun provideGetHomeBestSelling(webServices: WebServices): GetHomeBestSellingRepository {
         return GetHomeBestSellingRepositoryImpl(webServices)
+    }
+    @Provides
+    fun provideHomeLatestProducts(webServices: WebServices): GetHomeLatestProductsRepository {
+        return GetHomeLatestProductsRepositoryImpl(webServices)
     }
 }

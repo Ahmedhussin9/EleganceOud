@@ -30,3 +30,17 @@ fun com.webenia.eleganceoud.data.remote.response.home.best_sellings.Product.toUi
         hasAmounts = false
     )
 }
+
+fun com.webenia.eleganceoud.data.remote.response.home.latest_products.Product.toUiModel(): ProductUiModel =
+    ProductUiModel(
+        id = id,
+        name = name_en,
+        description = description_en ?: "",
+        price = price,
+        imageUrl = images?.firstOrNull()?.path,
+        currencyCode = currency.code,
+        isAvailable = is_available == 1,
+        parentName = null,
+        hasAmounts = false
+
+    )

@@ -11,6 +11,7 @@ import com.webenia.eleganceoud.data.remote.response.auth.signup.RegisterResponse
 import com.webenia.eleganceoud.data.remote.response.home.best_sellings.HomeBestSellingResponse
 import com.webenia.eleganceoud.data.remote.response.home.brands.HomeBrandsResponse
 import com.webenia.eleganceoud.data.remote.response.home.category.HomeCategoriesResponse
+import com.webenia.eleganceoud.data.remote.response.home.latest_products.HomeLatestProductsResponse
 import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.Body
@@ -52,4 +53,7 @@ interface WebServices {
 
     @GET("api/website/best-selling/products")
     suspend fun getHomeBestSellingProducts(): Response<HomeBestSellingResponse>
+
+    @GET("api/website/latest/products")
+    suspend fun getHomeLatestProducts(): Response<HomeLatestProductsResponse>
 }
