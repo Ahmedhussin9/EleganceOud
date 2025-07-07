@@ -23,7 +23,6 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getOurProductsRepository: GetOurProductsRepository,
@@ -32,6 +31,7 @@ class HomeViewModel @Inject constructor(
     private val getHomeBestSellingRepository: GetHomeBestSellingRepository,
     private val getHomeLatestProductsRepository: GetHomeLatestProductsRepository
 ) : ViewModel() {
+
     var uiState by mutableStateOf(HomeUiState())
         private set
 
@@ -46,95 +46,30 @@ class HomeViewModel @Inject constructor(
         getHomeLatestProducts()
     }
 
-    private fun getHomeLatestProducts() {
-        viewModelScope.launch(Dispatchers.IO) {
-            getHomeLatestProductsRepository.getHomeLatestProducts().collect { state ->
-                when (state) {
-                    is Resource.Loading -> {
-                        uiState = uiState.copy(isLoading = true)
-                    }
-
-                    is Resource.Success -> {
-                        uiState = uiState.copy(
-                            isLoading = false,
-                            error = null,
-                            latestProductsList =
-                            if (state.data?.data?.isNotEmpty() == true) {
-                                state.data.data.map {
-                                    it.toUiModel()
-                                }
-                            } else {
-                                emptyList()
-                            }
-                        )
-                    }
-
-                    is Resource.Error -> {
-                        uiState = uiState.copy(isLoading = false)
-                    }
-
-                }
-            }
-        }
+    private fun areAllRequestsDone(state: HomeUiState): Boolean {
+        return state.ourProductsDone &&
+                state.categoriesDone &&
+                state.brandsDone &&
+                state.bestSellingDone &&
+                state.latestProductsDone
     }
 
-    private fun getHomeBestSellingProducts() {
+    private fun getOurProducts() {
         viewModelScope.launch(Dispatchers.IO) {
-            getHomeBestSellingRepository.getHomeBestSellingProducts()
-                .collect { state ->
-                    when (state) {
-                        is Resource.Loading -> {
-                            uiState = uiState.copy(isLoading = true)
-                        }
-
-                        is Resource.Error -> {
-                            uiState = uiState.copy(isLoading = false)
-                        }
-
-                        is Resource.Success -> {
-                            uiState = uiState.copy(
-                                isLoading = false,
-                                error = null,
-                                bestSellingList =
-                                if (state.data?.data?.isNotEmpty() == true) {
-                                    state.data.data.map {
-                                        it.toUiModel()
-                                    }
-                                } else {
-                                    emptyList()
-                                })
-                        }
-                    }
-                }
-        }
-    }
-
-    private fun getHomeBrands() {
-        viewModelScope.launch(Dispatchers.IO) {
-            getHomeBrandsRepository.getHomeBrands().collect { state ->
+            getOurProductsRepository.getOurProducts().collect { state ->
                 when (state) {
-                    is Resource.Loading -> {
-                        uiState = uiState.copy(isLoading = true)
-                    }
-
+                    is Resource.Loading -> {}
                     is Resource.Success -> {
-                        uiState = uiState.copy(
-                            isLoading = false,
-                            error = null,
-                            brandsList =
-                            if (state.data?.data?.isNotEmpty() == true) {
-                                state.data.data.map {
-                                    it.toUiModel()
-                                }
-                            } else {
-                                emptyList()
-                            }
+                        val newState = uiState.copy(
+                            ourProductsList = state.data?.data?.map { it.toUiModel() } ?: emptyList(),
+                            ourProductsDone = true
                         )
+                        uiState = newState.copy(isLoading = !areAllRequestsDone(newState))
                     }
-
                     is Resource.Error -> {
-                        uiState = uiState.copy(isLoading = false)
-
+                        val newState = uiState.copy(ourProductsDone = true)
+                        uiState = newState.copy(isLoading = !areAllRequestsDone(newState))
+                        sendUiEvent(HomeUiEvents.ShowToast(state.message ?: UiText.DynamicString("Try again later")))
                     }
                 }
             }
@@ -145,69 +80,82 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             getHomeCategoriesRepository.getHomeCategories().collect { state ->
                 when (state) {
-                    is Resource.Loading -> {
-                        uiState = uiState.copy(isLoading = true)
-                    }
-
+                    is Resource.Loading -> {}
                     is Resource.Success -> {
-                        uiState = uiState.copy(
-                            isLoading = false,
-                            error = null,
-                            categoriesList = if (state.data?.data?.isNotEmpty() == true) {
-                                state.data.data.map {
-                                    it.toUiModel()
-                                }
-                            } else {
-                                emptyList()
-                            })
-                    }
-
-                    is Resource.Error -> {
-                        uiState = uiState.copy(isLoading = false)
-                        sendUiEvent(
-                            HomeUiEvents.ShowToast(
-                                state.message
-                                    ?: UiText.DynamicString("Try again later")
-                            )
+                        val newState = uiState.copy(
+                            categoriesList = state.data?.data?.map { it.toUiModel() } ?: emptyList(),
+                            categoriesDone = true
                         )
+                        uiState = newState.copy(isLoading = !areAllRequestsDone(newState))
+                    }
+                    is Resource.Error -> {
+                        val newState = uiState.copy(categoriesDone = true)
+                        uiState = newState.copy(isLoading = !areAllRequestsDone(newState))
+                        sendUiEvent(HomeUiEvents.ShowToast(state.message ?: UiText.DynamicString("Try again later")))
                     }
                 }
             }
         }
     }
 
-    private fun getOurProducts() {
+    private fun getHomeBrands() {
         viewModelScope.launch(Dispatchers.IO) {
-            getOurProductsRepository.getOurProducts().collect { state ->
+            getHomeBrandsRepository.getHomeBrands().collect { state ->
                 when (state) {
-                    is Resource.Loading -> {
-                        uiState = uiState.copy(isLoading = true)
-                    }
-
+                    is Resource.Loading -> {}
                     is Resource.Success -> {
-                        uiState = uiState.copy(
-                            isLoading = false,
-                            error = null,
-                            ourProductsList = if (
-                                state.data?.data?.isNotEmpty() == true
-                            ) state.data.data.map {
-                                it.toUiModel()
-                            } else emptyList()
+                        val newState = uiState.copy(
+                            brandsList = state.data?.data?.map { it.toUiModel() } ?: emptyList(),
+                            brandsDone = true
                         )
+                        uiState = newState.copy(isLoading = !areAllRequestsDone(newState))
                     }
-
                     is Resource.Error -> {
-                        uiState = uiState.copy(isLoading = false)
-                        sendUiEvent(
-                            HomeUiEvents.ShowToast(
-                                state.message
-                                    ?: UiText.DynamicString("Try again later")
-                            )
-                        )
-
+                        val newState = uiState.copy(brandsDone = true)
+                        uiState = newState.copy(isLoading = !areAllRequestsDone(newState))
                     }
+                }
+            }
+        }
+    }
 
+    private fun getHomeBestSellingProducts() {
+        viewModelScope.launch(Dispatchers.IO) {
+            getHomeBestSellingRepository.getHomeBestSellingProducts().collect { state ->
+                when (state) {
+                    is Resource.Loading -> {}
+                    is Resource.Success -> {
+                        val newState = uiState.copy(
+                            bestSellingList = state.data?.data?.map { it.toUiModel() } ?: emptyList(),
+                            bestSellingDone = true
+                        )
+                        uiState = newState.copy(isLoading = !areAllRequestsDone(newState))
+                    }
+                    is Resource.Error -> {
+                        val newState = uiState.copy(bestSellingDone = true)
+                        uiState = newState.copy(isLoading = !areAllRequestsDone(newState))
+                    }
+                }
+            }
+        }
+    }
 
+    private fun getHomeLatestProducts() {
+        viewModelScope.launch(Dispatchers.IO) {
+            getHomeLatestProductsRepository.getHomeLatestProducts().collect { state ->
+                when (state) {
+                    is Resource.Loading -> {}
+                    is Resource.Success -> {
+                        val newState = uiState.copy(
+                            latestProductsList = state.data?.data?.map { it.toUiModel() } ?: emptyList(),
+                            latestProductsDone = true
+                        )
+                        uiState = newState.copy(isLoading = !areAllRequestsDone(newState))
+                    }
+                    is Resource.Error -> {
+                        val newState = uiState.copy(latestProductsDone = true)
+                        uiState = newState.copy(isLoading = !areAllRequestsDone(newState))
+                    }
                 }
             }
         }
@@ -216,5 +164,4 @@ class HomeViewModel @Inject constructor(
     private suspend fun sendUiEvent(event: HomeUiEvents) {
         _uiEvent.emit(event)
     }
-
 }
