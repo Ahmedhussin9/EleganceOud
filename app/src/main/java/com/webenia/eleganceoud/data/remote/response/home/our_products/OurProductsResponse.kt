@@ -1,4 +1,4 @@
-package com.webenia.eleganceoud.data.remote.response.auth.home.our_products
+package com.webenia.eleganceoud.data.remote.response.home.our_products
 
 import com.google.gson.annotations.SerializedName
 
@@ -24,7 +24,7 @@ data class Product(
     @SerializedName("created_at") val createdAt: String,
     @SerializedName("updated_at") val updatedAt: String,
     @SerializedName("deleted_at") val deletedAt: String?,
-    @SerializedName("converted_price") val convertedPrice: Int,
+    @SerializedName("converted_price") val convertedPrice: Double,
     @SerializedName("currency_code") val currencyCode: String,
     @SerializedName("images") val images: List<ProductImage> = emptyList(),
     @SerializedName("currency") val currency: Currency,
@@ -96,7 +96,7 @@ data class ParentProduct(
     @SerializedName("created_at") val createdAt: String,
     @SerializedName("updated_at") val updatedAt: String,
     @SerializedName("deleted_at") val deletedAt: String?,
-    @SerializedName("converted_price") val convertedPrice: Int,
+    @SerializedName("converted_price") val convertedPrice: Double,
     @SerializedName("currency_code") val currencyCode: String,
     @SerializedName("currency") val currency: Currency
 )

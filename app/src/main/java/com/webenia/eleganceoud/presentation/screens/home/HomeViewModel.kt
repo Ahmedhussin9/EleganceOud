@@ -9,6 +9,9 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.elegance_oud.util.state.Resource
 import com.webenia.eleganceoud.domain.mapper.toUiModel
+import com.webenia.eleganceoud.domain.model.brands.toUiModel
+import com.webenia.eleganceoud.domain.repository.home.GetHomeBrandsRepository
+import com.webenia.eleganceoud.domain.repository.home.GetHomeCategoriesRepository
 import com.webenia.eleganceoud.domain.repository.home.GetOurProductsRepository
 import com.webenia.eleganceoud.presentation.screens.signin.SignInUiEvents
 import com.webenia.eleganceoud.util.state.UiText
@@ -22,6 +25,8 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getOurProductsRepository: GetOurProductsRepository,
+    private val getHomeCategoriesRepository: GetHomeCategoriesRepository,
+    private val getHomeBrandsRepository: GetHomeBrandsRepository
 ) : ViewModel() {
     var uiState by mutableStateOf(HomeUiState())
         private set
@@ -31,6 +36,74 @@ class HomeViewModel @Inject constructor(
 
     init {
         getOurProducts()
+        getHomeCategories()
+        getHomeBrands()
+    }
+
+    private fun getHomeBrands() {
+        viewModelScope.launch(Dispatchers.IO) {
+            getHomeBrandsRepository.getHomeBrands().collect { state ->
+                when (state) {
+                    is Resource.Loading -> {
+                        uiState = uiState.copy(isLoading = true)
+                    }
+
+                    is Resource.Success -> {
+                        uiState = uiState.copy(
+                            isLoading = false,
+                            error = null,
+                            brandsList =
+                            if (state.data?.data?.isNotEmpty() == true) {
+                                state.data.data.map {
+                                    it.toUiModel()
+                                }
+                            } else {
+                                emptyList()
+                            }
+                        )
+                    }
+
+                    is Resource.Error -> {
+                        uiState = uiState.copy(isLoading = false)
+
+                    }
+                }
+            }
+        }
+    }
+
+    private fun getHomeCategories() {
+        viewModelScope.launch(Dispatchers.IO) {
+            getHomeCategoriesRepository.getHomeCategories().collect { state ->
+                when (state) {
+                    is Resource.Loading -> {
+                        uiState = uiState.copy(isLoading = true)
+                    }
+
+                    is Resource.Success -> {
+                        uiState = uiState.copy(
+                            isLoading = false,
+                            error = null,
+                            categoriesList = if (state.data?.data?.isNotEmpty() == true) {
+                                state.data.data.map {
+                                    it.toUiModel()
+                                }
+                            } else {
+                                emptyList()
+                            })
+                    }
+
+                    is Resource.Error -> {
+                        uiState = uiState.copy(isLoading = false)
+                        sendUiEvent(
+                            HomeUiEvents.ShowToast(
+                                state.message ?: UiText.DynamicString("Try again later")
+                            )
+                        )
+                    }
+                }
+            }
+        }
     }
 
     private fun getOurProducts() {

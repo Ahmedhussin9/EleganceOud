@@ -3,7 +3,7 @@ package com.webenia.eleganceoud.data.remote.repositroy.home
 import com.elegance_oud.util.state.Resource
 import com.elegance_oud.util.toResultFlow
 import com.webenia.eleganceoud.data.remote.WebServices
-import com.webenia.eleganceoud.data.remote.response.auth.home.our_products.ProductsResponse
+import com.webenia.eleganceoud.data.remote.response.home.our_products.ProductsResponse
 import com.webenia.eleganceoud.domain.repository.home.GetOurProductsRepository
 import com.webenia.eleganceoud.util.state.ApiState
 import com.webenia.eleganceoud.util.state.UiText

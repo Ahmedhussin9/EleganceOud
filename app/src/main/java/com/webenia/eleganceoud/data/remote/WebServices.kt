@@ -4,10 +4,12 @@ import com.webenia.eleganceoud.data.remote.requests.login_request.SignInRequest
 import com.webenia.eleganceoud.data.remote.requests.resend_otp.ResendOtpRequest
 import com.webenia.eleganceoud.data.remote.requests.resgister_request.RegisterRequest
 import com.webenia.eleganceoud.data.remote.requests.submit_otp.SubmitOtpRequest
-import com.webenia.eleganceoud.data.remote.response.auth.home.our_products.ProductsResponse
+import com.webenia.eleganceoud.data.remote.response.home.our_products.ProductsResponse
 import com.webenia.eleganceoud.data.remote.response.auth.otp.ResendOtpResponse
 import com.webenia.eleganceoud.data.remote.response.auth.otp.SubmitOtpResponse
 import com.webenia.eleganceoud.data.remote.response.auth.signup.RegisterResponse
+import com.webenia.eleganceoud.data.remote.response.home.brands.HomeBrandsResponse
+import com.webenia.eleganceoud.data.remote.response.home.category.HomeCategoriesResponse
 import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.Body
@@ -39,4 +41,10 @@ interface WebServices {
     ):Response<SubmitOtpResponse>
     @GET("api/website/products/section")
     suspend fun getOurProducts():Response<ProductsResponse>
+
+    @GET("api/website")
+    suspend fun getHomeCategories():Response<HomeCategoriesResponse>
+
+    @GET("api/website/brands/section")
+    suspend fun getHomeBrands():Response<HomeBrandsResponse>
 }

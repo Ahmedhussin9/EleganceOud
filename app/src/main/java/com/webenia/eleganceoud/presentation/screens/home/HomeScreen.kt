@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -27,12 +28,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.webenia.eleganceoud.R
 import com.webenia.eleganceoud.domain.model.product.ProductUiModel
+import com.webenia.eleganceoud.presentation.composables.BrandItem
+import com.webenia.eleganceoud.presentation.composables.CategoryItem
+import com.webenia.eleganceoud.presentation.composables.CategoryItemPreview
 import com.webenia.eleganceoud.presentation.composables.LoadingOverlay
 import com.webenia.eleganceoud.presentation.composables.ProductItem
 import com.webenia.eleganceoud.presentation.composables.TopBar
@@ -65,9 +70,83 @@ fun HomeScreenSetup(
 fun HomeScreenContent(
     state: HomeUiState,
 ) {
-    Column(modifier = Modifier.fillMaxSize())
+    Column(
+        modifier = Modifier
+            .padding(10.dp)
+            .fillMaxSize()
+    )
     {
-        Log.e("state", state.toString(), )
+        Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                painter = painterResource(R.drawable.ic_cubes),
+                contentDescription = "shopping",
+                tint = Primary,
+                modifier = Modifier.size(25.dp)
+            )
+            Text(
+                "Categories",
+                color = Primary,
+                fontSize = 24.sp,
+                modifier = Modifier.padding(10.dp),
+                fontWeight = FontWeight.SemiBold
+            )
+        }
+        LazyRow(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(
+                10.dp
+            )
+        ) {
+            items(state.categoriesList.size) { item ->
+                CategoryItem(
+                    item = state.categoriesList[item]
+                )
+            }
+        }
+        Spacer(modifier = Modifier.padding(10.dp))
+        Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                painter = painterResource(R.drawable.ic_diagram),
+                contentDescription = "diagram",
+                tint = Primary,
+                modifier = Modifier.size(25.dp)
+            )
+            Text(
+                "Our Brands",
+                color = Primary,
+                fontSize = 24.sp,
+                modifier = Modifier.padding(10.dp),
+                fontWeight = FontWeight.SemiBold
+            )
+        }
+        LazyRow(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(
+                10.dp
+            )
+        ) {
+            items(state.brandsList.size) { item ->
+                BrandItem(
+                    item = state.brandsList[item]
+                )
+            }
+        }
+        Spacer(modifier = Modifier.padding(10.dp))
+        Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                painter = painterResource(R.drawable.ic_shopping),
+                contentDescription = "shopping",
+                tint = Primary,
+                modifier = Modifier.size(25.dp)
+            )
+            Text(
+                "Our Products",
+                color = Primary,
+                fontSize = 24.sp,
+                modifier = Modifier.padding(10.dp),
+                fontWeight = FontWeight.SemiBold
+            )
+        }
         LazyRow(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(
@@ -83,6 +162,7 @@ fun HomeScreenContent(
             }
 
         }
+
 
     }
 
