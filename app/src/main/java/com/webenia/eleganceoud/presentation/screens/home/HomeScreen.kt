@@ -76,178 +76,188 @@ fun HomeScreenSetup(
 fun HomeScreenContent(
     state: HomeUiState,
 ) {
-    Column(
-        modifier = Modifier
-            .verticalScroll(rememberScrollState())
-            .padding(10.dp)
-            .fillMaxSize()
-
-    )
-    {
-        Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            Icon(
-                painter = painterResource(R.drawable.ic_cubes),
-                contentDescription = "shopping",
-                tint = Primary,
-                modifier = Modifier.size(25.dp)
-            )
-            Text(
-                "Categories",
-                color = Primary,
-                fontSize = 24.sp,
-                modifier = Modifier.padding(10.dp),
-                fontWeight = FontWeight.SemiBold
-            )
+    if (state.isLoading){
+        Column (
+            modifier = Modifier
+                .verticalScroll(rememberScrollState())
+                .fillMaxSize()
+        ){
+            HomeShimmerEffect()
         }
-        LazyRow(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(
-                10.dp
-            )
-        ) {
-            items(state.categoriesList.size) { item ->
-                CategoryItem(
-                    item = state.categoriesList[item]
+    }else{
+        Column(
+            modifier = Modifier
+                .verticalScroll(rememberScrollState())
+                .padding(10.dp)
+                .fillMaxSize()
+        )
+        {
+            Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                Icon(
+                    painter = painterResource(R.drawable.ic_cubes),
+                    contentDescription = "shopping",
+                    tint = Primary,
+                    modifier = Modifier.size(25.dp)
+                )
+                Text(
+                    "Categories",
+                    color = Primary,
+                    fontSize = 24.sp,
+                    modifier = Modifier.padding(10.dp),
+                    fontWeight = FontWeight.SemiBold
                 )
             }
-        }
-        Spacer(modifier = Modifier.padding(10.dp))
-        Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            Icon(
-                painter = painterResource(R.drawable.ic_diagram),
-                contentDescription = "diagram",
-                tint = Primary,
-                modifier = Modifier.size(25.dp)
-            )
-            Text(
-                "Our Brands",
-                color = Primary,
-                fontSize = 24.sp,
-                modifier = Modifier.padding(10.dp),
-                fontWeight = FontWeight.SemiBold
-            )
-        }
-        LazyRow(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(
-                10.dp
-            )
-        ) {
-            items(state.brandsList.size) { item ->
-                BrandItem(
-                    item = state.brandsList[item]
-                )
-            }
-        }
-        Spacer(modifier = Modifier.padding(10.dp))
-        Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            Icon(
-                painter = painterResource(R.drawable.ic_shopping),
-                contentDescription = "shopping",
-                tint = Primary,
-                modifier = Modifier.size(25.dp)
-            )
-            Text(
-                "Our Products",
-                color = Primary,
-                fontSize = 24.sp,
-                modifier = Modifier.padding(10.dp),
-                fontWeight = FontWeight.SemiBold
-            )
-        }
-        LazyRow(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(
-                10.dp
-            )
-        ) {
-            items(
-                state.ourProductsList.size,
-            ) { product ->
-                ProductItem(
-                    item = state.ourProductsList[product]
-                )
-            }
-
-        }
-        Spacer(modifier = Modifier.padding(10.dp))
-
-        Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            Icon(
-                painter = painterResource(R.drawable.ic_shopping),
-                contentDescription = "shopping",
-                tint = Primary,
-                modifier = Modifier.size(25.dp)
-            )
-            Text(
-                "Latest Products",
-                color = Primary,
-                fontSize = 24.sp,
-                modifier = Modifier.padding(10.dp),
-                fontWeight = FontWeight.SemiBold
-            )
-        }
-        LazyRow(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(
-                10.dp
-            )
-        ) {
-            items(
-                state.latestProductsList.size,
-            ) { product ->
-                ProductItem(
-                    item = state.latestProductsList[product]
-                )
-            }
-
-        }
-        Spacer(modifier = Modifier.padding(10.dp))
-        Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            Card(
-                modifier = Modifier
-                    .clip(CircleShape)
-                    .size(25.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = Primary
+            LazyRow(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(
+                    10.dp
                 )
             ) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        painter = painterResource(R.drawable.ic_star),
-                        contentDescription = "shopping",
-                        modifier = Modifier.size(16.dp),
-                        tint = Color.White
+                items(state.categoriesList.size) { item ->
+                    CategoryItem(
+                        item = state.categoriesList[item]
                     )
                 }
             }
-            Text(
-                "Best-selling Products",
-                color = Primary,
-                fontSize = 24.sp,
-                modifier = Modifier.padding(10.dp),
-                fontWeight = FontWeight.SemiBold
-            )
-
-        }
-        LazyRow(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(
-                10.dp
-            )
-        ) {
-            items(
-                state.bestSellingList.size,
-            ) { item ->
-                ProductItem(
-                    item = state.bestSellingList[item]
+            Spacer(modifier = Modifier.padding(10.dp))
+            Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                Icon(
+                    painter = painterResource(R.drawable.ic_diagram),
+                    contentDescription = "diagram",
+                    tint = Primary,
+                    modifier = Modifier.size(25.dp)
                 )
+                Text(
+                    "Our Brands",
+                    color = Primary,
+                    fontSize = 24.sp,
+                    modifier = Modifier.padding(10.dp),
+                    fontWeight = FontWeight.SemiBold
+                )
+            }
+            LazyRow(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(
+                    10.dp
+                )
+            ) {
+                items(state.brandsList.size) { item ->
+                    BrandItem(
+                        item = state.brandsList[item]
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.padding(10.dp))
+            Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                Icon(
+                    painter = painterResource(R.drawable.ic_shopping),
+                    contentDescription = "shopping",
+                    tint = Primary,
+                    modifier = Modifier.size(25.dp)
+                )
+                Text(
+                    "Our Products",
+                    color = Primary,
+                    fontSize = 24.sp,
+                    modifier = Modifier.padding(10.dp),
+                    fontWeight = FontWeight.SemiBold
+                )
+            }
+            LazyRow(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(
+                    10.dp
+                )
+            ) {
+                items(
+                    state.ourProductsList.size,
+                ) { product ->
+                    ProductItem(
+                        item = state.ourProductsList[product]
+                    )
+                }
+
+            }
+            Spacer(modifier = Modifier.padding(10.dp))
+
+            Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                Icon(
+                    painter = painterResource(R.drawable.ic_shopping),
+                    contentDescription = "shopping",
+                    tint = Primary,
+                    modifier = Modifier.size(25.dp)
+                )
+                Text(
+                    "Latest Products",
+                    color = Primary,
+                    fontSize = 24.sp,
+                    modifier = Modifier.padding(10.dp),
+                    fontWeight = FontWeight.SemiBold
+                )
+            }
+            LazyRow(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(
+                    10.dp
+                )
+            ) {
+                items(
+                    state.latestProductsList.size,
+                ) { product ->
+                    ProductItem(
+                        item = state.latestProductsList[product]
+                    )
+                }
+
+            }
+            Spacer(modifier = Modifier.padding(10.dp))
+            Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                Card(
+                    modifier = Modifier
+                        .clip(CircleShape)
+                        .size(25.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = Primary
+                    )
+                ) {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_star),
+                            contentDescription = "shopping",
+                            modifier = Modifier.size(16.dp),
+                            tint = Color.White
+                        )
+                    }
+                }
+                Text(
+                    "Best-selling Products",
+                    color = Primary,
+                    fontSize = 24.sp,
+                    modifier = Modifier.padding(10.dp),
+                    fontWeight = FontWeight.SemiBold
+                )
+
+            }
+            LazyRow(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(
+                    10.dp
+                )
+            ) {
+                items(
+                    state.bestSellingList.size,
+                ) { item ->
+                    ProductItem(
+                        item = state.bestSellingList[item]
+                    )
+                }
             }
         }
     }
+
 
 
 }
@@ -278,7 +288,8 @@ fun HomeScreenContentPreview() {
         )
     HomeScreenContent(
         state = HomeUiState(
-            ourProductsList = list
+            ourProductsList = list,
+            isLoading = true
         )
     )
 }

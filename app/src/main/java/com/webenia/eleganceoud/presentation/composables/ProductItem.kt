@@ -1,6 +1,7 @@
 package com.webenia.eleganceoud.presentation.composables
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,10 +27,10 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.elegance_oud.util.imageUrlExt
 import com.webenia.eleganceoud.domain.model.product.ProductUiModel
+import com.webenia.eleganceoud.ui.theme.CardGrey
 
 @Composable
 fun ProductItem(
-    modifier: Modifier = Modifier,
     item: ProductUiModel
 ) {
     Column(
@@ -69,19 +70,64 @@ fun ProductItem(
 }
 
 @Composable
+fun ProductItemShimmer(
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .height(160.dp)
+            .width(100.dp)
+    ) {
+        Box(
+            modifier = Modifier
+                .clip(RoundedCornerShape(40.dp))
+                .size(80.dp)
+                .align(Alignment.CenterHorizontally),
+            contentAlignment = Alignment.Center
+        ) {
+            ShimmerEffect(
+                modifier = Modifier
+                    .clip(RoundedCornerShape(40.dp))
+                    .size(80.dp)
+                    .background(
+                        CardGrey
+                    )
+            )
+        }
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .align(Alignment.CenterHorizontally),
+            contentAlignment = Alignment.Center
+        ) {
+            ShimmerEffect(
+                modifier = Modifier
+                    .height(18.dp)
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(4.dp))
+                    .background(
+                        CardGrey
+                    )
+            )
+        }
+    }
+}
+
+@Composable
 @Preview(showBackground = true)
 fun ProductItemPreview() {
-    ProductItem(
-        item = ProductUiModel(
-            id = 1,
-            name = "Test",
-            description = "",
-            price = "0.0",
-            imageUrl = "",
-            currencyCode = "",
-            isAvailable = true
-
-        )
-
-    )
+//    ProductItem(
+//        item = ProductUiModel(
+//            id = 1,
+//            name = "Test",
+//            description = "",
+//            price = "0.0",
+//            imageUrl = "",
+//            currencyCode = "",
+//            isAvailable = true
+//
+//        )
+//
+//    )
+    ProductItemShimmer()
 }

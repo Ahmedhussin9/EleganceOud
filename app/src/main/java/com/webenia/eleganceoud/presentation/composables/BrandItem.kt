@@ -2,6 +2,8 @@ package com.webenia.eleganceoud.presentation.composables
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -20,6 +22,7 @@ import coil.compose.AsyncImage
 import com.elegance_oud.util.imageUrlExt
 import com.webenia.eleganceoud.R
 import com.webenia.eleganceoud.domain.model.brands.BrandUiModel
+import com.webenia.eleganceoud.ui.theme.CardGrey
 
 @Composable
 fun BrandItem(item: BrandUiModel) {
@@ -45,6 +48,31 @@ fun BrandItem(item: BrandUiModel) {
             contentScale = ContentScale.Fit,
             alignment = Alignment.Center
         )
+    }
+}
+@Composable
+fun BrandItemShimmer() {
+    Card(
+        modifier = Modifier
+            .size(100.dp)
+            .clip(CircleShape),
+        colors = CardDefaults.cardColors(
+            containerColor = CardGrey
+        )
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .align(Alignment.CenterHorizontally),
+            contentAlignment = Alignment.Center
+        ) {
+            ShimmerEffect(
+                modifier = Modifier
+                    .size(80.dp)
+                    .clip(CircleShape)
+
+            )
+        }
     }
 }
 
