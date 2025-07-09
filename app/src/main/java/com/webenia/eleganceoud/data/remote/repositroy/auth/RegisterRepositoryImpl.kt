@@ -5,7 +5,7 @@ import com.elegance_oud.util.toResultFlow
 import com.webenia.eleganceoud.data.remote.WebServices
 import com.webenia.eleganceoud.data.remote.requests.resgister_request.RegisterRequest
 import com.webenia.eleganceoud.data.remote.response.auth.signup.RegisterResponse
-import com.webenia.eleganceoud.domain.repository.RegisterRepository
+import com.webenia.eleganceoud.domain.repository.auth.RegisterRepository
 import com.webenia.eleganceoud.util.state.ApiState
 import com.webenia.eleganceoud.util.state.UiText
 import kotlinx.coroutines.flow.Flow

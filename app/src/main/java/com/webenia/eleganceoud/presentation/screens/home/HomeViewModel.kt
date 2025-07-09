@@ -1,21 +1,18 @@
 package com.webenia.eleganceoud.presentation.screens.home
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.elegance_oud.util.state.Resource
 import com.webenia.eleganceoud.domain.mapper.toUiModel
 import com.webenia.eleganceoud.domain.model.brands.toUiModel
 import com.webenia.eleganceoud.domain.repository.home.GetHomeBestSellingRepository
 import com.webenia.eleganceoud.domain.repository.home.GetHomeBrandsRepository
-import com.webenia.eleganceoud.domain.repository.home.GetHomeCategoriesRepository
+import com.webenia.eleganceoud.domain.repository.home.GetCategoriesRepository
 import com.webenia.eleganceoud.domain.repository.home.GetHomeLatestProductsRepository
 import com.webenia.eleganceoud.domain.repository.home.GetOurProductsRepository
-import com.webenia.eleganceoud.presentation.screens.signin.SignInUiEvents
 import com.webenia.eleganceoud.util.state.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -26,7 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getOurProductsRepository: GetOurProductsRepository,
-    private val getHomeCategoriesRepository: GetHomeCategoriesRepository,
+    private val getCategoriesRepository: GetCategoriesRepository,
     private val getHomeBrandsRepository: GetHomeBrandsRepository,
     private val getHomeBestSellingRepository: GetHomeBestSellingRepository,
     private val getHomeLatestProductsRepository: GetHomeLatestProductsRepository
@@ -78,7 +75,7 @@ class HomeViewModel @Inject constructor(
 
     private fun getHomeCategories() {
         viewModelScope.launch(Dispatchers.IO) {
-            getHomeCategoriesRepository.getHomeCategories().collect { state ->
+            getCategoriesRepository.getCategories().collect { state ->
                 when (state) {
                     is Resource.Loading -> {}
                     is Resource.Success -> {

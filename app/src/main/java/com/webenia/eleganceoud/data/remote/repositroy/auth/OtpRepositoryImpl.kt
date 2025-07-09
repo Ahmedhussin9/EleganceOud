@@ -7,7 +7,7 @@ import com.webenia.eleganceoud.data.remote.requests.resend_otp.ResendOtpRequest
 import com.webenia.eleganceoud.data.remote.requests.submit_otp.SubmitOtpRequest
 import com.webenia.eleganceoud.data.remote.response.auth.otp.ResendOtpResponse
 import com.webenia.eleganceoud.data.remote.response.auth.otp.SubmitOtpResponse
-import com.webenia.eleganceoud.domain.repository.OtpRepository
+import com.webenia.eleganceoud.domain.repository.auth.OtpRepository
 import com.webenia.eleganceoud.util.state.ApiState
 import com.webenia.eleganceoud.util.state.UiText
 import kotlinx.coroutines.flow.Flow

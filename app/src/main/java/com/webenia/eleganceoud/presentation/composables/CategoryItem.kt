@@ -32,7 +32,8 @@ import com.webenia.eleganceoud.ui.theme.CardGrey
 
 @Composable
 fun CategoryItem(
-    item: CategoryUiModel
+    item: CategoryUiModel,
+    onClick: () -> Unit = {}
 ) {
     Card(
         modifier = Modifier
@@ -53,8 +54,10 @@ fun CategoryItem(
                     .height(100.dp)
             ) {
                 AsyncImage(
-                    modifier = Modifier.clip(RoundedCornerShape(5.dp)).fillMaxSize(),
-                    model = imageUrlExt+item.imageUrl,
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(5.dp))
+                        .fillMaxSize(),
+                    model = imageUrlExt + item.imageUrl,
                     contentDescription = item.name
                 )
             }
@@ -77,6 +80,7 @@ fun CategoryItem(
 
     }
 }
+
 @Composable
 fun CategoryItemShimmer() {
     Card(

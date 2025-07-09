@@ -1,17 +1,14 @@
 package com.webenia.eleganceoud.presentation.screens.signup
 
-import android.util.Log
 import android.util.Patterns
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.elegance_oud.util.state.Resource
 import com.webenia.eleganceoud.data.remote.requests.resgister_request.RegisterRequest
-import com.webenia.eleganceoud.domain.repository.RegisterRepository
+import com.webenia.eleganceoud.domain.repository.auth.RegisterRepository
 import com.webenia.eleganceoud.presentation.navigation.AppDestination
 import com.webenia.eleganceoud.util.state.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel

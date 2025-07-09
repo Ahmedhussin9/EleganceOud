@@ -1,4 +1,4 @@
-package com.webenia.eleganceoud.domain.repository
+package com.webenia.eleganceoud.domain.repository.auth
 
 import com.elegance_oud.util.state.Resource
 import com.webenia.eleganceoud.data.remote.requests.resgister_request.RegisterRequest

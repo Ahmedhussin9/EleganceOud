@@ -1,6 +1,5 @@
 package com.webenia.eleganceoud.presentation.navigation
 
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
@@ -10,7 +9,6 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
-import androidx.compose.animation.with
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -18,14 +16,14 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.elegance_oud.util.UserUtil
-import com.webenia.eleganceoud.presentation.screens.FavoriteScreenSetup
+import com.webenia.eleganceoud.presentation.screens.favorite.FavoriteScreenSetup
 import com.webenia.eleganceoud.presentation.screens.cart.CartScreenSetup
 import com.webenia.eleganceoud.presentation.screens.category.CategoryScreenSetup
 import com.webenia.eleganceoud.presentation.screens.home.HomeScreenSetup
 import com.webenia.eleganceoud.presentation.screens.main.MainScreenEntryPoint
-import com.webenia.eleganceoud.presentation.screens.main.MainScreenSetup
 import com.webenia.eleganceoud.presentation.screens.on_boarding.OnBoardingScreenSetup
 import com.webenia.eleganceoud.presentation.screens.otp.OtpScreenSetup
+import com.webenia.eleganceoud.presentation.screens.settings.SettingsScreenSetup
 import com.webenia.eleganceoud.presentation.screens.signin.SignInScreenSetup
 import com.webenia.eleganceoud.presentation.screens.signup.SignUpScreenSetup
 import com.webenia.eleganceoud.presentation.screens.splash.SplashScreenSetup
@@ -68,10 +66,10 @@ fun NavGraph(navController: NavHostController) {
             })
         }
         composable(AppDestination.Main.route) {
-            MainScreenEntryPoint()
+            MainScreenEntryPoint(navController = navController)
         }
         composable(AppDestination.Category.route) {
-            CategoryScreenSetup()
+            CategoryScreenSetup(navController = navController)
         }
         composable(AppDestination.Favorite.route) {
             FavoriteScreenSetup()
@@ -90,6 +88,9 @@ fun NavGraph(navController: NavHostController) {
 
         composable(AppDestination.Home.route) {
             HomeScreenSetup()
+        }
+        composable(AppDestination.Settings.route) {
+            SettingsScreenSetup(navController = navController)
         }
 
         composable(

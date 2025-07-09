@@ -6,13 +6,10 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elegance_oud.util.UserUtil
-import com.elegance_oud.util.state.Resource
 import com.webenia.eleganceoud.data.remote.requests.login_request.SignInRequest
 import com.webenia.eleganceoud.data.remote.response.auth.signin.LoginResponse
-import com.webenia.eleganceoud.domain.model.User
-import com.webenia.eleganceoud.domain.repository.SignInRepository
+import com.webenia.eleganceoud.domain.repository.auth.SignInRepository
 import com.webenia.eleganceoud.presentation.navigation.AppDestination
-import com.webenia.eleganceoud.presentation.screens.signup.SignUpUiEvent
 import com.webenia.eleganceoud.util.state.ApiState
 import com.webenia.eleganceoud.util.state.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel

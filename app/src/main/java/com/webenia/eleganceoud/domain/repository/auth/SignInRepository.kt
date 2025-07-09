@@ -1,4 +1,4 @@
-package com.webenia.eleganceoud.domain.repository
+package com.webenia.eleganceoud.domain.repository.auth
 
 import com.webenia.eleganceoud.data.remote.response.auth.signin.LoginResponse
 import com.webenia.eleganceoud.util.state.ApiState

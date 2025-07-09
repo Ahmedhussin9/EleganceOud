@@ -1,16 +1,13 @@
 package com.webenia.eleganceoud.data.remote.repositroy.auth
 
 import android.util.Log
-import com.elegance_oud.util.state.Resource
-import com.elegance_oud.util.toResultFlow
 import com.google.gson.Gson
 import com.webenia.eleganceoud.R
 import com.webenia.eleganceoud.data.remote.WebServices
 import com.webenia.eleganceoud.data.remote.requests.login_request.SignInRequest
 import com.webenia.eleganceoud.data.remote.response.auth.signin.LoginResponse
 import com.webenia.eleganceoud.data.remote.response.auth.signin.UserDto
-import com.webenia.eleganceoud.domain.model.User
-import com.webenia.eleganceoud.domain.repository.SignInRepository
+import com.webenia.eleganceoud.domain.repository.auth.SignInRepository
 import com.webenia.eleganceoud.util.state.ApiState
 import com.webenia.eleganceoud.util.state.UiText
 import kotlinx.coroutines.flow.Flow

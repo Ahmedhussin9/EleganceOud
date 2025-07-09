@@ -6,13 +6,13 @@ import com.webenia.eleganceoud.domain.model.product.ProductUiModel
 fun Product.toUiModel(): ProductUiModel {
     return ProductUiModel(
         id = id,
-        name = nameAr,
-        description = descriptionAr,
+        name = nameEn,
+        description = descriptionEn,
         price = price,
         imageUrl = images.firstOrNull()?.path,
         currencyCode = currency.code,
         isAvailable = isAvailable == 1,
-        parentName = parent?.nameAr,
+        parentName = parent?.nameEn,
         hasAmounts = amounts.isNotEmpty()
     )
 }

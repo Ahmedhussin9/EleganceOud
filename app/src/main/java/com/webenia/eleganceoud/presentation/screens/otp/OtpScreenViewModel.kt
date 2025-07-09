@@ -1,19 +1,16 @@
 package com.webenia.eleganceoud.presentation.screens.otp
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.elegance_oud.util.UserUtil
 import com.elegance_oud.util.state.Resource
 import com.webenia.eleganceoud.data.remote.requests.resend_otp.ResendOtpRequest
 import com.webenia.eleganceoud.data.remote.requests.submit_otp.SubmitOtpRequest
-import com.webenia.eleganceoud.domain.repository.OtpRepository
+import com.webenia.eleganceoud.domain.repository.auth.OtpRepository
 import com.webenia.eleganceoud.presentation.navigation.AppDestination
-import com.webenia.eleganceoud.presentation.screens.signin.SignInUiEvents
 import com.webenia.eleganceoud.util.state.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

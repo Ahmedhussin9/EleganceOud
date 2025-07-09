@@ -8,17 +8,19 @@ import com.webenia.eleganceoud.data.remote.WebServices
 import com.webenia.eleganceoud.data.remote.repositroy.auth.OtpRepositoryImpl
 import com.webenia.eleganceoud.data.remote.repositroy.auth.RegisterRepositoryImpl
 import com.webenia.eleganceoud.data.remote.repositroy.auth.SignInRepositoryImpl
+import com.webenia.eleganceoud.data.remote.repositroy.auth.SignOutRepositoryImpl
 import com.webenia.eleganceoud.data.remote.repositroy.home.GetHomeBestSellingRepositoryImpl
 import com.webenia.eleganceoud.data.remote.repositroy.home.GetHomeBrandsRepositoryImpl
-import com.webenia.eleganceoud.data.remote.repositroy.home.GetHomeCategoriesRepositoryImpl
+import com.webenia.eleganceoud.data.remote.repositroy.home.GetCategoriesRepositoryImpl
 import com.webenia.eleganceoud.data.remote.repositroy.home.GetHomeLatestProductsRepositoryImpl
 import com.webenia.eleganceoud.data.remote.repositroy.home.GetOurProductsRepositoryImpl
-import com.webenia.eleganceoud.domain.repository.OtpRepository
-import com.webenia.eleganceoud.domain.repository.RegisterRepository
-import com.webenia.eleganceoud.domain.repository.SignInRepository
+import com.webenia.eleganceoud.domain.repository.auth.SignOutRepository
+import com.webenia.eleganceoud.domain.repository.auth.OtpRepository
+import com.webenia.eleganceoud.domain.repository.auth.RegisterRepository
+import com.webenia.eleganceoud.domain.repository.auth.SignInRepository
 import com.webenia.eleganceoud.domain.repository.home.GetHomeBestSellingRepository
 import com.webenia.eleganceoud.domain.repository.home.GetHomeBrandsRepository
-import com.webenia.eleganceoud.domain.repository.home.GetHomeCategoriesRepository
+import com.webenia.eleganceoud.domain.repository.home.GetCategoriesRepository
 import com.webenia.eleganceoud.domain.repository.home.GetHomeLatestProductsRepository
 import com.webenia.eleganceoud.domain.repository.home.GetOurProductsRepository
 import dagger.Module
@@ -113,8 +115,8 @@ object AppModule {
     }
 
     @Provides
-    fun provideGetHomeCategories(webServices: WebServices): GetHomeCategoriesRepository {
-        return GetHomeCategoriesRepositoryImpl(webServices)
+    fun provideGetHomeCategories(webServices: WebServices): GetCategoriesRepository {
+        return GetCategoriesRepositoryImpl(webServices)
     }
 
     @Provides
@@ -126,8 +128,14 @@ object AppModule {
     fun provideGetHomeBestSelling(webServices: WebServices): GetHomeBestSellingRepository {
         return GetHomeBestSellingRepositoryImpl(webServices)
     }
+
     @Provides
     fun provideHomeLatestProducts(webServices: WebServices): GetHomeLatestProductsRepository {
         return GetHomeLatestProductsRepositoryImpl(webServices)
+    }
+
+    @Provides
+    fun provideSignOut(webServices: WebServices): SignOutRepository {
+        return SignOutRepositoryImpl(webServices)
     }
 }

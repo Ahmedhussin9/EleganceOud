@@ -1,30 +1,128 @@
 package com.webenia.eleganceoud.presentation.screens.category
 
-import androidx.compose.foundation.background
+
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.webenia.eleganceoud.presentation.composables.TopBar
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import com.webenia.eleganceoud.presentation.composables.CategoryItem
+import com.webenia.eleganceoud.presentation.composables.CategoryItemShimmer
+import com.webenia.eleganceoud.ui.theme.Primary
+
 
 @Composable
-fun CategoryScreenSetup() {
-    CategoryScreenContent()
+fun CategoryScreenSetup(
+    viewModel: CategoryViewModel = hiltViewModel(),
+    navController: NavController
+) {
+    val context = LocalContext.current
+    LaunchedEffect(true) {
+        viewModel.uiEvent.collect { event ->
+            when (event) {
+                is CategoryUiEvents.Navigate -> {
+
+                }
+
+                is CategoryUiEvents.ShowToast -> {
+                    Toast.makeText(
+                        context,
+                        event.message.asString(context), Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
+    }
+    CategoryScreenContent(
+        state = viewModel.uiState
+    )
 }
 
 @Composable
-fun CategoryScreenContent() {
+fun CategoryScreenContent(
+    state: CategoryUiState,
+    onEvent: (CategoryEvent) -> Unit = {},
+) {
+    Column(
+        modifier = Modifier
+            .padding(10.dp)
+            .fillMaxSize()
+    ) {
+        if (state.isLoading) {
+            CategoryShimmerEffect()
+        } else {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = "Categories",
+                    modifier = Modifier.padding(10.dp),
+                    color = Primary,
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 24.sp
+                )
+            }
+            Spacer(
+                modifier = Modifier.padding(10.dp)
+            )
+            LazyVerticalGrid(
+                modifier = Modifier.padding(10.dp),
+                columns = GridCells.Fixed(2),
+                verticalArrangement = Arrangement.spacedBy(10.dp),
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                items(state.categoriesList.size) { index ->
+                    CategoryItem(
+                        item = state.categoriesList[index],
+                        onClick = {
+                            onEvent.invoke(
+                                CategoryEvent.onCategoryClicked(state.categoriesList[index])
+                            )
+                        }
+                    )
+                }
+            }
+        }
+    }
 
+}
+
+@Composable
+fun CategoryShimmerEffect() {
+    LazyVerticalGrid(
+        modifier = Modifier.padding(10.dp),
+        columns = GridCells.Fixed(2),
+        verticalArrangement = Arrangement.spacedBy(10.dp),
+        horizontalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
+        items(6) { // show 6 shimmer items
+            CategoryItemShimmer()
+        }
+    }
 }
 
 @Composable
 @Preview(showBackground = true, showSystemUi = true)
 fun PreviewCategoryScreen() {
-    CategoryScreenContent()
+    CategoryScreenContent(
+        state = CategoryUiState()
+    )
 }

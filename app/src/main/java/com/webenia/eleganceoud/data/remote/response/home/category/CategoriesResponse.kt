@@ -1,6 +1,6 @@
 package com.webenia.eleganceoud.data.remote.response.home.category
 
-data class HomeCategoriesResponse (
+data class CategoriesResponse (
     val status: Boolean,
     val message: String,
     val data: List<Category>
