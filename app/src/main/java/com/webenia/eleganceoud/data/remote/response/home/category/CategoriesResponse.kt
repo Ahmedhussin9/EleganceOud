@@ -1,10 +1,16 @@
 package com.webenia.eleganceoud.data.remote.response.home.category
 
+import com.squareup.moshi.JsonClass
+
+@JsonClass(generateAdapter = true)
+
 data class CategoriesResponse (
     val status: Boolean,
     val message: String,
     val data: List<Category>
 )
+@JsonClass(generateAdapter = true)
+
 data class Category(
     val id: Int,
     val name_en: String,
@@ -21,6 +27,7 @@ data class Category(
     val brand: Brand,
     val images: List<Image>
 )
+@JsonClass(generateAdapter = true)
 data class Brand(
     val id: Int,
     val name_en: String,
@@ -31,6 +38,8 @@ data class Brand(
     val created_at: String,
     val updated_at: String
 )
+@JsonClass(generateAdapter = true)
+
 data class Image(
     val id: Int,
     val path: String,

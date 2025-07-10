@@ -1,14 +1,22 @@
 package com.webenia.eleganceoud.data.remote.response.auth.otp
 
+import com.squareup.moshi.JsonClass
+
+@JsonClass(generateAdapter = true)
+
 data class SubmitOtpResponse(
     val status: Boolean,
     val message: String,
     val data: VerifyOtpData
 )
+@JsonClass(generateAdapter = true)
+
 data class VerifyOtpData(
     val user: UserDto,
     val token: String
 )
+@JsonClass(generateAdapter = true)
+
 data class UserDto(
     val id: Int,
     val name: String,

@@ -19,6 +19,7 @@ sealed class AppDestination(
     object Cart : AppDestination("cart")
     object Favorite : AppDestination("favorite")
     object Settings : AppDestination(route ="settings")
+    object ProductDetails : AppDestination("product_details")
 
 
     data class Otp(val email: String) : AppDestination("otp/{email}") {

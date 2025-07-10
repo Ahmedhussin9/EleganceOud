@@ -2,17 +2,10 @@
 package com.elegance_oud.util
 
 import android.content.Context
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffColorFilter
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import android.net.Uri
-import android.os.Build
-import android.text.Html
 import android.util.Log
 
-import android.widget.TextView
-import androidx.core.content.ContextCompat
 import com.webenia.eleganceoud.util.state.ApiState
 import com.google.gson.Gson
 import com.webenia.eleganceoud.R
@@ -23,11 +16,6 @@ import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import retrofit2.Response
 import java.io.IOException
-import java.text.NumberFormat
-import java.text.ParseException
-import java.util.Locale
-
-
 
 
 fun <T> toResultFlow(call: suspend () -> Response<T>): Flow<ApiState<T>> = flow {
@@ -70,5 +58,5 @@ fun isNetworkAvailable(context: Context): Boolean {
     return activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
             activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
 }
- const val imageUrlExt = "https://backend.webenia.org/public/storage/"
+ const val BASE_IMAGE_URL = "https://backend.webenia.org/public/storage/"
 // -------------------------------------------------------------- //

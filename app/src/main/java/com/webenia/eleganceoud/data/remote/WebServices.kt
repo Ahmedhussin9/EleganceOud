@@ -1,5 +1,6 @@
 package com.webenia.eleganceoud.data.remote
 
+import ProductDetailsResponse
 import com.webenia.eleganceoud.data.remote.requests.login_request.SignInRequest
 import com.webenia.eleganceoud.data.remote.requests.resend_otp.ResendOtpRequest
 import com.webenia.eleganceoud.data.remote.requests.resgister_request.RegisterRequest
@@ -20,6 +21,8 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Headers
 import retrofit2.http.POST
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface WebServices {
     @POST("api/clients/register")
@@ -64,4 +67,11 @@ interface WebServices {
     suspend fun signOut(
         @Header("Authorization") token: String
     ): Response<SignOutResponse>
+
+    @GET("api/website/show/products/{product_id}")
+    @Headers("Accept: application/json")
+    suspend fun getProductDetails(
+        @Header("Currency") currency: String,
+        @Path("product_id") productId: Int
+    ): Response<ProductDetailsResponse>
 }

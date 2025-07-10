@@ -34,14 +34,14 @@ class HomeViewModel @Inject constructor(
 
     private var _uiEvent = MutableSharedFlow<HomeUiEvents>()
     val uiEvent = _uiEvent.asSharedFlow()
-
-    init {
+    fun getHome() {
         getOurProducts()
         getHomeCategories()
         getHomeBrands()
         getHomeBestSellingProducts()
         getHomeLatestProducts()
     }
+
 
     private fun areAllRequestsDone(state: HomeUiState): Boolean {
         return state.ourProductsDone &&

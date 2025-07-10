@@ -1,8 +1,10 @@
 package com.webenia.eleganceoud.presentation.screens.home
 
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -56,6 +58,7 @@ fun HomeScreenSetup(
 ) {
     val context = LocalContext.current
     LaunchedEffect(true) {
+        viewModel.getHome()
         viewModel.uiEvent.collect { event ->
             when (event) {
                 is HomeUiEvents.ShowToast -> {
@@ -76,15 +79,17 @@ fun HomeScreenSetup(
 fun HomeScreenContent(
     state: HomeUiState,
 ) {
-    if (state.isLoading){
-        Column (
+
+    val context = LocalContext.current
+    if (state.isLoading) {
+        Column(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
                 .fillMaxSize()
-        ){
+        ) {
             HomeShimmerEffect()
         }
-    }else{
+    } else {
         Column(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
@@ -92,7 +97,10 @@ fun HomeScreenContent(
                 .fillMaxSize()
         )
         {
-            Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Icon(
                     painter = painterResource(R.drawable.ic_cubes),
                     contentDescription = "shopping",
@@ -120,7 +128,10 @@ fun HomeScreenContent(
                 }
             }
             Spacer(modifier = Modifier.padding(10.dp))
-            Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Icon(
                     painter = painterResource(R.drawable.ic_diagram),
                     contentDescription = "diagram",
@@ -148,7 +159,10 @@ fun HomeScreenContent(
                 }
             }
             Spacer(modifier = Modifier.padding(10.dp))
-            Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Icon(
                     painter = painterResource(R.drawable.ic_shopping),
                     contentDescription = "shopping",
@@ -173,14 +187,19 @@ fun HomeScreenContent(
                     state.ourProductsList.size,
                 ) { product ->
                     ProductItem(
-                        item = state.ourProductsList[product]
+                        item = state.ourProductsList[product],
+                        modifier = Modifier.clickable {
+                        }
                     )
                 }
 
             }
             Spacer(modifier = Modifier.padding(10.dp))
 
-            Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Icon(
                     painter = painterResource(R.drawable.ic_shopping),
                     contentDescription = "shopping",
@@ -205,13 +224,18 @@ fun HomeScreenContent(
                     state.latestProductsList.size,
                 ) { product ->
                     ProductItem(
-                        item = state.latestProductsList[product]
+                        item = state.latestProductsList[product],
+                        modifier = Modifier.clickable {
+                        }
                     )
                 }
 
             }
             Spacer(modifier = Modifier.padding(10.dp))
-            Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Card(
                     modifier = Modifier
                         .clip(CircleShape)
@@ -251,13 +275,14 @@ fun HomeScreenContent(
                     state.bestSellingList.size,
                 ) { item ->
                     ProductItem(
-                        item = state.bestSellingList[item]
+                        item = state.bestSellingList[item],
+                        modifier = Modifier.clickable {
+                        }
                     )
                 }
             }
         }
     }
-
 
 
 }

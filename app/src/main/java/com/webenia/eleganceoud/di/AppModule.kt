@@ -14,6 +14,7 @@ import com.webenia.eleganceoud.data.remote.repositroy.home.GetHomeBrandsReposito
 import com.webenia.eleganceoud.data.remote.repositroy.home.GetCategoriesRepositoryImpl
 import com.webenia.eleganceoud.data.remote.repositroy.home.GetHomeLatestProductsRepositoryImpl
 import com.webenia.eleganceoud.data.remote.repositroy.home.GetOurProductsRepositoryImpl
+import com.webenia.eleganceoud.data.remote.repositroy.product.GetProductDetailsRepositoryImpl
 import com.webenia.eleganceoud.domain.repository.auth.SignOutRepository
 import com.webenia.eleganceoud.domain.repository.auth.OtpRepository
 import com.webenia.eleganceoud.domain.repository.auth.RegisterRepository
@@ -23,6 +24,7 @@ import com.webenia.eleganceoud.domain.repository.home.GetHomeBrandsRepository
 import com.webenia.eleganceoud.domain.repository.home.GetCategoriesRepository
 import com.webenia.eleganceoud.domain.repository.home.GetHomeLatestProductsRepository
 import com.webenia.eleganceoud.domain.repository.home.GetOurProductsRepository
+import com.webenia.eleganceoud.domain.repository.product.GetProductDetailsRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -34,6 +36,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -46,7 +49,7 @@ object AppModule {
         Retrofit.Builder()
             .baseUrl("https://backend.webenia.org/")
             .client(okHttpClient)
-            .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
+            .addConverterFactory(MoshiConverterFactory.create())
             .build()
             .create(WebServices::class.java)
 
@@ -88,9 +91,9 @@ object AppModule {
             .cache(myCache)
             .addInterceptor(loggingInterceptor)
             .addInterceptor(offlineCacheInterceptor) // Handles offline caching
-            .connectTimeout(30, TimeUnit.SECONDS)
-            .writeTimeout(30, TimeUnit.SECONDS)
-            .readTimeout(30, TimeUnit.SECONDS)
+            .connectTimeout(10, TimeUnit.SECONDS)
+            .writeTimeout(10, TimeUnit.SECONDS)
+            .readTimeout(10, TimeUnit.SECONDS)
             .build()
     }
 
@@ -138,4 +141,10 @@ object AppModule {
     fun provideSignOut(webServices: WebServices): SignOutRepository {
         return SignOutRepositoryImpl(webServices)
     }
+
+    @Provides
+    fun provideGetProductDetailsRepository(webServices: WebServices): GetProductDetailsRepository {
+        return GetProductDetailsRepositoryImpl(webServices)
+    }
+
 }

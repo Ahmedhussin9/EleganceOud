@@ -1,10 +1,15 @@
 package com.webenia.eleganceoud.data.remote.response.home.brands
 
+import com.squareup.moshi.JsonClass
+
+@JsonClass(generateAdapter = true)
+
 data class HomeBrandsResponse(
     val status: Boolean,
     val message: String,
     val data: List<Brand>
 )
+@JsonClass(generateAdapter = true)
 
 data class Brand(
     val id: Int,
@@ -17,6 +22,7 @@ data class Brand(
     val updated_at: String,
     val images: List<BrandImage>
 )
+@JsonClass(generateAdapter = true)
 
 data class BrandImage(
     val id: Int,

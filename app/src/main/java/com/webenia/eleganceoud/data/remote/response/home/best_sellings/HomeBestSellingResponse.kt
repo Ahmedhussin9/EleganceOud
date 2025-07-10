@@ -1,10 +1,14 @@
 package com.webenia.eleganceoud.data.remote.response.home.best_sellings
 
+import com.squareup.moshi.JsonClass
+
+@JsonClass(generateAdapter = true)
 data class HomeBestSellingResponse(
     val status: Boolean,
     val message: String,
     val data: List<Product>
 )
+@JsonClass(generateAdapter = true)
 data class Product(
     val id: Int,
     val name_ar: String,
@@ -29,6 +33,7 @@ data class Product(
     val category: Category? = null,
     val children: List<Product> = emptyList() // Recursive relationship
 )
+@JsonClass(generateAdapter = true)
 data class Image(
     val id: Int,
     val path: String,
@@ -40,6 +45,7 @@ data class Image(
     val created_at: String,
     val updated_at: String
 )
+@JsonClass(generateAdapter = true)
 data class Currency(
     val id: Int,
     val name_ar: String,
@@ -48,6 +54,7 @@ data class Currency(
     val exchange_rate: String,
     val is_deleted: Boolean
 )
+@JsonClass(generateAdapter = true)
 data class Category(
     val id: Int,
     val name_en: String,

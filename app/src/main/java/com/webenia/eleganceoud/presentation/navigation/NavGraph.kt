@@ -23,6 +23,7 @@ import com.webenia.eleganceoud.presentation.screens.home.HomeScreenSetup
 import com.webenia.eleganceoud.presentation.screens.main.MainScreenEntryPoint
 import com.webenia.eleganceoud.presentation.screens.on_boarding.OnBoardingScreenSetup
 import com.webenia.eleganceoud.presentation.screens.otp.OtpScreenSetup
+import com.webenia.eleganceoud.presentation.screens.product_details.ProductScreenSetup
 import com.webenia.eleganceoud.presentation.screens.settings.SettingsScreenSetup
 import com.webenia.eleganceoud.presentation.screens.signin.SignInScreenSetup
 import com.webenia.eleganceoud.presentation.screens.signup.SignUpScreenSetup
@@ -99,6 +100,10 @@ fun NavGraph(navController: NavHostController) {
         ) { backStackEntry ->
             val email = backStackEntry.arguments?.getString("email") ?: ""
             OtpScreenSetup(email = email, navController = navController)
+        }
+        composable(AppDestination.ProductDetails.route){
+            ProductScreenSetup()
+
         }
     }
 

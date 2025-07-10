@@ -94,7 +94,12 @@ dependencies {
     implementation(libs.accompanist.pager.indicators)
     implementation(libs.compose.pager)
 
+    implementation(libs.moshi)
+    implementation(libs.moshi.kotlin)
+    implementation(libs.moshi.adapters)
+    implementation(libs.retrofit.moshi)
 
+    kapt(libs.moshi.codegen)
 }
 kapt {
     correctErrorTypes = true
