@@ -103,20 +103,7 @@ fun SignInScreenContent(
         verticalArrangement = Arrangement.spacedBy(10.dp),
         horizontalAlignment = CenterHorizontally
     ) {
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Start
-        ) {
-            BackButton(
-                modifier = Modifier
-                    .clip(RoundedCornerShape(25.dp))
-                    .size(50.dp)
-            ) {
-                onBackClick()
-            }
-        }
-
+        Spacer(modifier = Modifier.height(100.dp))
         Image(
             painter = painterResource(R.drawable.img_logo),
             contentDescription = "Logo",

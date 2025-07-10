@@ -20,7 +20,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val signOutRepository: SignOutRepository
+    private val signOutRepository: SignOutRepository,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(SettingsUiStates())
     val uiState = _uiState.asStateFlow()
@@ -36,7 +36,7 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun signOut() {
+    private fun signOut() {
         viewModelScope.launch(Dispatchers.IO) {
             val token = UserUtil.getToken()
             signOutRepository.signOut(
@@ -46,8 +46,8 @@ class SettingsViewModel @Inject constructor(
                     is Resource.Success -> {
                         UserUtil.clearToken()
                         UserUtil.saveIsLogin(false)
-                        sendUiEvent(SettingsUiEvents.Navigate(AppDestination.Login))
                         sendUiEvent(SettingsUiEvents.ShowToast(UiText.DynamicString("Signed out successfully")))
+                        sendUiEvent(SettingsUiEvents.Navigate(AppDestination.Login))
                         _uiState.value = _uiState.value.copy(
                             isLoading = false
                         )

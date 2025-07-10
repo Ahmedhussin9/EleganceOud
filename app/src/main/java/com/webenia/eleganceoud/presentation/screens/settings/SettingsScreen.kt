@@ -39,9 +39,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.webenia.eleganceoud.presentation.composables.BackButton
+import com.webenia.eleganceoud.presentation.navigation.AppDestination
 import com.webenia.eleganceoud.ui.theme.CardGrey
-import com.webenia.eleganceoud.ui.theme.LightGrey
-import com.webenia.eleganceoud.ui.theme.MidGrey
 import com.webenia.eleganceoud.ui.theme.Primary
 
 @Composable
@@ -54,7 +53,11 @@ fun SettingsScreenSetup(
         viewModel.uiEvent.collect {
             when (it) {
                 is SettingsUiEvents.Navigate -> {
-                    navController.navigate(it.destination.route)
+                    navController.navigate(it.destination.route) {
+                        if (it.destination.route == AppDestination.Login.route) {
+                            popUpTo(0) { inclusive = true }
+                        }
+                    }
                 }
 
                 is SettingsUiEvents.ShowToast -> {

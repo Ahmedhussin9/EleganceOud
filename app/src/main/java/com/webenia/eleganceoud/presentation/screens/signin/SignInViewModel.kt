@@ -25,6 +25,7 @@ class SignInViewModel @Inject constructor(
 ) : ViewModel() {
     var uiState by mutableStateOf(SignInUiState())
         private set
+
     private var _uiEvent = MutableSharedFlow<SignInUiEvents>()
     val uiEvent = _uiEvent.asSharedFlow()
 
