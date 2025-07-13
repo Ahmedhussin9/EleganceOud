@@ -224,6 +224,7 @@ fun HomeScreenContent(
                 items(
                     state.latestProductsList.size,
                 ) { product ->
+                    Log.e("AHHHH", state.latestProductsList[product].toString(), )
                     ProductItem(
                         item = state.latestProductsList[product],
                         modifier = Modifier.clickable {
@@ -296,7 +297,7 @@ fun HomeScreenContentPreview() {
             id = 1,
             name = "Test",
             description = "",
-            price = "0.0",
+            price = 0.0,
             imageUrl = "",
             currencyCode = "",
             isAvailable = true
@@ -305,7 +306,7 @@ fun HomeScreenContentPreview() {
             id = 1,
             name = "Test",
             description = "",
-            price = "0.0",
+            price = 0.0,
             imageUrl = "",
             currencyCode = "",
             isAvailable = true

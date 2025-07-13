@@ -1,109 +1,128 @@
 package com.webenia.eleganceoud.data.remote.response.home.our_products
 
 import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+
+
 @JsonClass(generateAdapter = true)
 data class ProductsResponse(
-    val status: Boolean,
-    val message: String,
-    val data: List<Product>
+    @Json(name = "status") val status: Boolean? = null,
+    @Json(name = "message") val message: String? = null,
+    @Json(name = "data") val data: List<Product>? = null
 )
 
 @JsonClass(generateAdapter = true)
 data class Product(
-    val id: Int,
-    val name_ar: String,
-    val name_en: String,
-    val description_ar: String,
-    val description_en: String,
-    val price: String,
-    val is_available: Int,
-    val show_on_home_page: Int,
-    val category_id: Int?,
-    val currency_id: Int,
-    val country_id: Int,
-    val parent_id: Int?,
-    val created_at: String,
-    val updated_at: String,
-    val deleted_at: String?,
-    val converted_price: Double,
-    val currency_code: String,
-    val images: List<ProductImage> = emptyList(),
-    val currency: Currency,
-    val category: Category? = null,
-    val amounts: List<ProductAmount> = emptyList(),
-    val parent: ParentProduct? = null,
-    val discount: Any? = null
+    @Json(name = "id") val id: Int? = null,
+    @Json(name = "name_ar") val nameAr: String? = null,
+    @Json(name = "name_en") val nameEn: String? = null,
+    @Json(name = "description_ar") val descriptionAr: String? = null,
+    @Json(name = "description_en") val descriptionEn: String? = null,
+    @Json(name = "price") val price: String? = null,
+    @Json(name = "is_available") val isAvailable: Int? = null,
+    @Json(name = "show_on_home_page") val showOnHomePage: Int? = null,
+    @Json(name = "category_id") val categoryId: Int? = null,
+    @Json(name = "currency_id") val currencyId: Int? = null,
+    @Json(name = "country_id") val countryId: Int? = null,
+    @Json(name = "parent_id") val parentId: Int? = null,
+    @Json(name = "created_at") val createdAt: String? = null,
+    @Json(name = "updated_at") val updatedAt: String? = null,
+    @Json(name = "deleted_at") val deletedAt: String? = null,
+    @Json(name = "converted_price") val convertedPrice: Double? = null,
+    @Json(name = "currency_code") val currencyCode: String? = null,
+    @Json(name = "images") val images: List<ProductImage>? = null,
+    @Json(name = "currency") val currency: Currency? = null,
+    @Json(name = "category") val category: Category? = null,
+    @Json(name = "amounts") val amounts: List<ProductAmount>? = null,
+    @Json(name = "parent") val parent: ParentProduct? = null,
+    @Json(name = "discount") val discount: Discount? = null,
+    @Json(name = "convertedPrice") val convertedPricePascal: Double? = null,
+    @Json(name = "discounted_price") val priceAfterDiscount: Double? = null
 )
 
 @JsonClass(generateAdapter = true)
 data class ProductImage(
-    val id: Int,
-    val path: String,
-    val collection: String,
-    val mime_type: String?,
-    val size: Int,
-    val imageable_type: String,
-    val imageable_id: Int,
-    val created_at: String,
-    val updated_at: String
+    @Json(name = "id") val id: Int? = null,
+    @Json(name = "path") val path: String? = null,
+    @Json(name = "collection") val collection: String? = null,
+    @Json(name = "mime_type") val mimeType: String? = null,
+    @Json(name = "size") val size: Int? = null,
+    @Json(name = "imageable_type") val imageableType: String? = null,
+    @Json(name = "imageable_id") val imageableId: Int? = null,
+    @Json(name = "created_at") val createdAt: String? = null,
+    @Json(name = "updated_at") val updatedAt: String? = null
+)
+
+@JsonClass(generateAdapter = true)
+data class Discount(
+    @Json(name = "id") val id: Int? = null,
+    @Json(name = "startDate") val startDate: String? = null,
+    @Json(name = "duration") val duration: Int? = null,
+    @Json(name = "discount_value") val discountValue: String? = null,
+    @Json(name = "isActive") val isActive: Boolean? = null,
+    @Json(name = "productId") val productId: Int? = null,
+    @Json(name = "categoryId") val categoryId: Int? = null,
+    @Json(name = "endDate") val endDate: String? = null,
+    @Json(name = "createdAt") val createdAt: String? = null,
+    @Json(name = "updatedAt") val updatedAt: String? = null
 )
 
 @JsonClass(generateAdapter = true)
 data class Currency(
-    val id: Int,
-    val name_ar: String,
-    val name_en: String,
-    val code: String,
-    val exchange_rate: String,
-    val is_deleted: Boolean
+    @Json(name = "id") val id: Int? = null,
+    @Json(name = "name_ar") val nameAr: String? = null,
+    @Json(name = "name_en") val nameEn: String? = null,
+    @Json(name = "code") val code: String? = null,
+    @Json(name = "exchange_rate") val exchangeRate: String? = null,
+    @Json(name = "is_deleted") val isDeleted: Boolean? = null
 )
 
 @JsonClass(generateAdapter = true)
 data class Category(
-    val id: Int,
-    val name_en: String,
-    val name_ar: String,
-    val slug: String,
-    val description_en: String?,
-    val description_ar: String?,
-    val brand_id: Int,
-    val created_at: String,
-    val updated_at: String,
-    val deleted_at: String?,
-    val name: String,
-    val description: String?
+    @Json(name = "id") val id: Int? = null,
+    @Json(name = "name_en") val nameEn: String? = null,
+    @Json(name = "name_ar") val nameAr: String? = null,
+    @Json(name = "slug") val slug: String? = null,
+    @Json(name = "description_en") val descriptionEn: String? = null,
+    @Json(name = "description_ar") val descriptionAr: String? = null,
+    @Json(name = "brand_id") val brandId: Int? = null,
+    @Json(name = "created_at") val createdAt: String? = null,
+    @Json(name = "updated_at") val updatedAt: String? = null,
+    @Json(name = "deleted_at") val deletedAt: String? = null,
+    @Json(name = "name") val name: String? = null,
+    @Json(name = "description") val description: String? = null
 )
 
 @JsonClass(generateAdapter = true)
 data class ProductAmount(
-    val id: Int,
-    val price: String,
-    val product_id: Int,
-    val unit_id: Int,
-    val weight: Int,
-    val created_at: String,
-    val updated_at: String
+    @Json(name = "id") val id: Int? = null,
+    @Json(name = "price") val price: String? = null,
+    @Json(name = "product_id") val productId: Int? = null,
+    @Json(name = "unit_id") val unitId: Int? = null,
+    @Json(name = "weight") val weight: Int? = null,
+    @Json(name = "created_at") val createdAt: String? = null,
+    @Json(name = "updated_at") val updatedAt: String? = null
 )
 
 @JsonClass(generateAdapter = true)
 data class ParentProduct(
-    val id: Int,
-    val name_ar: String,
-    val name_en: String,
-    val description_ar: String,
-    val description_en: String,
-    val price: String,
-    val is_available: Int,
-    val show_on_home_page: Int,
-    val category_id: Int,
-    val currency_id: Int,
-    val country_id: Int,
-    val parent_id: Int?,
-    val created_at: String,
-    val updated_at: String,
-    val deleted_at: String?,
-    val converted_price: Double,
-    val currency_code: String,
-    val currency: Currency
+    @Json(name = "id") val id: Int? = null,
+    @Json(name = "name_ar") val nameAr: String? = null,
+    @Json(name = "name_en") val nameEn: String? = null,
+    @Json(name = "description_ar") val descriptionAr: String? = null,
+    @Json(name = "description_en") val descriptionEn: String? = null,
+    @Json(name = "price") val price: String? = null,
+    @Json(name = "is_available") val isAvailable: Int? = null,
+    @Json(name = "show_on_home_page") val showOnHomePage: Int? = null,
+    @Json(name = "category_id") val categoryId: Int? = null,
+    @Json(name = "currency_id") val currencyId: Int? = null,
+    @Json(name = "country_id") val countryId: Int? = null,
+    @Json(name = "parent_id") val parentId: Int? = null,
+    @Json(name = "created_at") val createdAt: String? = null,
+    @Json(name = "updated_at") val updatedAt: String? = null,
+    @Json(name = "deleted_at") val deletedAt: String? = null,
+    @Json(name = "converted_price") val convertedPrice: Double? = null,
+    @Json(name = "currency_code") val currencyCode: String? = null,
+    @Json(name = "currency") val currency: Currency? = null
 )

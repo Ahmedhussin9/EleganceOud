@@ -31,7 +31,7 @@ fun SplashScreenContent(
         onDone()
     }
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.background(Color.White).fillMaxSize(),
         horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally,
         verticalArrangement = androidx.compose.foundation.layout.Arrangement.Center
     ) {

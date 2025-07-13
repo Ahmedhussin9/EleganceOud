@@ -28,8 +28,8 @@ class ProductDetailsViewModel @Inject constructor(
     private fun getProductDetails() {
         viewModelScope.launch(Dispatchers.IO) {
             getProductDetailsRepository.getProductDetails(
-                productId = 57,
-                currency = "USD"
+                productId = 38,
+                currency = "AED"
             ).collect { state ->
                 when (state) {
                     is Resource.Loading -> {

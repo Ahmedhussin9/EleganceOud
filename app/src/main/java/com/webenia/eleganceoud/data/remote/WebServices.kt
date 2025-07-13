@@ -48,19 +48,29 @@ interface WebServices {
     ): Response<SubmitOtpResponse>
 
     @GET("api/website/products/section")
-    suspend fun getOurProducts(): Response<ProductsResponse>
+    suspend fun getOurProducts(
+        @Header("Currency") currency: String="AED",
+
+        ): Response<ProductsResponse>
 
     @GET("api/website")
     suspend fun getHomeCategories(): Response<CategoriesResponse>
 
     @GET("api/website/brands/section")
-    suspend fun getHomeBrands(): Response<HomeBrandsResponse>
+    suspend fun getHomeBrands(
+
+    ): Response<HomeBrandsResponse>
 
     @GET("api/website/best-selling/products")
-    suspend fun getHomeBestSellingProducts(): Response<HomeBestSellingResponse>
+    suspend fun getHomeBestSellingProducts(
+        @Header("Currency") currency: String="AED",
+
+        ): Response<HomeBestSellingResponse>
 
     @GET("api/website/latest/products")
-    suspend fun getHomeLatestProducts(): Response<HomeLatestProductsResponse>
+    suspend fun getHomeLatestProducts(
+        @Header("Currency") currency: String="AED",
+        ): Response<HomeLatestProductsResponse>
 
     @POST("api/logout")
     @Headers("Accept: application/json")

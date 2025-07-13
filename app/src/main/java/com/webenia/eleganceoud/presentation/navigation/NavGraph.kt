@@ -39,7 +39,7 @@ fun NavGraph(navController: NavHostController) {
     val scaleInOut =
         (scaleIn(initialScale = 0.8f) + fadeIn()).togetherWith(scaleOut(targetScale = 1.2f) + fadeOut())
 
-    NavHost(navController = navController, startDestination = AppDestination.ProductDetails.route,
+    NavHost(navController = navController, startDestination = AppDestination.Splash.route,
         enterTransition = {
             slideIn
         },
@@ -101,7 +101,7 @@ fun NavGraph(navController: NavHostController) {
             val email = backStackEntry.arguments?.getString("email") ?: ""
             OtpScreenSetup(email = email, navController = navController)
         }
-        composable(AppDestination.ProductDetails.route){
+        composable(AppDestination.ProductDetails.route) {
             ProductScreenSetup()
 
         }

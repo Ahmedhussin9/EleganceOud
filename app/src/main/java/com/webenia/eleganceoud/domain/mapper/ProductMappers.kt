@@ -5,42 +5,50 @@ import com.webenia.eleganceoud.domain.model.product.ProductUiModel
 
 fun Product.toUiModel(): ProductUiModel {
     return ProductUiModel(
-        id = id,
-        name = name_en,
-        description = description_en,
-        price = price,
-        imageUrl = images.firstOrNull()?.path,
-        currencyCode = currency.code,
-        isAvailable = is_available == 1,
-        parentName = parent?.name_en,
-        hasAmounts = amounts.isNotEmpty()
+        id = id?:-1,
+        name = nameEn?: "Product Name",
+        description = descriptionEn?:"Description",
+        price = convertedPrice?:0.0,
+        imageUrl = images?.firstOrNull()?.path,
+        currencyCode = currencyCode?:"AED",
+        isAvailable = isAvailable == 1,
+        parentName = parent?.nameEn,
+        hasAmounts = amounts?.isNotEmpty()?:false,
+        hasDiscount = discount != null,
+        discount = discount?.discountValue?.toDoubleOrNull(),
+        priceAfterDiscount = priceAfterDiscount?:0.0,
     )
 }
 
 fun com.webenia.eleganceoud.data.remote.response.home.best_sellings.Product.toUiModel(): ProductUiModel {
     return ProductUiModel(
-        id = id,
-        name = name_en,
-        description = description_en ?: "",
-        price = price,
+        id = id?:-1,
+        name = nameEn?: "Product Name",
+        description = descriptionEn?:"Description",
+        price = convertedPrice?:0.0,
         imageUrl = images?.firstOrNull()?.path,
-        currencyCode = currency.code,
-        isAvailable = is_available == 1,
-        parentName = null,
-        hasAmounts = false
+        currencyCode = currencyCode?:"AED",
+        isAvailable = isAvailable == 1,
+        parentName = parent?.nameEn,
+        hasAmounts = amounts?.isNotEmpty()?:false,
+        hasDiscount = discount != null,
+        discount = discount?.discountValue?.toDoubleOrNull(),
+        priceAfterDiscount = priceAfterDiscount?:0.0,
     )
 }
 
 fun com.webenia.eleganceoud.data.remote.response.home.latest_products.Product.toUiModel(): ProductUiModel =
     ProductUiModel(
-        id = id,
-        name = name_en,
-        description = description_en ?: "",
-        price = price,
+        id = id?:-1,
+        name = nameEn?: "Product Name",
+        description = descriptionEn?:"Description",
+        price = convertedPrice?:0.0,
         imageUrl = images?.firstOrNull()?.path,
-        currencyCode = currency.code,
-        isAvailable = is_available == 1,
-        parentName = null,
-        hasAmounts = false
-
-    )
+        currencyCode = currencyCode?:"AED",
+        isAvailable = isAvailable == 1,
+        parentName = parent?.nameEn,
+        hasAmounts = amounts?.isNotEmpty()?:false,
+        hasDiscount = discount != null,
+        discount = discount?.discountValue?.toDoubleOrNull(),
+        priceAfterDiscount = priceAfterDiscount?:0.0,
+        )

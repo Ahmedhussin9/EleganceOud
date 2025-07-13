@@ -23,6 +23,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.webenia.eleganceoud.domain.model.product.ProductDetailsUiModel
 import com.webenia.eleganceoud.presentation.composables.BackButton
 import com.webenia.eleganceoud.presentation.composables.SwipeImageSlider
+import com.webenia.eleganceoud.ui.theme.MidGrey
 import com.webenia.eleganceoud.ui.theme.Primary
 
 @Composable
@@ -84,6 +85,20 @@ fun ProductScreenContent(
             SwipeImageSlider(
                 images = state.productDetails?.imagesList ?: emptyList(),
             )
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(20.dp)
+            )
+            Text(
+                text = state.productDetails?.description ?: "",
+                fontSize = 14.sp,
+                maxLines = 10,
+                softWrap = true,
+                overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
+                color = MidGrey,
+                modifier = Modifier.fillMaxWidth()
+            )
         }
     }
 
@@ -97,13 +112,16 @@ fun ProductScreenContentPreview() {
             productDetails = ProductDetailsUiModel(
                 id = 1,
                 name = "Product Name",
-                description = "Product Description",
-                price = "100",
+                description = "Product Description Product Description Product Description Product Description Product Description Product Description ",
+                price = 100.0,
                 isAvailable = true,
                 mainImageUrl = "",
                 discount = "10",
                 amounts = emptyList(),
-                relatedProducts = emptyList()
+                relatedProducts = emptyList(),
+                imagesList = emptyList(),
+                priceAfterDiscount = 90.0,
+                currencyCode = "AED"
             )
         )
     )
