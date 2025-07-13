@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -68,38 +69,49 @@ fun ProductItem(
                     .fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) {
-                Text(
-                    text = item.name,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = item.name,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                    Spacer(
+                        modifier = Modifier.height(5.dp)
+                    )
+                    Box(
+                        modifier = Modifier
+                            .background(
+                                color = LightGreen,
+                                shape = RoundedCornerShape(8.dp)
+                            )
+                            .padding(
+                                horizontal = 6.dp,
+                                vertical = 2.dp
+                            )
+                    ) {
+                        Text(
+                            text = buildString {
+                                append(item.price)
+                                append(" ")
+                                append(item.currencyCode)
+                            },
+                            fontSize = 8.sp,
+                            fontWeight = FontWeight.Normal,
+                            color = Color.Black,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    }
+
+                }
 
             }
-            Box(
-                modifier = Modifier
-                    .background(LightGreen)
-                    .clip(RoundedCornerShape(5.dp)),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = buildString {
-                        append(item.price)
-                        append(" ")
-                        append(item.currencyCode)
-                    },
-                    modifier = Modifier.padding(
-                        horizontal = 2.dp,
-                    ),
-                    fontSize = 8.sp,
-                    fontWeight = FontWeight.Normal,
-                    color = Color.Black,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
-            }
-
         }
         if (!item.isAvailable) {
             Box(
@@ -120,6 +132,7 @@ fun ProductItem(
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
+
             }
 
         }
@@ -181,7 +194,7 @@ fun ProductItemPreview() {
             id = 1,
             name = "Test",
             description = "",
-            price = "0.0",
+            price = "99,8",
             imageUrl = "",
             currencyCode = "",
             isAvailable = false

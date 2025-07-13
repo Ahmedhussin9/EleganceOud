@@ -189,6 +189,7 @@ fun HomeScreenContent(
                     ProductItem(
                         item = state.ourProductsList[product],
                         modifier = Modifier.clickable {
+
                         }
                     )
                 }

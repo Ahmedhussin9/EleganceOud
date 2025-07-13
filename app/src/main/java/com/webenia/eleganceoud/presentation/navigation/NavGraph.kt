@@ -39,7 +39,7 @@ fun NavGraph(navController: NavHostController) {
     val scaleInOut =
         (scaleIn(initialScale = 0.8f) + fadeIn()).togetherWith(scaleOut(targetScale = 1.2f) + fadeOut())
 
-    NavHost(navController = navController, startDestination = AppDestination.Splash.route,
+    NavHost(navController = navController, startDestination = AppDestination.ProductDetails.route,
         enterTransition = {
             slideIn
         },
