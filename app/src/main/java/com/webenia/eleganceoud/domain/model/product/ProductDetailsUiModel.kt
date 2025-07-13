@@ -9,6 +9,7 @@ data class ProductDetailsUiModel(
     val price: Double,
     val isAvailable: Boolean,
     val mainImageUrl: String,
+    val hasAmount : Boolean,
     val discount: String?,
     val amounts: List<ProductAmountUiModel>,
     val relatedProducts: List<ProductDetailsUiModel> = emptyList(),

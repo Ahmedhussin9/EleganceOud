@@ -88,6 +88,7 @@ data class Amount(
     @Json(name = "weight") val weight: Int? = null,
     @Json(name = "created_at") val createdAt: String? = null,
     @Json(name = "updated_at") val updatedAt: String? = null,
+    @Json(name = "discounted_price") val discountedPrice: String? = null,
     @Json(name = "unit") val unit: UnitInfo? = null
 )
 

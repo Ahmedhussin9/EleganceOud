@@ -12,10 +12,12 @@ fun Product.toUiModel(): ProductDetailsUiModel {
         id = id ?: -1,
         name = nameEn ?: "Product Name", // or `nameAr` if using Arabic
         description = descriptionEn ?: "Description",
-        price = convertedPrice ?: 0.0,
+        price = if (
+            amounts.isNullOrEmpty()
+        ) amounts?.get(0)?.discountedPrice.toString().toDouble() else convertedPrice ?: 0.0,
         isAvailable = isAvailable == 1,
         mainImageUrl = images?.firstOrNull()?.let { BASE_IMAGE_URL + it.path } ?: "",
-        discount = discount?.discountValue?:"",
+        discount = discount?.discountValue ?: "",
         amounts = amounts?.map {
             ProductAmountUiModel(
                 weight = it.weight ?: -1,
@@ -23,8 +25,10 @@ fun Product.toUiModel(): ProductDetailsUiModel {
                 unit = it.unit?.nameEn ?: "Unit"
             )
         } ?: emptyList(),
-        currencyCode = currencyCode?:"AED",
-        priceAfterDiscount = priceAfterDiscount?:0.0,
+        hasAmount = !amounts.isNullOrEmpty(),
+        currencyCode = currencyCode ?: "AED",
+        priceAfterDiscount =  if (
+            amounts.isNullOrEmpty()) amounts?.get(0)?.discountedPrice.toString().toDouble() else convertedPrice ?: 0.0,
         relatedProducts = children?.map { it.toUiModel() } ?: emptyList(),
         imagesList = images?.map { BASE_IMAGE_URL + it.path } ?: emptyList())
 }
@@ -37,11 +41,12 @@ fun Child.toUiModel(): ProductDetailsUiModel {
         price = convertedPrice ?: 0.0,
         isAvailable = isAvailable == 1,
         mainImageUrl = images?.firstOrNull()?.let { BASE_IMAGE_URL + it.path } ?: "",
-        discount = discount?.discountValue?:"",
+        discount = discount?.discountValue ?: "",
         amounts = emptyList(),
         relatedProducts = emptyList(),
-        priceAfterDiscount = priceAfterDiscount?:0.0,
+        priceAfterDiscount = priceAfterDiscount ?: 0.0,
         imagesList = images?.map { BASE_IMAGE_URL + it.path } ?: emptyList(),
-        currencyCode = currencyCode?:"AED"
+        currencyCode = currencyCode ?: "AED",
+        hasAmount = false
     )
 }

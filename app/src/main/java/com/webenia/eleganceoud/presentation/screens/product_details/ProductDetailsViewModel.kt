@@ -25,10 +25,28 @@ class ProductDetailsViewModel @Inject constructor(
         getProductDetails()
     }
 
+    fun onEvent(event: ProductDetailsEvent) {
+        when (event) {
+            is ProductDetailsEvent.OnWeightSelected -> {
+                uiState = uiState.copy(
+                    selectedWeight = event.item,
+                    productDetails = uiState.productDetails?.copy(
+                        price = uiState.selectedWeight?.price?.toDouble() ?: 0.0,
+                        priceAfterDiscount = event.item.price.toDouble(),
+                    )
+                )
+            }
+
+            else -> {}
+        }
+    }
+
+
+    //38
     private fun getProductDetails() {
         viewModelScope.launch(Dispatchers.IO) {
             getProductDetailsRepository.getProductDetails(
-                productId = 38,
+                productId = 57,
                 currency = "AED"
             ).collect { state ->
                 when (state) {
@@ -37,7 +55,6 @@ class ProductDetailsViewModel @Inject constructor(
                     }
 
                     is Resource.Success -> {
-                        Log.e("amr", state.data?.data.toString(), )
                         uiState = uiState.copy(
                             isLoading = false,
                             productDetails = state.data?.data?.toUiModel()
