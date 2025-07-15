@@ -32,7 +32,7 @@ class ProductDetailsViewModel @Inject constructor(
                     selectedWeight = event.item,
                     productDetails = uiState.productDetails?.copy(
                         price = uiState.selectedWeight?.price?.toDouble() ?: 0.0,
-                        priceAfterDiscount = event.item.price.toDouble(),
+                        priceAfterDiscount = uiState.selectedWeight?.priceAfter?.toDouble() ?: 0.0,
                     )
                 )
             }
@@ -42,12 +42,12 @@ class ProductDetailsViewModel @Inject constructor(
     }
 
 
-    //38
+    //38 57
     private fun getProductDetails() {
         viewModelScope.launch(Dispatchers.IO) {
             getProductDetailsRepository.getProductDetails(
                 productId = 57,
-                currency = "AED"
+                currency = "USD"
             ).collect { state ->
                 when (state) {
                     is Resource.Loading -> {

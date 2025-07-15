@@ -9,12 +9,12 @@ data class ProductDetailsUiModel(
     val price: Double,
     val isAvailable: Boolean,
     val mainImageUrl: String,
-    val hasAmount : Boolean,
+    val hasAmount: Boolean,
     val discount: String?,
     val amounts: List<ProductAmountUiModel>,
-    val relatedProducts: List<ProductDetailsUiModel> = emptyList(),
+    val relatedProducts: List<ProductUiModel> = emptyList(),
     val parentProduct: ParentProduct? = null,
-    val imagesList : List<String> = emptyList(),
+    val imagesList: List<String> = emptyList(),
     val priceAfterDiscount: Double,
     val currencyCode: String
 )
@@ -22,6 +22,7 @@ data class ProductDetailsUiModel(
 data class ProductAmountUiModel(
     val weight: Int,
     val price: String,
+    val priceAfter: String?,
     val unit: String
 )
 

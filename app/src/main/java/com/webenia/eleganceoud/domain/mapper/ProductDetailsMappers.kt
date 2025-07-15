@@ -1,6 +1,7 @@
 package com.webenia.eleganceoud.domain.mapper
 
 import Child
+import ParentProduct
 import Product
 import com.elegance_oud.util.BASE_IMAGE_URL
 import com.webenia.eleganceoud.domain.model.product.ProductAmountUiModel
@@ -10,43 +11,57 @@ import com.webenia.eleganceoud.domain.model.product.ProductUiModel
 fun Product.toUiModel(): ProductDetailsUiModel {
     return ProductDetailsUiModel(
         id = id ?: -1,
-        name = nameEn ?: "Product Name", // or `nameAr` if using Arabic
+        name = nameEn ?: "Product Name",
         description = descriptionEn ?: "Description",
-        price = if (
-            amounts.isNullOrEmpty()
-        ) amounts?.get(0)?.discountedPrice.toString().toDouble() else convertedPrice ?: 0.0,
+        price = (if (amounts.isNullOrEmpty()) convertedPrice else amounts[0].product?.convertedPrice)
+            ?: 0.0,
         isAvailable = isAvailable == 1,
         mainImageUrl = images?.firstOrNull()?.let { BASE_IMAGE_URL + it.path } ?: "",
         discount = discount?.discountValue ?: "",
         amounts = amounts?.map {
             ProductAmountUiModel(
                 weight = it.weight ?: -1,
-                price = it.price ?: "",
+                price = it.product?.convertedPrice.toString(),
+                priceAfter = it.discountedPrice,
                 unit = it.unit?.nameEn ?: "Unit"
             )
         } ?: emptyList(),
         hasAmount = !amounts.isNullOrEmpty(),
         currencyCode = currencyCode ?: "AED",
-        priceAfterDiscount =  if (
-            amounts.isNullOrEmpty()) amounts?.get(0)?.discountedPrice.toString().toDouble() else convertedPrice ?: 0.0,
-        relatedProducts = children?.map { it.toUiModel() } ?: emptyList(),
+        priceAfterDiscount = (if (amounts.isNullOrEmpty()) priceAfterDiscount else amounts[0].product?.priceAfterDiscount)
+            ?: 0.0,
+        relatedProducts = if (!children.isNullOrEmpty()) children.map { it.toUiModel() } else if (parent != null) listOf(
+            parent.toUiModel()
+        ) else
+            emptyList(),
+        parentProduct = parent,
         imagesList = images?.map { BASE_IMAGE_URL + it.path } ?: emptyList())
 }
 
-fun Child.toUiModel(): ProductDetailsUiModel {
-    return ProductDetailsUiModel(
+fun Child.toUiModel(): ProductUiModel {
+    return ProductUiModel(
         id = id ?: -1,
         name = nameEn ?: "Product Name", // or `nameAr` if using Arabic
         description = descriptionEn ?: "Description",
         price = convertedPrice ?: 0.0,
         isAvailable = isAvailable == 1,
-        mainImageUrl = images?.firstOrNull()?.let { BASE_IMAGE_URL + it.path } ?: "",
-        discount = discount?.discountValue ?: "",
-        amounts = emptyList(),
-        relatedProducts = emptyList(),
+        discount = discount?.discountValue?.toDoubleOrNull() ?: 0.0,
         priceAfterDiscount = priceAfterDiscount ?: 0.0,
-        imagesList = images?.map { BASE_IMAGE_URL + it.path } ?: emptyList(),
         currencyCode = currencyCode ?: "AED",
-        hasAmount = false
+        imageUrl = images?.firstOrNull()?.let { BASE_IMAGE_URL + it.path } ?: "",
     )
+}
+
+fun ParentProduct.toUiModel(): ProductUiModel {
+    return ProductUiModel(
+        id = id ?: -1,
+        name = nameEn ?: "Product Name", // or `nameAr` if using Arabic
+        description = descriptionEn ?: "Description",
+        price = convertedPrice ?: 0.0,
+        isAvailable = isAvailable == 1,
+        currencyCode = currencyCode ?: "AED",
+        imageUrl = image,
+    )
+
+
 }

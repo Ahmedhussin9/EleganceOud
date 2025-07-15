@@ -2,7 +2,6 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 
-
 @JsonClass(generateAdapter = true)
 data class ProductDetailsResponse(
     @Json(name = "status") val status: Boolean? = null,
@@ -89,9 +88,38 @@ data class Amount(
     @Json(name = "created_at") val createdAt: String? = null,
     @Json(name = "updated_at") val updatedAt: String? = null,
     @Json(name = "discounted_price") val discountedPrice: String? = null,
+    @Json(name = "product") val product: AmountProductItem? = null,
     @Json(name = "unit") val unit: UnitInfo? = null
 )
+@JsonClass(generateAdapter = true)
+data class AmountProductItem(
+    @Json(name = "id") val id: Int? = null,
+    @Json(name = "name_ar") val nameAr: String? = null,
+    @Json(name = "name_en") val nameEn: String? = null,
+    @Json(name = "description_ar") val descriptionAr: String? = null,
+    @Json(name = "description_en") val descriptionEn: String? = null,
+    @Json(name = "price") val price: String? = null,
+    @Json(name = "is_available") val isAvailable: Int? = null,
+    @Json(name = "show_on_home_page") val showOnHomePage: Int? = null,
+    @Json(name = "category_id") val categoryId: Int? = null,
+    @Json(name = "currency_id") val currencyId: Int? = null,
+    @Json(name = "country_id") val countryId: Int? = null,
+    @Json(name = "parent_id") val parentId: Int? = null,
+    @Json(name = "created_at") val createdAt: String? = null,
+    @Json(name = "updated_at") val updatedAt: String? = null,
+    @Json(name = "deleted_at") val deletedAt: String? = null,
+    @Json(name = "converted_price") val convertedPrice: Double? = null,
+    @Json(name = "currency_code") val currencyCode: String? = null,
+    @Json(name = "images") val images: List<ProductImage>? = null,
+    @Json(name = "currency") val currency: Currency? = null,
+    @Json(name = "category") val category: Category? = null,
+    @Json(name = "amounts") val amounts: List<Amount>? = null,
+    @Json(name = "discount") val discount: Discount? = null,
+    @Json(name = "parent") val parent: ParentProduct? = null,
+    @Json(name = "children") val children: List<Child>? = null,
+    @Json(name = "discounted_price") val priceAfterDiscount: Double? = null,
 
+    )
 @JsonClass(generateAdapter = true)
 data class UnitInfo(
     @Json(name = "id") val id: Int? = null,
@@ -135,7 +163,8 @@ data class ParentProduct(
     @Json(name = "deleted_at") val deletedAt: String? = null,
     @Json(name = "converted_price") val convertedPrice: Double? = null,
     @Json(name = "currency_code") val currencyCode: String? = null,
-    @Json(name = "currency") val currency: Currency? = null
+    @Json(name = "currency") val currency: Currency? = null,
+    @Json(name = "images") val image: String? = null,
 )
 
 @JsonClass(generateAdapter = true)
@@ -162,7 +191,7 @@ data class Child(
     @Json(name = "currency") val currency: CurrencyChild? = null,
     @Json(name = "discounted_price") val priceAfterDiscount: Double? = null,
     @Json(name = "discount") val discount: Discount? = null
-    )
+)
 
 @JsonClass(generateAdapter = true)
 data class Image(

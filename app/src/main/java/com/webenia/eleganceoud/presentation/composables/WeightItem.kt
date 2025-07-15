@@ -30,7 +30,7 @@ fun WeightItem(
         onClick = { onClick() }
     ) {
         Text(
-            text = "${item.weight} ${item.unit} for ${item.price}",
+            text = "${item.weight} ${item.unit} for ${item.priceAfter}",
             color = if (isSelected) Color.White else Color.Black,
             maxLines = 1,
             softWrap = true,
@@ -48,6 +48,7 @@ fun WeightItemPreview() {
     val item = ProductAmountUiModel(
         weight = 100,
         price = "100",
+        priceAfter = "90",
         unit = "kg"
     )
     WeightItem(
