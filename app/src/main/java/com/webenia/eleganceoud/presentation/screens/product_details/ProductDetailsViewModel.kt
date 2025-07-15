@@ -9,8 +9,14 @@ import androidx.lifecycle.viewModelScope
 import com.elegance_oud.util.state.Resource
 import com.webenia.eleganceoud.domain.mapper.toUiModel
 import com.webenia.eleganceoud.domain.repository.product.GetProductDetailsRepository
+import com.webenia.eleganceoud.presentation.navigation.AppDestination
+import com.webenia.eleganceoud.presentation.screens.home.HomeUiEvents
+import com.webenia.eleganceoud.presentation.screens.signin.SignInUiEvents
+import com.webenia.eleganceoud.util.state.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,9 +27,9 @@ class ProductDetailsViewModel @Inject constructor(
     var uiState by mutableStateOf(ProductDetailsUiState())
         private set
 
-    init {
-        getProductDetails()
-    }
+    private var _uiEvent = MutableSharedFlow<ProductDetailsUiEvents>()
+    val uiEvent = _uiEvent.asSharedFlow()
+
 
     fun onEvent(event: ProductDetailsEvent) {
         when (event) {
@@ -37,16 +43,42 @@ class ProductDetailsViewModel @Inject constructor(
                 )
             }
 
-            else -> {}
+            is ProductDetailsEvent.GetProductDetails -> {
+
+                getProductDetails(
+                    productId = event.productId
+                )
+
+            }
+
+            is ProductDetailsEvent.AddToCart -> {
+                // Add to cart logic
+            }
+
+            is ProductDetailsEvent.OnBackClick -> {
+                viewModelScope.launch {
+                    sendUiEvent(ProductDetailsUiEvents.BackClicked)
+                }
+            }
+
+            is ProductDetailsEvent.ProductClicked -> {
+
+                viewModelScope.launch {
+                    sendUiEvent(ProductDetailsUiEvents.Navigate(AppDestination.ProductDetails(event.productId)))
+                }
+            }
+
         }
     }
 
 
     //38 57
-    private fun getProductDetails() {
+    private fun getProductDetails(
+        productId: Int
+    ) {
         viewModelScope.launch(Dispatchers.IO) {
             getProductDetailsRepository.getProductDetails(
-                productId = 57,
+                productId = productId,
                 currency = "USD"
             ).collect { state ->
                 when (state) {
@@ -60,15 +92,27 @@ class ProductDetailsViewModel @Inject constructor(
                             productDetails = state.data?.data?.toUiModel()
                         )
 
+
                     }
 
                     is Resource.Error -> {
                         uiState = uiState.copy(isLoading = false)
+                        sendUiEvent(
+                            ProductDetailsUiEvents.ShowToast(
+                                state.message ?: UiText.DynamicString(
+                                    "Something went wrong"
+                                )
+                            )
+                        )
                     }
 
                 }
             }
 
         }
+    }
+
+    private suspend fun sendUiEvent(event: ProductDetailsUiEvents) {
+        _uiEvent.emit(event)
     }
 }

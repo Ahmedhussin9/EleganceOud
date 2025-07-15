@@ -41,6 +41,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.webenia.eleganceoud.R
 import com.webenia.eleganceoud.domain.model.product.ProductUiModel
 import com.webenia.eleganceoud.presentation.composables.BrandItem
@@ -49,13 +50,16 @@ import com.webenia.eleganceoud.presentation.composables.CategoryItemPreview
 import com.webenia.eleganceoud.presentation.composables.LoadingOverlay
 import com.webenia.eleganceoud.presentation.composables.ProductItem
 import com.webenia.eleganceoud.presentation.composables.TopBar
+import com.webenia.eleganceoud.presentation.navigation.AppDestination
 import com.webenia.eleganceoud.ui.theme.Primary
 
 
 @Composable
 fun HomeScreenSetup(
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: HomeViewModel = hiltViewModel(),
+    navController: NavController
 ) {
+
     val context = LocalContext.current
     LaunchedEffect(true) {
         viewModel.getHome()
@@ -66,18 +70,32 @@ fun HomeScreenSetup(
                         .show()
                 }
 
+                is HomeUiEvents.Navigate -> {
+                    when (val destination = event.destination) {
+                        is AppDestination.ProductDetails -> navController.navigate(
+                            destination.createRoute(
+                                destination.productId
+                            )
+                        )
+
+                        else -> navController.navigate(destination.route)
+                    }
+                }
+
                 else -> Unit
             }
         }
     }
     HomeScreenContent(
-        state = viewModel.uiState
+        state = viewModel.uiState,
+        onEvent = viewModel::onEvent
     )
 }
 
 @Composable
 fun HomeScreenContent(
     state: HomeUiState,
+    onEvent: (HomeEvents) -> Unit
 ) {
 
     val context = LocalContext.current
@@ -189,7 +207,7 @@ fun HomeScreenContent(
                     ProductItem(
                         item = state.ourProductsList[product],
                         modifier = Modifier.clickable {
-
+                            onEvent(HomeEvents.ProductClicked(state.ourProductsList[product]))
                         }
                     )
                 }
@@ -224,10 +242,11 @@ fun HomeScreenContent(
                 items(
                     state.latestProductsList.size,
                 ) { product ->
-                    Log.e("AHHHH", state.latestProductsList[product].toString(), )
+                    Log.e("AHHHH", state.latestProductsList[product].toString())
                     ProductItem(
                         item = state.latestProductsList[product],
                         modifier = Modifier.clickable {
+                            onEvent(HomeEvents.ProductClicked(state.latestProductsList[product]))
                         }
                     )
                 }
@@ -279,6 +298,7 @@ fun HomeScreenContent(
                     ProductItem(
                         item = state.bestSellingList[item],
                         modifier = Modifier.clickable {
+                            onEvent(HomeEvents.ProductClicked(state.bestSellingList[item]))
                         }
                     )
                 }
@@ -316,7 +336,9 @@ fun HomeScreenContentPreview() {
     HomeScreenContent(
         state = HomeUiState(
             ourProductsList = list,
-            isLoading = true
-        )
+            isLoading = true,
+
+            ),
+        onEvent = {}
     )
 }

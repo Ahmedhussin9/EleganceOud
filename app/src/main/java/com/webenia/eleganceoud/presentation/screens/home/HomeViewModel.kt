@@ -13,6 +13,7 @@ import com.webenia.eleganceoud.domain.repository.home.GetHomeBrandsRepository
 import com.webenia.eleganceoud.domain.repository.home.GetCategoriesRepository
 import com.webenia.eleganceoud.domain.repository.home.GetHomeLatestProductsRepository
 import com.webenia.eleganceoud.domain.repository.home.GetOurProductsRepository
+import com.webenia.eleganceoud.presentation.navigation.AppDestination
 import com.webenia.eleganceoud.util.state.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -34,6 +35,9 @@ class HomeViewModel @Inject constructor(
 
     private var _uiEvent = MutableSharedFlow<HomeUiEvents>()
     val uiEvent = _uiEvent.asSharedFlow()
+
+
+
     fun getHome() {
         getOurProducts()
         getHomeCategories()
@@ -42,7 +46,22 @@ class HomeViewModel @Inject constructor(
         getHomeLatestProducts()
     }
 
-
+    fun onEvent(
+        event: HomeEvents
+    ){
+        when(event){
+            is HomeEvents.ProductClicked -> {
+                viewModelScope.launch {
+                    sendUiEvent(HomeUiEvents.Navigate(AppDestination.ProductDetails(event.product.id)))
+                }
+            }
+            is HomeEvents.CategoryClicked -> {
+                viewModelScope.launch {
+                    sendUiEvent(HomeUiEvents.Navigate(AppDestination.Category))
+                }
+            }
+        }
+    }
     private fun areAllRequestsDone(state: HomeUiState): Boolean {
         return state.ourProductsDone &&
                 state.categoriesDone &&

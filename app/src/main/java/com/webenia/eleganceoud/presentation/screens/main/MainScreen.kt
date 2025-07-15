@@ -122,7 +122,9 @@ fun MainScreenContent(
                 startDestination = "home",
                 modifier = Modifier.fillMaxSize(),
             ) {
-                composable("home") { HomeScreenSetup() }
+                composable("home") { HomeScreenSetup(
+                    navController = navController
+                ) }
                 composable("category") {
                     CategoryScreenSetup(
                         navController = navHostController
