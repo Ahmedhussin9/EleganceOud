@@ -28,4 +28,8 @@ sealed class AppDestination(
     data class ProductDetails(val productId: Int) : AppDestination("product_details/{productId}") {
         fun createRoute(productId: Int) = "product_details/$productId"
     }
+
+    data class CategoryProduct( val categoryId: Int) : AppDestination("category_products/{categoryId}"){
+        fun createRoute(categoryId: Int) = "category_products/$categoryId"
+    }
 }

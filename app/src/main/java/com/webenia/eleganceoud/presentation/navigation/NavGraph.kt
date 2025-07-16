@@ -19,6 +19,7 @@ import com.elegance_oud.util.UserUtil
 import com.webenia.eleganceoud.presentation.screens.favorite.FavoriteScreenSetup
 import com.webenia.eleganceoud.presentation.screens.cart.CartScreenSetup
 import com.webenia.eleganceoud.presentation.screens.category.CategoryScreenSetup
+import com.webenia.eleganceoud.presentation.screens.category_products.CategoryProductsSetup
 import com.webenia.eleganceoud.presentation.screens.home.HomeScreenSetup
 import com.webenia.eleganceoud.presentation.screens.main.MainScreenEntryPoint
 import com.webenia.eleganceoud.presentation.screens.on_boarding.OnBoardingScreenSetup
@@ -39,7 +40,8 @@ fun NavGraph(navController: NavHostController) {
     val scaleInOut =
         (scaleIn(initialScale = 0.8f) + fadeIn()).togetherWith(scaleOut(targetScale = 1.2f) + fadeOut())
 
-    NavHost(navController = navController, startDestination = AppDestination.Splash.route,
+    NavHost(navController = navController,
+        startDestination = AppDestination.CategoryProduct(0).route,
         enterTransition = {
             slideIn
         },
@@ -108,9 +110,16 @@ fun NavGraph(navController: NavHostController) {
             arguments = listOf(navArgument("productId") { type = NavType.IntType })
         ) {
             val productId = it.arguments?.getInt("productId") ?: -1
-            ProductScreenSetup(productId = productId,navController = navController, onBackClick = {
+            ProductScreenSetup(productId = productId, navController = navController, onBackClick = {
                 navController.popBackStack()
             })
+        }
+        composable(
+            route = AppDestination.CategoryProduct(categoryId = 0).route,
+            arguments = listOf(navArgument("categoryId") { type = NavType.IntType })
+        ) {
+            val categoryId = it.arguments?.getInt("categoryId") ?: -1
+            CategoryProductsSetup(navController = navController, categoryId = categoryId)
         }
     }
 

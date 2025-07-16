@@ -10,6 +10,7 @@ import com.webenia.eleganceoud.data.remote.response.auth.otp.ResendOtpResponse
 import com.webenia.eleganceoud.data.remote.response.auth.otp.SubmitOtpResponse
 import com.webenia.eleganceoud.data.remote.response.auth.signout.SignOutResponse
 import com.webenia.eleganceoud.data.remote.response.auth.signup.RegisterResponse
+import com.webenia.eleganceoud.data.remote.response.category_product.CategoryProductResponse
 import com.webenia.eleganceoud.data.remote.response.home.best_sellings.HomeBestSellingResponse
 import com.webenia.eleganceoud.data.remote.response.home.brands.HomeBrandsResponse
 import com.webenia.eleganceoud.data.remote.response.home.category.CategoriesResponse
@@ -22,7 +23,6 @@ import retrofit2.http.Header
 import retrofit2.http.Headers
 import retrofit2.http.POST
 import retrofit2.http.Path
-import retrofit2.http.Query
 
 interface WebServices {
     @POST("api/clients/register")
@@ -84,4 +84,12 @@ interface WebServices {
         @Header("Currency") currency: String,
         @Path("product_id") productId: Int
     ): Response<ProductResponse>
+
+
+    @GET("api/website/category/{category_id}")
+    @Headers("Accept: application/json")
+    suspend fun getCategoryProducts(
+        @Header("Currency") currency: String,
+        @Path("category_id") categoryId: Int
+    ):Response<CategoryProductResponse>
 }
