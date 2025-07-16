@@ -57,7 +57,7 @@ class HomeViewModel @Inject constructor(
             }
             is HomeEvents.CategoryClicked -> {
                 viewModelScope.launch {
-                    sendUiEvent(HomeUiEvents.Navigate(AppDestination.Category))
+                    sendUiEvent(HomeUiEvents.Navigate(AppDestination.CategoryProduct(event.category.id)))
                 }
             }
         }

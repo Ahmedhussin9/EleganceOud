@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.elegance_oud.util.state.Resource
 import com.webenia.eleganceoud.domain.mapper.toUiModel
 import com.webenia.eleganceoud.domain.repository.home.GetCategoriesRepository
+import com.webenia.eleganceoud.presentation.navigation.AppDestination
 import com.webenia.eleganceoud.presentation.screens.home.HomeUiEvents
 import com.webenia.eleganceoud.util.state.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -31,20 +32,37 @@ class CategoryViewModel @Inject constructor(
     init {
         getCategories()
     }
+
+    fun onEvent(event: CategoryEvent) {
+        when (event) {
+            is CategoryEvent.OnCategoryClicked -> {
+                viewModelScope.launch {
+                    sendUiEvent(CategoryUiEvents.Navigate(AppDestination.CategoryProduct(event.category.id)))
+                }
+            }
+        }
+    }
+
     private fun getCategories() {
         viewModelScope.launch(Dispatchers.IO) {
             repository.getCategories().collect { categoriesResource ->
                 when (categoriesResource) {
                     is Resource.Success -> {
                         uiState = uiState.copy(
-                            categoriesList = categoriesResource.data?.data?.map { it.toUiModel() } ?: emptyList(),
+                            categoriesList = categoriesResource.data?.data?.map { it.toUiModel() }
+                                ?: emptyList(),
                             isLoading = false
                         )
                     }
 
                     is Resource.Error -> {
                         uiState = uiState.copy(error = categoriesResource.message)
-                        sendUiEvent(CategoryUiEvents.ShowToast(categoriesResource.message?: UiText.DynamicString("Try again later")))
+                        sendUiEvent(
+                            CategoryUiEvents.ShowToast(
+                                categoriesResource.message
+                                    ?: UiText.DynamicString("Try again later")
+                            )
+                        )
                     }
 
                     is Resource.Loading -> {
@@ -55,6 +73,7 @@ class CategoryViewModel @Inject constructor(
         }
 
     }
+
     private suspend fun sendUiEvent(event: CategoryUiEvents) {
         _uiEvent.emit(event)
     }

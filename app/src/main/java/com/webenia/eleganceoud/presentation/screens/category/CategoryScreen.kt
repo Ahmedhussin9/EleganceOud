@@ -1,6 +1,7 @@
 package com.webenia.eleganceoud.presentation.screens.category
 
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -25,6 +26,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.webenia.eleganceoud.presentation.composables.CategoryItem
 import com.webenia.eleganceoud.presentation.composables.CategoryItemShimmer
+import com.webenia.eleganceoud.presentation.navigation.AppDestination
+import com.webenia.eleganceoud.presentation.screens.home.HomeEvents
 import com.webenia.eleganceoud.ui.theme.Primary
 
 
@@ -38,6 +41,12 @@ fun CategoryScreenSetup(
         viewModel.uiEvent.collect { event ->
             when (event) {
                 is CategoryUiEvents.Navigate -> {
+                    when (val destination = event.destination) {
+                        is AppDestination.CategoryProduct ->
+                            navController.navigate(destination.createRoute(destination.categoryId)
+                            )
+                        else -> navController.navigate(destination.route)
+                    }
 
                 }
 
@@ -51,14 +60,15 @@ fun CategoryScreenSetup(
         }
     }
     CategoryScreenContent(
-        state = viewModel.uiState
+        state = viewModel.uiState,
+        onEvent = viewModel::onEvent
     )
 }
 
 @Composable
 fun CategoryScreenContent(
     state: CategoryUiState,
-    onEvent: (CategoryEvent) -> Unit = {},
+    onEvent: (CategoryEvent) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -89,13 +99,12 @@ fun CategoryScreenContent(
                 verticalArrangement = Arrangement.spacedBy(10.dp),
                 horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                items(state.categoriesList.size) { index ->
+                items(state.categoriesList.size) { item ->
                     CategoryItem(
-                        item = state.categoriesList[index],
-                        onClick = {
-                            onEvent.invoke(
-                                CategoryEvent.onCategoryClicked(state.categoriesList[index])
-                            )
+                        item = state.categoriesList[item]
+                        , onClick = {
+                            onEvent(CategoryEvent.OnCategoryClicked(state.categoriesList[item]))
+
                         }
                     )
                 }
@@ -123,6 +132,7 @@ fun CategoryShimmerEffect() {
 @Preview(showBackground = true, showSystemUi = true)
 fun PreviewCategoryScreen() {
     CategoryScreenContent(
-        state = CategoryUiState()
+        state = CategoryUiState(),
+        onEvent = { }
     )
 }

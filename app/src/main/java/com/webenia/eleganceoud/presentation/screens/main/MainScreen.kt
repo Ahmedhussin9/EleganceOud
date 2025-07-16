@@ -127,7 +127,7 @@ fun MainScreenContent(
                 ) }
                 composable("category") {
                     CategoryScreenSetup(
-                        navController = navHostController
+                        navController = navController
                     )
                 }
                 composable("cart") { CartScreenSetup() }

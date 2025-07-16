@@ -1,5 +1,6 @@
 package com.webenia.eleganceoud.presentation.composables
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,18 +29,22 @@ import com.webenia.eleganceoud.ui.theme.CardGrey
 
 @Composable
 fun CategoryItem(
+    modifier: Modifier = Modifier,
     item: CategoryUiModel,
-    onClick: () -> Unit = {}
+    onClick: () -> Unit
 ) {
     Card(
-        modifier = Modifier
+        modifier = modifier
             .clip(
                 RoundedCornerShape(
                     size = 10.dp
                 )
             )
             .height(160.dp)
-            .width(140.dp), colors = CardDefaults.cardColors(
+            .width(140.dp)
+            .clickable{
+                onClick()
+            }, colors = CardDefaults.cardColors(
             containerColor = CardGrey
         ), elevation = CardDefaults.cardElevation(10.dp)
     ) {
@@ -121,5 +126,6 @@ fun CategoryItemPreview() {
             name = "Test",
             imageUrl = ""
         )
+        , onClick = {}
     )
 }

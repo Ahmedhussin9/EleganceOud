@@ -72,12 +72,12 @@ fun HomeScreenSetup(
 
                 is HomeUiEvents.Navigate -> {
                     when (val destination = event.destination) {
-                        is AppDestination.ProductDetails -> navController.navigate(
-                            destination.createRoute(
-                                destination.productId
-                            )
+                        is AppDestination.ProductDetails ->
+                            navController.navigate(destination.createRoute(destination.productId)
                         )
-
+                        is AppDestination.CategoryProduct ->
+                            navController.navigate(destination.createRoute(destination.categoryId)
+                        )
                         else -> navController.navigate(destination.route)
                     }
                 }
@@ -142,6 +142,10 @@ fun HomeScreenContent(
                 items(state.categoriesList.size) { item ->
                     CategoryItem(
                         item = state.categoriesList[item]
+                        , onClick = {
+                            onEvent(HomeEvents.CategoryClicked(state.categoriesList[item]))
+
+                        }
                     )
                 }
             }

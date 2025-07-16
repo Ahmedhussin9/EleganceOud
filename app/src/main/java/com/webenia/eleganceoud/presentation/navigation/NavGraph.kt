@@ -41,7 +41,7 @@ fun NavGraph(navController: NavHostController) {
         (scaleIn(initialScale = 0.8f) + fadeIn()).togetherWith(scaleOut(targetScale = 1.2f) + fadeOut())
 
     NavHost(navController = navController,
-        startDestination = AppDestination.CategoryProduct(0).route,
+        startDestination = AppDestination.Splash.route,
         enterTransition = {
             slideIn
         },
@@ -119,7 +119,10 @@ fun NavGraph(navController: NavHostController) {
             arguments = listOf(navArgument("categoryId") { type = NavType.IntType })
         ) {
             val categoryId = it.arguments?.getInt("categoryId") ?: -1
-            CategoryProductsSetup(navController = navController, categoryId = categoryId)
+            CategoryProductsSetup(navController = navController, categoryId = categoryId,
+                onBackClick = {
+                    navController.popBackStack()
+                })
         }
     }
 

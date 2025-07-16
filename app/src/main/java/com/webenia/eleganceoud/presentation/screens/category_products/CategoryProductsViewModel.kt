@@ -22,12 +22,6 @@ class CategoryProductsViewModel @Inject constructor(
         private set
 
 
-    init {
-        getCategoryProducts(
-            categoryId = 16,
-            currency = "AED"
-        )
-    }
     fun getCategoryProducts(
         categoryId: Int,
         currency: String
