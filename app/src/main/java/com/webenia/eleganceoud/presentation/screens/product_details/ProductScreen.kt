@@ -25,11 +25,15 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Card
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Replay
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -50,6 +54,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource.Companion.SideEffect
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration.Companion.LineThrough
@@ -66,8 +71,8 @@ import com.webenia.eleganceoud.presentation.composables.AddToCartRow
 import com.webenia.eleganceoud.presentation.composables.BackButton
 import com.webenia.eleganceoud.presentation.composables.ExpandableText
 import com.webenia.eleganceoud.presentation.composables.ProductItem
-import com.webenia.eleganceoud.presentation.composables.ShimmerEffect
 import com.webenia.eleganceoud.presentation.composables.SwipeImageSlider
+import com.webenia.eleganceoud.presentation.composables.ToggleHeartIcon
 import com.webenia.eleganceoud.presentation.composables.WeightItem
 import com.webenia.eleganceoud.presentation.navigation.AppDestination
 import com.webenia.eleganceoud.ui.theme.MidGrey
@@ -88,9 +93,7 @@ fun ProductScreenSetup(
                     when (val destination = event.destination) {
                         is AppDestination.ProductDetails -> navController.navigate(
                             destination.createRoute(destination.productId)
-                        ) {
-                            launchSingleTop = true
-                        }
+                        )
 
                         else -> navController.navigate(destination.route)
 
@@ -102,8 +105,10 @@ fun ProductScreenSetup(
                 }
 
                 is ProductDetailsUiEvents.ShowToast -> {
-                    Toast.makeText(context,
-                        event.message.asString(context), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        event.message.asString(context), Toast.LENGTH_SHORT
+                    ).show()
                 }
 
             }
@@ -128,14 +133,16 @@ fun ProductScreenContent(
     state: ProductDetailsUiState,
     onEvent: (ProductDetailsEvent) -> Unit
 ) {
+
+
     var selectedIndex by remember { mutableIntStateOf(0) }
-    if (state.isLoading){
+    if (state.isLoading) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
 
-        ){
+        ) {
             ProductDetailsShimmer()
         }
     } else {
@@ -191,7 +198,13 @@ fun ProductScreenContent(
                         Row {
                             Text(
                                 text = buildString {
-                                    append(state.productDetails?.price.toString())
+                                    append(
+                                        if (state.productDetails?.discountValue == null) {
+                                            state.productDetails?.price.toString()
+                                        } else {
+                                            state.productDetails.priceAfterDiscount.toString()
+                                        }
+                                    )
                                     append(" ")
                                     append("${state.productDetails?.currencyCode}")
                                 },
@@ -199,7 +212,7 @@ fun ProductScreenContent(
                                 color = Primary,
                                 fontWeight = FontWeight.Bold,
                             )
-                            if (state.productDetails?.discount != null) {
+                            if (state.productDetails?.discountValue != null) {
                                 Spacer(modifier = Modifier.width(5.dp))
                                 Text(
                                     text = buildString {
@@ -217,6 +230,7 @@ fun ProductScreenContent(
                     }
                 }
 
+
                 if (state.productDetails?.amounts?.isNotEmpty() == true) {
                     item {
                         Row(
@@ -231,7 +245,14 @@ fun ProductScreenContent(
                                 fontWeight = FontWeight.Bold
                             )
                             Button(
-                                onClick = { selectedIndex = 0 },
+                                onClick = {
+                                    selectedIndex = 0
+                                    onEvent(
+                                        ProductDetailsEvent.OnResetClick(
+                                            state.productDetails.amounts[0]
+                                        )
+                                    )
+                                },
                                 colors = ButtonDefaults.buttonColors(
                                     containerColor = Color.LightGray,
                                     contentColor = Color.Black
@@ -312,13 +333,41 @@ fun ProductScreenContent(
                         }
                     }
                 }
+                if (
+                    state.productDetails?.parentProduct != null
+                ) {
+                    item {
+                        Text(
+                            text = "RELATED PRODUCTS",
+                            fontSize = 18.sp,
+                            color = Color.Gray,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
+                    item {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            ProductItem(
+                                item = state.productDetails.parentProduct,
+                                modifier = Modifier.clickable {
+                                    onEvent(
+                                        ProductDetailsEvent.ProductClicked(
+                                            state.productDetails.parentProduct.id
+                                        )
+                                    )
+                                })
+                        }
+                    }
+                }
             }
         }
     }
 
 
 }
-
 
 
 @Composable
@@ -360,21 +409,18 @@ fun ProductTopBar(
                 end.linkTo(parent.end)
             }
         )
-        Icon(
-            imageVector = androidx.compose.material.icons.Icons.Default.Favorite,
-            contentDescription = "Favorite",
-            tint = Color.Gray,
-            modifier = Modifier
-                .size(40.dp)
-                .constrainAs(favorite) {
-                    top.linkTo(parent.top)
-                    end.linkTo(parent.end)
-                    bottom.linkTo(parent.bottom)
-                }
-        )
+        ToggleHeartIcon(
+            modifier = Modifier.constrainAs(favorite) {
+                top.linkTo(parent.top)
+                bottom.linkTo(parent.bottom)
+                end.linkTo(parent.end)
+            }
+        ) {
 
+        }
     }
 }
+
 
 @Composable
 @Preview
@@ -440,7 +486,7 @@ fun ProductScreenContentPreview() {
                 price = 100.0,
                 isAvailable = true,
                 mainImageUrl = "",
-                discount = "10",
+                discountValue = "10",
                 amounts = amounts,
                 relatedProducts = relatedProducts,
                 imagesList = emptyList(),
@@ -448,7 +494,7 @@ fun ProductScreenContentPreview() {
                 currencyCode = "AED",
                 hasAmount = true
             ),
-            isLoading = true
+            isLoading = false
         ),
         onEvent = {}
     )

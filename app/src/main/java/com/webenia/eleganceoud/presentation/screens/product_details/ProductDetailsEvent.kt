@@ -7,7 +7,9 @@ sealed class ProductDetailsEvent {
     data class OnWeightSelected(
         val item: ProductAmountUiModel
     ) : ProductDetailsEvent()
-
+    data class OnResetClick(
+        val item: ProductAmountUiModel
+    ): ProductDetailsEvent()
     class GetProductDetails(val productId: Int) : ProductDetailsEvent()
     object AddToCart : ProductDetailsEvent()
     object OnBackClick: ProductDetailsEvent()

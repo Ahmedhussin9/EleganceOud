@@ -37,8 +37,17 @@ class ProductDetailsViewModel @Inject constructor(
                 uiState = uiState.copy(
                     selectedWeight = event.item,
                     productDetails = uiState.productDetails?.copy(
-                        price = uiState.selectedWeight?.price?.toDouble() ?: 0.0,
-                        priceAfterDiscount = uiState.selectedWeight?.priceAfter?.toDouble() ?: 0.0,
+                        price = event.item.price.toDoubleOrNull(),
+                        priceAfterDiscount = event.item.priceAfter?.toDoubleOrNull()
+                    )
+                )
+            }
+            is ProductDetailsEvent.OnResetClick ->{
+                uiState = uiState.copy(
+                    selectedWeight =  event.item,
+                    productDetails = uiState.productDetails?.copy(
+                        price = event.item.price.toDoubleOrNull(),
+                        priceAfterDiscount = event.item.priceAfter?.toDoubleOrNull()
                     )
                 )
             }
@@ -89,10 +98,7 @@ class ProductDetailsViewModel @Inject constructor(
                     is Resource.Success -> {
                         uiState = uiState.copy(
                             isLoading = false,
-                            productDetails = state.data?.data?.toUiModel()
-                        )
-
-
+                            productDetails = state.data?.toUiModel())
                     }
 
                     is Resource.Error -> {
@@ -115,4 +121,35 @@ class ProductDetailsViewModel @Inject constructor(
     private suspend fun sendUiEvent(event: ProductDetailsUiEvents) {
         _uiEvent.emit(event)
     }
+//    private fun getDefaultValue(state: ProductDetailsUiState): Prices {
+//        val product = state.productDetails
+//
+//        return if (product?.amounts?.isNotEmpty() == true) {
+//            val defaultAmount = product.amounts[0]
+//            if (product.discountValue == null) {
+//                Prices(
+//                    price = defaultAmount.price.toDouble(),
+//                    priceAfter = null
+//                )
+//            } else {
+//                Prices(
+//                    price = defaultAmount.price.toDouble(),
+//                    priceAfter = defaultAmount.priceAfter?.toDouble()
+//                )
+//            }
+//        } else {
+//            if (product?.discountValue == null) {
+//                Prices(
+//                    price = product?.price ?: 0.0,
+//                    priceAfter = null
+//                )
+//            } else {
+//                Prices(
+//                    price = product.price ?: 0.0,
+//                    priceAfter = product.priceAfterDiscount
+//                )
+//            }
+//        }
+//    }
+
 }

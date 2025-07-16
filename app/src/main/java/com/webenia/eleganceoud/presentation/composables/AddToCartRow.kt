@@ -50,6 +50,7 @@ fun AddToCartRow(
 
     Row(
         modifier = modifier
+            .background(White)
             .fillMaxWidth()
             .height(
                 70.dp

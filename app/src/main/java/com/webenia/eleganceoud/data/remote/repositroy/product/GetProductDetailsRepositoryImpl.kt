@@ -1,6 +1,6 @@
 package com.webenia.eleganceoud.data.remote.repositroy.product
 
-import ProductDetailsResponse
+import ProductResponse
 import com.elegance_oud.util.state.Resource
 import com.elegance_oud.util.toResultFlow
 import com.webenia.eleganceoud.data.remote.WebServices
@@ -18,7 +18,7 @@ constructor(
     override fun getProductDetails(
         currency: String,
         productId: Int
-    ): Flow<Resource<ProductDetailsResponse>> {
+    ): Flow<Resource<ProductResponse>> {
         return toResultFlow {
             webServices.getProductDetails(currency, productId)
         }.map { apiState ->

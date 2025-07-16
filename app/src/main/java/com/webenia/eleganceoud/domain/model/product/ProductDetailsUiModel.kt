@@ -1,21 +1,21 @@
 package com.webenia.eleganceoud.domain.model.product
 
-import ParentProduct
+import Parent
 
 data class ProductDetailsUiModel(
     val id: Int,
     val name: String,
     val description: String,
-    val price: Double,
+    val price: Double?,
     val isAvailable: Boolean,
     val mainImageUrl: String,
     val hasAmount: Boolean,
-    val discount: String?,
+    val discountValue: String?,
     val amounts: List<ProductAmountUiModel>,
     val relatedProducts: List<ProductUiModel> = emptyList(),
-    val parentProduct: ParentProduct? = null,
+    val parentProduct: ProductUiModel? = null,
     val imagesList: List<String> = emptyList(),
-    val priceAfterDiscount: Double,
+    val priceAfterDiscount: Double?,
     val currencyCode: String
 )
 

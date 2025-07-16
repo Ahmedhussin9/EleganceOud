@@ -1,6 +1,6 @@
 package com.webenia.eleganceoud.data.remote
 
-import ProductDetailsResponse
+import ProductResponse
 import com.webenia.eleganceoud.data.remote.requests.login_request.SignInRequest
 import com.webenia.eleganceoud.data.remote.requests.resend_otp.ResendOtpRequest
 import com.webenia.eleganceoud.data.remote.requests.resgister_request.RegisterRequest
@@ -83,5 +83,5 @@ interface WebServices {
     suspend fun getProductDetails(
         @Header("Currency") currency: String,
         @Path("product_id") productId: Int
-    ): Response<ProductDetailsResponse>
+    ): Response<ProductResponse>
 }

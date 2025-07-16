@@ -88,6 +88,42 @@ fun ProductDetailsShimmer() {
                     .clip(RoundedCornerShape(4.dp))
             )
         }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            ShimmerEffect(
+                modifier = Modifier
+                    .width(120.dp)
+                    .height(20.dp)
+                    .clip(RoundedCornerShape(4.dp))
+                    .background(CardGrey)
+            )
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                ShimmerEffect(
+                    modifier = Modifier
+                        .size(20.dp)
+                        .clip(CircleShape)
+                        .background(CardGrey)
+                )
+
+                Spacer(modifier = Modifier.width(8.dp))
+
+                ShimmerEffect(
+                    modifier = Modifier
+                        .width(50.dp)
+                        .height(20.dp)
+                        .clip(RoundedCornerShape(4.dp))
+                        .background(CardGrey)
+                )
+            }
+        }
 
         Spacer(modifier = Modifier.height(24.dp))
 
@@ -99,6 +135,7 @@ fun ProductDetailsShimmer() {
         }
     }
 }
+
 @Composable
 fun ProductTopBarShimmer() {
     Row(

@@ -36,7 +36,7 @@ fun WeightItem(
             softWrap = true,
             overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
             fontWeight = FontWeight.SemiBold,
-            fontSize = 16.sp
+            fontSize = 12.sp
         )
     }
 

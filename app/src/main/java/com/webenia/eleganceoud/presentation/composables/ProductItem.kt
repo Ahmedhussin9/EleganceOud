@@ -43,10 +43,6 @@ fun ProductItem(
     val price = item.price
     val priceAfterDiscount = item.priceAfterDiscount
     val finalPrice = if (item.hasDiscount) priceAfterDiscount else price
-    Log.e(
-        "albyy",
-        "price: ${item.price}, priceAfterDiscount: ${item.priceAfterDiscount}",
-    )
     Box(
         modifier = modifier
             .width(100.dp),
