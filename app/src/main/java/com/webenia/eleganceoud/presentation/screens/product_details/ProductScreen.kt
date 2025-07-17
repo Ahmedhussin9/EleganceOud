@@ -187,7 +187,8 @@ fun ProductScreenContent(
                 item {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = CenterVertically
                     ) {
                         Text(
                             text = "PRICE",
@@ -216,7 +217,7 @@ fun ProductScreenContent(
                                 Spacer(modifier = Modifier.width(5.dp))
                                 Text(
                                     text = buildString {
-                                        append(state.productDetails.priceAfterDiscount.toString())
+                                        append(state.productDetails.price.toString())
                                         append(" ")
                                         append(state.productDetails.currencyCode)
                                     },
@@ -430,26 +431,30 @@ fun ProductScreenContentPreview() {
             weight = 1,
             price = "100",
             priceAfter = "90",
-            unit = "KG"
+            unit = "KG",
+            currencyCode = "AED"
 
         ),
         ProductAmountUiModel(
             weight = 2,
             price = "200",
             priceAfter = "190",
-            unit = "KG"
+            unit = "KG",
+            currencyCode = "AED"
         ),
         ProductAmountUiModel(
             weight = 3,
             price = "300",
             priceAfter = "290",
-            unit = "KG"
+            unit = "KG",
+            currencyCode = "AED"
         ),
         ProductAmountUiModel(
             weight = 4,
             price = "400",
             priceAfter = "390",
-            unit = "KG"
+            unit = "KG",
+            currencyCode = "AED"
         )
     )
     val relatedProducts =

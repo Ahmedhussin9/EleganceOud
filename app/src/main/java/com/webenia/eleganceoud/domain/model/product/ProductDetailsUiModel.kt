@@ -23,6 +23,7 @@ data class ProductAmountUiModel(
     val weight: Int,
     val price: String,
     val priceAfter: String?,
-    val unit: String
+    val unit: String,
+    val currencyCode: String
 )
 

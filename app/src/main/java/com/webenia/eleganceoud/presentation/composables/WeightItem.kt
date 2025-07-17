@@ -22,6 +22,7 @@ fun WeightItem(
     isSelected: Boolean,
     onClick: () -> Unit
 ) {
+    val price = item.priceAfter ?: item.price
     Button(
         colors = ButtonDefaults.buttonColors(
             containerColor = if (isSelected) Primary else Color.LightGray,
@@ -30,7 +31,7 @@ fun WeightItem(
         onClick = { onClick() }
     ) {
         Text(
-            text = "${item.weight} ${item.unit} for ${item.priceAfter}",
+            text = "${item.weight} ${item.unit} for $price ${item.currencyCode}" ,
             color = if (isSelected) Color.White else Color.Black,
             maxLines = 1,
             softWrap = true,
@@ -49,7 +50,8 @@ fun WeightItemPreview() {
         weight = 100,
         price = "100",
         priceAfter = "90",
-        unit = "kg"
+        unit = "kg",
+        currencyCode = "AED"
     )
     WeightItem(
         item = item,

@@ -19,11 +19,13 @@ fun ProductResponse.toUiModel(): ProductDetailsUiModel {
         mainImageUrl = data?.images?.firstOrNull()?.let { BASE_IMAGE_URL + it.path } ?: "",
         discountValue = data?.discount?.discountValue,
         amounts = data?.amounts?.map {
+            val hasDiscount = data.discount != null
             ProductAmountUiModel(
                 weight = it?.weight ?: 0,
-                price = it?.price ?: "0",
-                priceAfter = it?.convertedPrice.toString(),
-                unit = it?.unit?.nameEn ?: "kg"
+                price = if (hasDiscount) it?.convertedPrice.toString() else it?.convertedPrice.toString(),
+                priceAfter =  if (hasDiscount) it?.discountedPrice.toString() else null,
+                unit = it?.unit?.nameEn ?: "kg",
+                currencyCode = it?.currencyCode ?: "AED"
             )
         } ?: emptyList(),
         hasAmount = data?.amounts.isNullOrEmpty(),

@@ -78,7 +78,7 @@ interface WebServices {
         @Header("Authorization") token: String
     ): Response<SignOutResponse>
 
-    @GET("api/website/show/products/{product_id}")
+    @GET("api/product/mobile/{product_id}")
     @Headers("Accept: application/json")
     suspend fun getProductDetails(
         @Header("Currency") currency: String,
