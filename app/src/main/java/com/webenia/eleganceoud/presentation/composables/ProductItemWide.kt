@@ -2,6 +2,7 @@ package com.webenia.eleganceoud.presentation.composables
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -37,15 +38,19 @@ import com.webenia.eleganceoud.ui.theme.VeryLightGrey
 
 @Composable
 fun ProductItemWide(
-    item: ProductUiModel
+    item: ProductUiModel,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {}
 ) {
     val price = item.price
     val priceAfterDiscount = item.priceAfterDiscount
     val finalPrice = if (item.hasDiscount) priceAfterDiscount else price
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
-            .height(160.dp),
+            .height(160.dp).clickable {
+                onClick()
+            },
         colors = CardDefaults.cardColors(
             containerColor = Color.White,
         ),

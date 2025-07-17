@@ -5,12 +5,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.elegance_oud.util.state.Resource
 import com.webenia.eleganceoud.domain.mapper.toUiModel
 import com.webenia.eleganceoud.domain.model.product.ProductUiModel
 import com.webenia.eleganceoud.domain.repository.category_products.GetCategoryProductsRepository
+import com.webenia.eleganceoud.presentation.navigation.AppDestination
+import com.webenia.eleganceoud.presentation.screens.category.CategoryUiEvents
+import com.webenia.eleganceoud.util.state.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,6 +26,22 @@ class CategoryProductsViewModel @Inject constructor(
 ) : ViewModel() {
     var uiState by mutableStateOf(CategoryProductsUiState())
         private set
+
+    private var _uiEvent = MutableSharedFlow<CategoryProductUiEvents>()
+    val uiEvent = _uiEvent.asSharedFlow()
+
+
+    fun onEvent(events: CategoryProductEvents){
+        when(events){
+            is CategoryProductEvents.OnCategoryProductClicked -> {
+                viewModelScope.launch (
+                    Dispatchers.IO
+                ){
+                    sendUiEvent(CategoryProductUiEvents.Navigate(AppDestination.ProductDetails(events.categoryProduct.id)))
+                }
+            }
+        }
+    }
 
 
     fun getCategoryProducts(
@@ -60,11 +82,15 @@ class CategoryProductsViewModel @Inject constructor(
                     }
 
                     is Resource.Error -> {
+                        sendUiEvent(CategoryProductUiEvents.ShowToast(state.message?: UiText.DynamicString("Success")))
                         uiState = uiState.copy(isLoading = false)
                     }
                 }
             }
         }
 
+    }
+    private suspend fun sendUiEvent(event: CategoryProductUiEvents) {
+        _uiEvent.emit(event)
     }
 }

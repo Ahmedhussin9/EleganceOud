@@ -1,6 +1,7 @@
 package com.webenia.eleganceoud.presentation.screens.category_products
 
 import android.widget.Space
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -25,6 +27,7 @@ import androidx.navigation.NavController
 import com.webenia.eleganceoud.domain.model.product.ProductUiModel
 import com.webenia.eleganceoud.presentation.composables.BackButton
 import com.webenia.eleganceoud.presentation.composables.ProductItemWide
+import com.webenia.eleganceoud.presentation.navigation.AppDestination
 import com.webenia.eleganceoud.presentation.screens.product_details.ProductDetailsEvent
 import com.webenia.eleganceoud.ui.theme.Primary
 
@@ -35,7 +38,33 @@ fun CategoryProductsSetup(
     viewModel: CategoryProductsViewModel = hiltViewModel(),
     onBackClick: () -> Unit
 ) {
-    LaunchedEffect (true){
+    val context = LocalContext.current
+    LaunchedEffect(true) {
+        viewModel.uiEvent.collect {
+            when (it) {
+                is CategoryProductUiEvents.Navigate -> {
+                    when (val destination = it.destination) {
+                        is AppDestination.ProductDetails -> {
+                            navController.navigate(
+                                destination.createRoute(destination.productId)
+                            )
+                        }
+
+                        else -> {
+                            navController.navigate(it.destination.route)
+                        }
+                    }
+
+                }
+
+                is CategoryProductUiEvents.ShowToast -> {
+                    Toast.makeText(context, it.message.asString(context), Toast.LENGTH_SHORT).show()
+                }
+
+            }
+        }
+    }
+    LaunchedEffect(true) {
         viewModel.getCategoryProducts(
             categoryId = categoryId,
             currency = "AED"
@@ -43,14 +72,18 @@ fun CategoryProductsSetup(
     }
     CategoryProductsContent(
         state = viewModel.uiState,
-        onBackClick = onBackClick
+        onBackClick = onBackClick,
+        events = {
+            viewModel.onEvent(it)
+        }
     )
 }
 
 @Composable
 fun CategoryProductsContent(
     state: CategoryProductsUiState,
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    events: (CategoryProductEvents) -> Unit
 ) {
 
     Column(
@@ -107,7 +140,9 @@ fun CategoryProductsContent(
             ) {
                 ProductItemWide(
                     item = state.categoryProducts?.get(it)!!
-                )
+                ){
+                    events.invoke(CategoryProductEvents.OnCategoryProductClicked(state.categoryProducts[it]))
+                }
             }
         }
     }
@@ -118,6 +153,7 @@ fun CategoryProductsContent(
 fun PreviewCategoryProducts() {
     CategoryProductsContent(
         state = CategoryProductsUiState(),
-        onBackClick = {}
+        onBackClick = {},
+        events = {}
     )
 }
