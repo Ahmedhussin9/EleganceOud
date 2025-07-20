@@ -12,5 +12,6 @@ data class ProductUiModel(
     val hasAmounts: Boolean = false,
     val hasDiscount: Boolean = false,
     val discount: Double? = null,
-    val priceAfterDiscount: Double? = null
+    val priceAfterDiscount: Double? = null,
+    val isFavorite: Boolean?=null,
 )

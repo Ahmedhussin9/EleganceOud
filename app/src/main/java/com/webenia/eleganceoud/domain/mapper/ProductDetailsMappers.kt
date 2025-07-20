@@ -23,7 +23,7 @@ fun ProductResponse.toUiModel(): ProductDetailsUiModel {
             ProductAmountUiModel(
                 weight = it?.weight ?: 0,
                 price = if (hasDiscount) it?.convertedPrice.toString() else it?.convertedPrice.toString(),
-                priceAfter =  if (hasDiscount) it?.discountedPrice.toString() else null,
+                priceAfter = if (hasDiscount) it?.discountedPrice.toString() else null,
                 unit = it?.unit?.nameEn ?: "kg",
                 currencyCode = it?.currencyCode ?: "AED"
             )
@@ -39,14 +39,14 @@ fun ProductResponse.toUiModel(): ProductDetailsUiModel {
                 price = it?.convertedPrice ?: 0.0,
                 isAvailable = it?.isAvailable == 1,
                 currencyCode = it?.currencyCode ?: "AED",
-                imageUrl = it?.images?.firstOrNull()?.let { image->
+                imageUrl = it?.images?.firstOrNull()?.let { image ->
                     BASE_IMAGE_URL + image.path
                 } ?: "",
             )
         } ?: emptyList(),
         parentProduct = data?.parent?.toUiModel(),
-        imagesList = data?.images?.map { BASE_IMAGE_URL + it?.path } ?: emptyList())
-}
+        isFavorite = data?.isFavorite ?: false,
+        imagesList = data?.images?.map { BASE_IMAGE_URL + it?.path } ?: emptyList())}
 
 fun Child.toUiModel(): ProductUiModel {
     return ProductUiModel(

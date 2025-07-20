@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elegance_oud.util.state.Resource
 import com.webenia.eleganceoud.domain.mapper.toUiModel
+import com.webenia.eleganceoud.domain.repository.fav.AddToFavRepository
 import com.webenia.eleganceoud.domain.repository.product.GetProductDetailsRepository
 import com.webenia.eleganceoud.presentation.navigation.AppDestination
 import com.webenia.eleganceoud.presentation.screens.home.HomeUiEvents
@@ -22,7 +23,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProductDetailsViewModel @Inject constructor(
-    private val getProductDetailsRepository: GetProductDetailsRepository
+    private val getProductDetailsRepository: GetProductDetailsRepository,
+    private val addToFavRepository: AddToFavRepository
 ) : ViewModel() {
     var uiState by mutableStateOf(ProductDetailsUiState())
         private set
@@ -42,9 +44,10 @@ class ProductDetailsViewModel @Inject constructor(
                     )
                 )
             }
-            is ProductDetailsEvent.OnResetClick ->{
+
+            is ProductDetailsEvent.OnResetClick -> {
                 uiState = uiState.copy(
-                    selectedWeight =  event.item,
+                    selectedWeight = event.item,
                     productDetails = uiState.productDetails?.copy(
                         price = event.item.price.toDoubleOrNull(),
                         priceAfterDiscount = event.item.priceAfter?.toDoubleOrNull()
@@ -77,9 +80,42 @@ class ProductDetailsViewModel @Inject constructor(
                 }
             }
 
+            is ProductDetailsEvent.OnFavClick -> {
+                // Add to favorites logic
+                addToFav(
+                    productId = event.itemId
+                )
+
+            }
+
         }
     }
 
+    private fun addToFav(
+        productId: Int
+    ) {
+        viewModelScope.launch(Dispatchers.IO) {
+            addToFavRepository.addToFav(
+                productId = productId
+            ).collect { state ->
+                uiState = when (state) {
+                    is Resource.Loading -> {
+                        uiState.copy(isLoading = true)
+                    }
+
+                    is Resource.Success -> {
+                        uiState.copy(
+                            isLoading = false
+                        )
+                    }
+
+                    is Resource.Error -> {
+                        uiState.copy(isLoading = false)
+                    }
+                }
+            }
+        }
+    }
 
     //38 57
     private fun getProductDetails(
@@ -98,7 +134,8 @@ class ProductDetailsViewModel @Inject constructor(
                     is Resource.Success -> {
                         uiState = uiState.copy(
                             isLoading = false,
-                            productDetails = state.data?.toUiModel())
+                            productDetails = state.data?.toUiModel()
+                        )
                     }
 
                     is Resource.Error -> {

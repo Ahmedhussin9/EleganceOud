@@ -189,7 +189,8 @@ fun ProductItemWide(
                     ToggleHeartIcon(
                         modifier = Modifier.size(
                             40.dp
-                        )
+                        ),
+                        isFavorite = item.isFavorite?:false
                     ) {
 
                     }

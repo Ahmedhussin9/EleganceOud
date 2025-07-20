@@ -16,7 +16,8 @@ data class ProductDetailsUiModel(
     val parentProduct: ProductUiModel? = null,
     val imagesList: List<String> = emptyList(),
     val priceAfterDiscount: Double?,
-    val currencyCode: String
+    val currencyCode: String,
+    val isFavorite: Boolean
 )
 
 data class ProductAmountUiModel(

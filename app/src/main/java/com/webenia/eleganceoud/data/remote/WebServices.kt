@@ -1,6 +1,7 @@
 package com.webenia.eleganceoud.data.remote
 
 import ProductResponse
+import com.webenia.eleganceoud.data.remote.requests.add_to_fav.AddToFavRequest
 import com.webenia.eleganceoud.data.remote.requests.login_request.SignInRequest
 import com.webenia.eleganceoud.data.remote.requests.resend_otp.ResendOtpRequest
 import com.webenia.eleganceoud.data.remote.requests.resgister_request.RegisterRequest
@@ -11,6 +12,7 @@ import com.webenia.eleganceoud.data.remote.response.auth.otp.SubmitOtpResponse
 import com.webenia.eleganceoud.data.remote.response.auth.signout.SignOutResponse
 import com.webenia.eleganceoud.data.remote.response.auth.signup.RegisterResponse
 import com.webenia.eleganceoud.data.remote.response.category_product.CategoryProductResponse
+import com.webenia.eleganceoud.data.remote.response.fav.AddToFavResponse
 import com.webenia.eleganceoud.data.remote.response.home.best_sellings.HomeBestSellingResponse
 import com.webenia.eleganceoud.data.remote.response.home.brands.HomeBrandsResponse
 import com.webenia.eleganceoud.data.remote.response.home.category.CategoriesResponse
@@ -49,7 +51,7 @@ interface WebServices {
 
     @GET("api/website/products/section")
     suspend fun getOurProducts(
-        @Header("Currency") currency: String="AED",
+        @Header("Currency") currency: String = "USD",
 
         ): Response<ProductsResponse>
 
@@ -63,14 +65,14 @@ interface WebServices {
 
     @GET("api/website/best-selling/products")
     suspend fun getHomeBestSellingProducts(
-        @Header("Currency") currency: String="AED",
+        @Header("Currency") currency: String = "USD",
 
         ): Response<HomeBestSellingResponse>
 
     @GET("api/website/latest/products")
     suspend fun getHomeLatestProducts(
-        @Header("Currency") currency: String="AED",
-        ): Response<HomeLatestProductsResponse>
+        @Header("Currency") currency: String = "USD",
+    ): Response<HomeLatestProductsResponse>
 
     @POST("api/logout")
     @Headers("Accept: application/json")
@@ -91,5 +93,12 @@ interface WebServices {
     suspend fun getCategoryProducts(
         @Header("Currency") currency: String,
         @Path("category_id") categoryId: Int
-    ):Response<CategoryProductResponse>
+    ): Response<CategoryProductResponse>
+
+    @POST("api/favorites")
+    @Headers("Accept: application/json")
+    suspend fun addToFav(
+        @Header("Authorization") token: String,
+        @Body body: AddToFavRequest
+    ): Response<AddToFavResponse>
 }

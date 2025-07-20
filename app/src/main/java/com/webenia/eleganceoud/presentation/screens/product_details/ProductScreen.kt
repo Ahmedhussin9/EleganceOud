@@ -124,14 +124,19 @@ fun ProductScreenSetup(
     }
     ProductScreenContent(
         state = viewModel.uiState,
-        onEvent = viewModel::onEvent
+        onEvent = viewModel::onEvent,
+        onFavClick = {
+            viewModel.onEvent(ProductDetailsEvent.OnFavClick(productId))
+
+        }
     )
 }
 
 @Composable
 fun ProductScreenContent(
     state: ProductDetailsUiState,
-    onEvent: (ProductDetailsEvent) -> Unit
+    onEvent: (ProductDetailsEvent) -> Unit,
+    onFavClick: () -> Unit
 ) {
 
 
@@ -150,7 +155,8 @@ fun ProductScreenContent(
             topBar = {
                 ProductTopBar(
                     state = state,
-                    onEvent = onEvent
+                    onEvent = onEvent,
+                    onFavClick = onFavClick
                 )
             },
             bottomBar = {
@@ -374,8 +380,8 @@ fun ProductScreenContent(
 @Composable
 fun ProductTopBar(
     state: ProductDetailsUiState,
-    onEvent: (ProductDetailsEvent) -> Unit
-
+    onEvent: (ProductDetailsEvent) -> Unit,
+    onFavClick: () -> Unit
 ) {
     ConstraintLayout(
         modifier = Modifier
@@ -415,9 +421,9 @@ fun ProductTopBar(
                 top.linkTo(parent.top)
                 bottom.linkTo(parent.bottom)
                 end.linkTo(parent.end)
-            }
+            }, isFavorite = state.productDetails?.isFavorite ?: false
         ) {
-
+            onFavClick()
         }
     }
 }
@@ -497,10 +503,12 @@ fun ProductScreenContentPreview() {
                 imagesList = emptyList(),
                 priceAfterDiscount = 90.0,
                 currencyCode = "AED",
-                hasAmount = true
+                hasAmount = true,
+                isFavorite = false
             ),
             isLoading = false
         ),
-        onEvent = {}
+        onEvent = {},
+        onFavClick = {}
     )
 }

@@ -69,7 +69,9 @@ data class Data(
     val nameEn: String? = null,
 
     @Json(name = "description_ar")
-    val descriptionAr: String? = null
+    val descriptionAr: String? = null,
+    @Json(name = "is_favorite")
+    val isFavorite: Boolean? = null
 )
 
 @JsonClass(generateAdapter = true)

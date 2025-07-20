@@ -22,9 +22,10 @@ import com.webenia.eleganceoud.ui.theme.VeryLightGrey
 @Composable
 fun ToggleHeartIcon(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit
-) {
-    var isFavorite by remember { mutableStateOf(false) }
+    isFavorite: Boolean,
+    onClick: () -> Unit,
+
+    ) {
 
     Icon(
         painter = if (isFavorite) painterResource(
@@ -39,7 +40,6 @@ fun ToggleHeartIcon(
             .size(40.dp)
             .background(color = VeryLightGrey)
             .clickable {
-                isFavorite = !isFavorite
                 onClick()
             }
             .padding(10.dp)

@@ -12,5 +12,7 @@ fun ProductsItem.toUiModel():ProductUiModel{
         isAvailable = isAvailable == 1,
         currencyCode = currencyCode ?: "AED",
         imageUrl = images?.firstOrNull()?.path ?: "",
+        isFavorite = isFavorite
+
     )
 }

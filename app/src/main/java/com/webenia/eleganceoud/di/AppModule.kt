@@ -10,6 +10,7 @@ import com.webenia.eleganceoud.data.remote.repositroy.auth.RegisterRepositoryImp
 import com.webenia.eleganceoud.data.remote.repositroy.auth.SignInRepositoryImpl
 import com.webenia.eleganceoud.data.remote.repositroy.auth.SignOutRepositoryImpl
 import com.webenia.eleganceoud.data.remote.repositroy.category_products.GetCategoryProductsRepositoryImpl
+import com.webenia.eleganceoud.data.remote.repositroy.fav.AddToFavRepositoryImpl
 import com.webenia.eleganceoud.data.remote.repositroy.home.GetHomeBestSellingRepositoryImpl
 import com.webenia.eleganceoud.data.remote.repositroy.home.GetHomeBrandsRepositoryImpl
 import com.webenia.eleganceoud.data.remote.repositroy.home.GetCategoriesRepositoryImpl
@@ -21,6 +22,7 @@ import com.webenia.eleganceoud.domain.repository.auth.OtpRepository
 import com.webenia.eleganceoud.domain.repository.auth.RegisterRepository
 import com.webenia.eleganceoud.domain.repository.auth.SignInRepository
 import com.webenia.eleganceoud.domain.repository.category_products.GetCategoryProductsRepository
+import com.webenia.eleganceoud.domain.repository.fav.AddToFavRepository
 import com.webenia.eleganceoud.domain.repository.home.GetHomeBestSellingRepository
 import com.webenia.eleganceoud.domain.repository.home.GetHomeBrandsRepository
 import com.webenia.eleganceoud.domain.repository.home.GetCategoriesRepository
@@ -151,7 +153,13 @@ object AppModule {
     @Provides
     fun provideGetCategoryProductsRepository(webServices: WebServices): GetCategoryProductsRepository {
         return GetCategoryProductsRepositoryImpl(webServices)
+    }
 
+    @Provides
+    fun provideAddToFavRepository(webServices: WebServices):AddToFavRepository{
+        return AddToFavRepositoryImpl(
+            webServices
+        )
     }
 
 }
