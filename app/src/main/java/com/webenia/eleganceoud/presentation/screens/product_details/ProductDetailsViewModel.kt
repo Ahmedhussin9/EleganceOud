@@ -158,35 +158,6 @@ class ProductDetailsViewModel @Inject constructor(
     private suspend fun sendUiEvent(event: ProductDetailsUiEvents) {
         _uiEvent.emit(event)
     }
-//    private fun getDefaultValue(state: ProductDetailsUiState): Prices {
-//        val product = state.productDetails
-//
-//        return if (product?.amounts?.isNotEmpty() == true) {
-//            val defaultAmount = product.amounts[0]
-//            if (product.discountValue == null) {
-//                Prices(
-//                    price = defaultAmount.price.toDouble(),
-//                    priceAfter = null
-//                )
-//            } else {
-//                Prices(
-//                    price = defaultAmount.price.toDouble(),
-//                    priceAfter = defaultAmount.priceAfter?.toDouble()
-//                )
-//            }
-//        } else {
-//            if (product?.discountValue == null) {
-//                Prices(
-//                    price = product?.price ?: 0.0,
-//                    priceAfter = null
-//                )
-//            } else {
-//                Prices(
-//                    price = product.price ?: 0.0,
-//                    priceAfter = product.priceAfterDiscount
-//                )
-//            }
-//        }
-//    }
+
 
 }

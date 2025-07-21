@@ -75,7 +75,9 @@ fun NavGraph(navController: NavHostController) {
             CategoryScreenSetup(navController = navController)
         }
         composable(AppDestination.Favorite.route) {
-            FavoriteScreenSetup()
+            FavoriteScreenSetup(
+                navController = navController
+            )
         }
         composable(AppDestination.Cart.route) {
             CartScreenSetup()

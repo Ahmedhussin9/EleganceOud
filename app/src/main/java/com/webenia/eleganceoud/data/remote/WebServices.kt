@@ -13,6 +13,7 @@ import com.webenia.eleganceoud.data.remote.response.auth.signout.SignOutResponse
 import com.webenia.eleganceoud.data.remote.response.auth.signup.RegisterResponse
 import com.webenia.eleganceoud.data.remote.response.category_product.CategoryProductResponse
 import com.webenia.eleganceoud.data.remote.response.fav.AddToFavResponse
+import com.webenia.eleganceoud.data.remote.response.fav.GetFavoritesResponse
 import com.webenia.eleganceoud.data.remote.response.home.best_sellings.HomeBestSellingResponse
 import com.webenia.eleganceoud.data.remote.response.home.brands.HomeBrandsResponse
 import com.webenia.eleganceoud.data.remote.response.home.category.CategoriesResponse
@@ -101,4 +102,11 @@ interface WebServices {
         @Header("Authorization") token: String,
         @Body body: AddToFavRequest
     ): Response<AddToFavResponse>
+
+
+    @GET("api/favorites")
+    @Headers("Accept: application/json")
+    suspend fun getFavorites(
+        @Header("Authorization") token: String
+    ):Response<GetFavoritesResponse>
 }

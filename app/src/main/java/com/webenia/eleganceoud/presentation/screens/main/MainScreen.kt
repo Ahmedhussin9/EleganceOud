@@ -131,7 +131,9 @@ fun MainScreenContent(
                     )
                 }
                 composable("cart") { CartScreenSetup() }
-                composable("favorite") { FavoriteScreenSetup() }
+                composable("favorite") { FavoriteScreenSetup(
+                    navController = navController
+                ) }
             }
         }
     }
