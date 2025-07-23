@@ -11,7 +11,10 @@ sealed class ProductDetailsEvent {
     data class OnResetClick(
         val item: ProductAmountUiModel
     ): ProductDetailsEvent()
-    data class OnFavClick(
+    data class OnAddToFavFavClick(
+        val itemId: Int
+    ):ProductDetailsEvent()
+    data class OnDeleteFavClick(
         val itemId: Int
     ):ProductDetailsEvent()
     class GetProductDetails(val productId: Int) : ProductDetailsEvent()

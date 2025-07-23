@@ -6,5 +6,11 @@ sealed class CategoryProductEvents {
     data class OnCategoryProductClicked(
         val categoryProduct: ProductUiModel
     ) : CategoryProductEvents()
+    data class OnAddToCartClicked(
+        val categoryProduct: ProductUiModel
+    ) : CategoryProductEvents()
+    data class OnFavClicked(
+        val categoryProduct: ProductUiModel
+    ):CategoryProductEvents()
 
 }

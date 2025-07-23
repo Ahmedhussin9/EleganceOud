@@ -13,6 +13,7 @@ import com.webenia.eleganceoud.data.remote.response.auth.signout.SignOutResponse
 import com.webenia.eleganceoud.data.remote.response.auth.signup.RegisterResponse
 import com.webenia.eleganceoud.data.remote.response.category_product.CategoryProductResponse
 import com.webenia.eleganceoud.data.remote.response.fav.AddToFavResponse
+import com.webenia.eleganceoud.data.remote.response.fav.DeleteFavResponse
 import com.webenia.eleganceoud.data.remote.response.fav.GetFavoritesResponse
 import com.webenia.eleganceoud.data.remote.response.home.best_sellings.HomeBestSellingResponse
 import com.webenia.eleganceoud.data.remote.response.home.brands.HomeBrandsResponse
@@ -21,6 +22,7 @@ import com.webenia.eleganceoud.data.remote.response.home.latest_products.HomeLat
 import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Headers
@@ -92,6 +94,7 @@ interface WebServices {
     @GET("api/website/category/{category_id}")
     @Headers("Accept: application/json")
     suspend fun getCategoryProducts(
+        @Header("Authorization") token: String,
         @Header("Currency") currency: String,
         @Path("category_id") categoryId: Int
     ): Response<CategoryProductResponse>
@@ -102,6 +105,13 @@ interface WebServices {
         @Header("Authorization") token: String,
         @Body body: AddToFavRequest
     ): Response<AddToFavResponse>
+
+    @DELETE("api/favorites/inmobile/{product_id}")
+    @Headers("Accept: application/json")
+    suspend fun deleteFav(
+        @Header("Authorization") token: String,
+        @Path("product_id") productId: Int
+    ): Response<DeleteFavResponse>
 
 
     @GET("api/favorites")

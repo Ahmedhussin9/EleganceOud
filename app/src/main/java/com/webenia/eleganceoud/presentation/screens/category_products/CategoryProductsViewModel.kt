@@ -10,8 +10,11 @@ import com.elegance_oud.util.state.Resource
 import com.webenia.eleganceoud.domain.mapper.toUiModel
 import com.webenia.eleganceoud.domain.model.product.ProductUiModel
 import com.webenia.eleganceoud.domain.repository.category_products.GetCategoryProductsRepository
+import com.webenia.eleganceoud.domain.repository.fav.AddToFavRepository
+import com.webenia.eleganceoud.domain.repository.fav.DeleteFavRepository
 import com.webenia.eleganceoud.presentation.navigation.AppDestination
 import com.webenia.eleganceoud.presentation.screens.category.CategoryUiEvents
+import com.webenia.eleganceoud.presentation.screens.product_details.ProductDetailsUiEvents
 import com.webenia.eleganceoud.util.state.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -22,7 +25,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CategoryProductsViewModel @Inject constructor(
-    private val getCategoryProductsRepository: GetCategoryProductsRepository
+    private val getCategoryProductsRepository: GetCategoryProductsRepository,
+    private val addToFavRepository: AddToFavRepository,
+    private val deleteFavRepository: DeleteFavRepository
 ) : ViewModel() {
     var uiState by mutableStateOf(CategoryProductsUiState())
         private set
@@ -31,14 +36,40 @@ class CategoryProductsViewModel @Inject constructor(
     val uiEvent = _uiEvent.asSharedFlow()
 
 
-    fun onEvent(events: CategoryProductEvents){
-        when(events){
+    fun onEvent(events: CategoryProductEvents) {
+        when (events) {
             is CategoryProductEvents.OnCategoryProductClicked -> {
-                viewModelScope.launch (
+                viewModelScope.launch(
                     Dispatchers.IO
-                ){
-                    sendUiEvent(CategoryProductUiEvents.Navigate(AppDestination.ProductDetails(events.categoryProduct.id)))
+                ) {
+                    sendUiEvent(
+                        CategoryProductUiEvents.Navigate(
+                            AppDestination.ProductDetails(
+                                events.categoryProduct.id
+                            )
+                        )
+                    )
                 }
+            }
+
+            is CategoryProductEvents.OnFavClicked -> {
+                viewModelScope.launch (Dispatchers.IO){
+                    if (events.categoryProduct.isFavorite == false) {
+                        addToFav(
+                            events.categoryProduct.id
+                        )
+                    } else {
+                        deleteFav(
+                            events.categoryProduct.id
+                        )
+                    }
+                }
+
+
+            }
+
+            is CategoryProductEvents.OnAddToCartClicked -> {
+
             }
         }
     }
@@ -82,7 +113,11 @@ class CategoryProductsViewModel @Inject constructor(
                     }
 
                     is Resource.Error -> {
-                        sendUiEvent(CategoryProductUiEvents.ShowToast(state.message?: UiText.DynamicString("Success")))
+                        sendUiEvent(
+                            CategoryProductUiEvents.ShowToast(
+                                state.message ?: UiText.DynamicString("Success")
+                            )
+                        )
                         uiState = uiState.copy(isLoading = false)
                     }
                 }
@@ -90,6 +125,79 @@ class CategoryProductsViewModel @Inject constructor(
         }
 
     }
+
+    private fun addToFav(
+        productId: Int
+    ) {
+        viewModelScope.launch(Dispatchers.IO) {
+            addToFavRepository.addToFav(
+                productId = productId
+            ).collect { state ->
+                uiState = when (state) {
+                    is Resource.Loading -> {
+                        uiState.copy()
+                    }
+
+                    is Resource.Success -> {
+                        sendUiEvent(CategoryProductUiEvents.ShowToast(UiText.DynamicString("Added from favorites")))
+                        val updatedList = uiState.categoryProducts?.map { product ->
+                            if (product.id == productId) {
+                                product.copy(isFavorite = true)
+                            } else {
+                                product
+                            }
+                        }
+                        uiState.copy(
+                            categoryProducts = updatedList
+                        )
+                    }
+
+                    is Resource.Error -> {
+                        uiState.copy()
+
+                    }
+                }
+            }
+        }
+    }
+
+    private fun deleteFav(productId: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            deleteFavRepository.deleteFav(
+                productId = productId
+            ).collect {
+                when (it) {
+                    is Resource.Loading -> {
+                        uiState = uiState.copy()
+                    }
+
+                    is Resource.Success -> {
+                        val updatedList = uiState.categoryProducts?.map { product ->
+                            if (product.id == productId) {
+                                product.copy(isFavorite = false)
+                            } else {
+                                product
+                            }
+                        }
+                        uiState = uiState.copy(
+                            categoryProducts = updatedList
+                        )
+                        sendUiEvent(CategoryProductUiEvents.ShowToast(UiText.DynamicString("Removed from favorites")))
+                    }
+
+                    is Resource.Error -> {
+                        uiState = uiState.copy()
+                        sendUiEvent(
+                            CategoryProductUiEvents.ShowToast(
+                                it.message ?: UiText.DynamicString("Something went wrong")
+                            )
+                        )
+                    }
+                }
+            }
+        }
+    }
+
     private suspend fun sendUiEvent(event: CategoryProductUiEvents) {
         _uiEvent.emit(event)
     }

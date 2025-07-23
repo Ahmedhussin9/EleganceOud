@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.elegance_oud.util.state.Resource
 import com.webenia.eleganceoud.domain.mapper.toUiModel
 import com.webenia.eleganceoud.domain.repository.fav.AddToFavRepository
+import com.webenia.eleganceoud.domain.repository.fav.DeleteFavRepository
 import com.webenia.eleganceoud.domain.repository.product.GetProductDetailsRepository
 import com.webenia.eleganceoud.presentation.navigation.AppDestination
 import com.webenia.eleganceoud.presentation.screens.home.HomeUiEvents
@@ -24,7 +25,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ProductDetailsViewModel @Inject constructor(
     private val getProductDetailsRepository: GetProductDetailsRepository,
-    private val addToFavRepository: AddToFavRepository
+    private val addToFavRepository: AddToFavRepository,
+    private val deleteFavRepository: DeleteFavRepository
 ) : ViewModel() {
     var uiState by mutableStateOf(ProductDetailsUiState())
         private set
@@ -80,12 +82,17 @@ class ProductDetailsViewModel @Inject constructor(
                 }
             }
 
-            is ProductDetailsEvent.OnFavClick -> {
+            is ProductDetailsEvent.OnAddToFavFavClick -> {
                 // Add to favorites logic
                 addToFav(
                     productId = event.itemId
                 )
 
+            }
+            is ProductDetailsEvent.OnDeleteFavClick -> {
+                deleteFav(
+                    productId = event.itemId
+                )
             }
 
         }
@@ -100,17 +107,47 @@ class ProductDetailsViewModel @Inject constructor(
             ).collect { state ->
                 uiState = when (state) {
                     is Resource.Loading -> {
-                        uiState.copy(isLoading = true)
+                        uiState.copy()
                     }
 
                     is Resource.Success -> {
+                        sendUiEvent(ProductDetailsUiEvents.ShowToast(UiText.DynamicString("Added from favorites")))
                         uiState.copy(
-                            isLoading = false
+                            productDetails = uiState.productDetails?.copy(
+                                isFavorite = true
+                            )
                         )
                     }
 
                     is Resource.Error -> {
-                        uiState.copy(isLoading = false)
+                        uiState.copy()
+
+                    }
+                }
+            }
+        }
+    }
+    private fun deleteFav(productId: Int){
+        viewModelScope.launch(Dispatchers.IO) {
+            deleteFavRepository.deleteFav(
+                productId = productId
+            ).collect{
+                when(it){
+                    is Resource.Loading -> {
+                        uiState = uiState.copy()
+                    }
+                    is Resource.Success -> {
+                        uiState = uiState.copy(
+                            productDetails = uiState.productDetails?.copy(
+                                isFavorite = false
+                            )
+
+                        )
+                        sendUiEvent(ProductDetailsUiEvents.ShowToast(UiText.DynamicString("Removed from favorites")))
+                    }
+                    is Resource.Error -> {
+                        uiState = uiState.copy()
+                        sendUiEvent(ProductDetailsUiEvents.ShowToast(it.message?:UiText.DynamicString("Something went wrong")))
                     }
                 }
             }
@@ -154,7 +191,6 @@ class ProductDetailsViewModel @Inject constructor(
 
         }
     }
-
     private suspend fun sendUiEvent(event: ProductDetailsUiEvents) {
         _uiEvent.emit(event)
     }

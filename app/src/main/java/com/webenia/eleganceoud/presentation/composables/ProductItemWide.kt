@@ -40,15 +40,19 @@ import com.webenia.eleganceoud.ui.theme.VeryLightGrey
 fun ProductItemWide(
     item: ProductUiModel,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit = {}
+    onClick: () -> Unit,
+    onFavClick: (productId: Int) -> Unit,
+    onAddToCartClick: (productId: Int) -> Unit
 ) {
     val price = item.price
     val priceAfterDiscount = item.priceAfterDiscount
     val finalPrice = if (item.hasDiscount) priceAfterDiscount else price
+    val isFav = item.isFavorite
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .height(160.dp).clickable {
+            .height(160.dp)
+            .clickable {
                 onClick()
             },
         colors = CardDefaults.cardColors(
@@ -75,7 +79,7 @@ fun ProductItemWide(
                     .weight(.4f) // 50%
             ) {
                 AsyncImage(
-                    model = BASE_IMAGE_URL+item.imageUrl,
+                    model = BASE_IMAGE_URL + item.imageUrl,
                     contentDescription = null,
                     modifier = Modifier.fillMaxSize()
                 )
@@ -185,21 +189,22 @@ fun ProductItemWide(
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceAround){
+                    horizontalArrangement = Arrangement.SpaceAround
+                ) {
                     ToggleHeartIcon(
                         modifier = Modifier.size(
                             40.dp
                         ),
-                        isFavorite = item.isFavorite?:false
+                        isFavorite = isFav?:false,
                     ) {
-
+                        onFavClick(item.id)
                     }
                     AddToCartIcon(
                         modifier = Modifier.size(
                             40.dp
                         )
                     ) {
-
+                        onAddToCartClick(item.id)
                     }
 
                 }
@@ -222,7 +227,10 @@ fun PreviewProductItemWide() {
             currencyCode = "",
             isAvailable = false,
             hasDiscount = true
-        )
+        ),
+        onClick = {},
+        onFavClick = {},
+        onAddToCartClick = {}
     )
 
 }

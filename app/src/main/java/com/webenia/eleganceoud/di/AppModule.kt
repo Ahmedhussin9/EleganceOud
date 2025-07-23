@@ -11,6 +11,7 @@ import com.webenia.eleganceoud.data.remote.repositroy.auth.SignInRepositoryImpl
 import com.webenia.eleganceoud.data.remote.repositroy.auth.SignOutRepositoryImpl
 import com.webenia.eleganceoud.data.remote.repositroy.category_products.GetCategoryProductsRepositoryImpl
 import com.webenia.eleganceoud.data.remote.repositroy.fav.AddToFavRepositoryImpl
+import com.webenia.eleganceoud.data.remote.repositroy.fav.DeleteFavRepositoryImpl
 import com.webenia.eleganceoud.data.remote.repositroy.fav.GetFavoritesRepositoryImpl
 import com.webenia.eleganceoud.data.remote.repositroy.home.GetHomeBestSellingRepositoryImpl
 import com.webenia.eleganceoud.data.remote.repositroy.home.GetHomeBrandsRepositoryImpl
@@ -24,6 +25,7 @@ import com.webenia.eleganceoud.domain.repository.auth.RegisterRepository
 import com.webenia.eleganceoud.domain.repository.auth.SignInRepository
 import com.webenia.eleganceoud.domain.repository.category_products.GetCategoryProductsRepository
 import com.webenia.eleganceoud.domain.repository.fav.AddToFavRepository
+import com.webenia.eleganceoud.domain.repository.fav.DeleteFavRepository
 import com.webenia.eleganceoud.domain.repository.fav.GetFavoritesRepository
 import com.webenia.eleganceoud.domain.repository.home.GetHomeBestSellingRepository
 import com.webenia.eleganceoud.domain.repository.home.GetHomeBrandsRepository
@@ -168,5 +170,11 @@ object AppModule {
     @Provides
     fun provideGetFavoritesRepository(webServices: WebServices): GetFavoritesRepository {
         return GetFavoritesRepositoryImpl(webServices)
+    }
+
+    @Provides
+    fun provideDeleteFavoriteRepository(webServices: WebServices): DeleteFavRepository {
+        return DeleteFavRepositoryImpl(webServices)
+
     }
 }

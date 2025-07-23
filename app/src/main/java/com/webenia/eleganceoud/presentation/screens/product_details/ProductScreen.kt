@@ -126,7 +126,12 @@ fun ProductScreenSetup(
         state = viewModel.uiState,
         onEvent = viewModel::onEvent,
         onFavClick = {
-            viewModel.onEvent(ProductDetailsEvent.OnFavClick(productId))
+
+            if (viewModel.uiState.productDetails?.isFavorite == false) {
+                viewModel.onEvent(ProductDetailsEvent.OnAddToFavFavClick(productId))
+            } else {
+                viewModel.onEvent(ProductDetailsEvent.OnDeleteFavClick(productId))
+            }
 
         }
     )

@@ -1,9 +1,11 @@
 package com.webenia.eleganceoud.data.remote.repositroy.category_products
 
+import com.elegance_oud.util.UserUtil
 import com.elegance_oud.util.state.Resource
 import com.elegance_oud.util.toResultFlow
 import com.webenia.eleganceoud.data.remote.WebServices
 import com.webenia.eleganceoud.data.remote.response.category_product.CategoryProductResponse
+import com.webenia.eleganceoud.domain.model.User
 import com.webenia.eleganceoud.domain.repository.category_products.GetCategoryProductsRepository
 import com.webenia.eleganceoud.util.state.ApiState
 import com.webenia.eleganceoud.util.state.UiState
@@ -20,7 +22,7 @@ class GetCategoryProductsRepositoryImpl @Inject constructor(
         currency: String
     ): Flow<Resource<CategoryProductResponse>> {
         return toResultFlow {
-            webServices.getCategoryProducts(categoryId = categoryId, currency = currency)
+            webServices.getCategoryProducts(categoryId = categoryId, currency = currency, token = "Bearer ${UserUtil.getToken()}")
         }.map { state ->
             when (state) {
                 is ApiState.Error -> Resource.Error(

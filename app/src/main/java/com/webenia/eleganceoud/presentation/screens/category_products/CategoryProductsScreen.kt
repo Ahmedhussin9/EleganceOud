@@ -1,5 +1,6 @@
 package com.webenia.eleganceoud.presentation.screens.category_products
 
+import android.util.Log
 import android.widget.Space
 import android.widget.Toast
 import androidx.compose.foundation.background
@@ -152,12 +153,24 @@ fun CategoryProductsContent(
             ) {
                 items(
                     state.categoryProducts?.size ?: 0
-                ) {
+                ) { index ->
+                    Log.e("Fav state", state.categoryProducts?.get(index)!!.isFavorite.toString(), )
                     ProductItemWide(
-                        item = state.categoryProducts?.get(it)!!
-                    ) {
-                        events.invoke(CategoryProductEvents.OnCategoryProductClicked(state.categoryProducts[it]))
-                    }
+                        item = state.categoryProducts?.get(index)!!,
+                        onClick = {
+                            events.invoke(CategoryProductEvents.OnCategoryProductClicked(state.categoryProducts[index]))
+                            Log.e("index", index.toString(), )
+                        },
+                        onFavClick = {
+
+                            Log.e("index", it.toString(), )
+                            events.invoke(CategoryProductEvents.OnFavClicked(state.categoryProducts[index]))
+
+                        },
+                        onAddToCartClick = {
+                            events.invoke(CategoryProductEvents.OnAddToCartClicked(state.categoryProducts[index]))
+                        }
+                    )
                 }
             }
         }
@@ -267,7 +280,7 @@ fun ProductItemShimmer() {
 fun PreviewCategoryProducts() {
     CategoryProductsContent(
         state = CategoryProductsUiState(
-            isLoading = true
+            isLoading = false
         ),
         onBackClick = {},
         events = {}

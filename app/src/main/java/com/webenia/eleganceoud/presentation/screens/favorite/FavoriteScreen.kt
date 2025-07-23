@@ -1,5 +1,6 @@
 package com.webenia.eleganceoud.presentation.screens.favorite
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,6 +21,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.webenia.eleganceoud.presentation.composables.ProductItemWide
 import com.webenia.eleganceoud.ui.theme.Primary
+import kotlin.math.log
 
 @Composable
 fun FavoriteScreenSetup(
@@ -65,12 +67,16 @@ fun FavoriteScreenContent(
             verticalArrangement = Arrangement.spacedBy(10.dp),
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
+            Log.e("List", state.products.toString(), )
             state.products?.let {
                 items(it.size) { item ->
                     state.products[item]?.let { product ->
                         ProductItemWide(
-                            item = product, onClick = {
-                            }
+                            item = product,
+                            onClick = {
+                            },
+                            onFavClick = {},
+                            onAddToCartClick = {}
                         )
                     }
                 }
@@ -85,7 +91,7 @@ fun FavoriteScreenContent(
 fun PreviewFavoriteScreen() {
     FavoriteScreenContent(
         state = FavoriteUiState(
-            isLoading = false
+            isLoading = true
         ),
         onEvent = {}
 
