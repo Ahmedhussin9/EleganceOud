@@ -58,5 +58,6 @@ fun isNetworkAvailable(context: Context): Boolean {
     return activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
             activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
 }
+
  const val BASE_IMAGE_URL = "https://backend.webenia.org/public/storage/"
 // -------------------------------------------------------------- //

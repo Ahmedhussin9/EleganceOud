@@ -2,8 +2,10 @@ package com.elegance_oud.util
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.Configuration
+import com.webenia.eleganceoud.MainActivity
 import java.util.Locale
 
 object LocalUtil {
@@ -22,7 +24,6 @@ object LocalUtil {
         configuration.setLayoutDirection(locale)
         activity.resources.updateConfiguration(configuration, activity.resources.displayMetrics)
         activity.createConfigurationContext(configuration)
-
         sharedPreferences.edit().putString(LANGUAGE, language).apply()
     }
 

@@ -1,5 +1,6 @@
 package com.webenia.eleganceoud.presentation.screens.settings
 
+import android.app.Activity
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -18,6 +19,7 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -32,12 +34,15 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.elegance_oud.util.LocalUtil.setLocal
+import com.webenia.eleganceoud.R
 import com.webenia.eleganceoud.presentation.composables.BackButton
 import com.webenia.eleganceoud.presentation.navigation.AppDestination
 import com.webenia.eleganceoud.ui.theme.CardGrey
@@ -82,8 +87,9 @@ fun SettingsScreenContent(
     onBackClick: () -> Unit,
     onEvent: (SettingsEvent) -> Unit
 ) {
+    val context = LocalContext.current
     var showLogoutDialog by remember { mutableStateOf(false) }
-
+    var showLanguageDialog by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -105,7 +111,7 @@ fun SettingsScreenContent(
             }
 
             Text(
-                text = "Settings",
+                text = stringResource(R.string.settings),
                 color = Primary,
                 fontSize = 24.sp,
                 fontWeight = FontWeight.SemiBold,
@@ -127,18 +133,37 @@ fun SettingsScreenContent(
                 modifier = Modifier
                     .padding(20.dp)
                     .fillMaxWidth()
-                    .clickable {
-                        showLogoutDialog = true
-                    }
             ) {
                 Row(
                     modifier = Modifier
                         .padding(10.dp)
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .clickable {
+                            showLanguageDialog = true
+                        },
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
-                        "Log out",
+                        text = stringResource(id = R.string.change_language),
+                        //color = Color.Red,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Normal
+                    )
+
+                }
+                Spacer(modifier = Modifier.padding(5.dp))
+                Row(
+                    modifier = Modifier
+                        .padding(10.dp)
+                        .fillMaxWidth()
+                        .clickable {
+                            showLogoutDialog = true
+                        },
+
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = stringResource(R.string.logout),
                         color = Color.Red,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Normal
@@ -158,6 +183,21 @@ fun SettingsScreenContent(
         },
         onDismiss = { showLogoutDialog = false }
     )
+    ChangeLanguageDialog(
+        showDialog = showLanguageDialog,
+        onConfirm = {
+            onEvent(SettingsEvent.ChangeLanguage)
+            setLocal(context as Activity, "en")
+            showLanguageDialog = false
+            context.recreate()
+        },
+        onDismiss = {
+            setLocal(context as Activity, "ar")
+            showLanguageDialog = false
+            context.recreate()
+
+        }
+    )
 }
 
 @Composable
@@ -170,22 +210,55 @@ fun LogoutConfirmationDialog(
         AlertDialog(
             onDismissRequest = onDismiss,
             title = {
-                Text(text = "Confirm Logout")
+                Text(text = stringResource(R.string.confirm_logout))
             },
             text = {
-                Text(text = "Are you sure you want to log out?")
+                Text(text = stringResource( R.string.sure_to_logout))
             },
             confirmButton = {
                 TextButton(onClick = onConfirm) {
-                    Text(text = "Logout")
+                    Text(text = stringResource(R.string.logout))
                 }
             },
             dismissButton = {
                 TextButton(onClick = onDismiss) {
-                    Text(text = "Cancel")
+                    Text(text = stringResource( R.string.cancel))
                 }
             }
         )
+    }
+}
+
+
+@Composable
+fun ChangeLanguageDialog(
+    showDialog: Boolean,
+    onConfirm: () -> Unit,
+    onDismiss: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = onDismiss,
+            title = {
+                Text(text =stringResource(R.string.change_language) )
+            },
+            text = {
+                Text(text = stringResource(R.string.what_language_would_you_like_to_switch_to))
+            },
+            confirmButton = {//en
+                TextButton(onClick = onConfirm) {
+                    Text(text = stringResource(R.string.english))
+                }
+            },
+            dismissButton = {//ar
+                TextButton(onClick = onDismiss) {
+                    Text(text = stringResource(R.string.arabic))
+                }
+            }
+        )
+
     }
 }
 
