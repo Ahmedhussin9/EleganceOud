@@ -33,6 +33,10 @@ class SettingsViewModel @Inject constructor(
             is SettingsEvent.SignOut -> {
                 signOut()
             }
+            is SettingsEvent.ChangeLanguage -> {
+                viewModelScope.launch {
+                }
+            }
         }
     }
 

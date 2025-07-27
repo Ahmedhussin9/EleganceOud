@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">أناقة العود</string>
+    <string name="agree_signup"><![CDATA[بالإنشاء حساب، يجب أن توافق على شروطنا وأحكامنا.]]></string>
+    <string name="something_went_wrong">حدث خطأ ما</string>
+    <string name="check_your_internet_connection">تحقق من اتصالك بالإنترنت.</string>
+    <string name="onboradingsecond">استفد من عروض التسوق.</string>
+    <string name="onboradingfirst">خصم 20% على المنتجات الجديدة.</string>
+    <string name="onboradingthird">جميع أنواع العروض في متناولك.</string>
+    <string name="subonboardingtext">انشر صورك السيلفي لتبدو أجمل باستخدام هذا التطبيق.</string>
+    <string name="secure">آمن</string>
+    <string name="change_language">تغيير اللغة</string>
+    <string name="arabic">العربيه</string>
+    <string name="english">الانجليزيه</string>
+    <string name="what_language_would_you_like_to_switch_to">اي لغه تريد استعاملها؟</string>
+    <string name="settings">الأعدادات</string>
+    <string name="confirm_logout">تأكيد تسجيل الخروج</string>
+    <string name="cancel">إلغاء</string>
+    <string name="logout">تسجيل الخروج</string>
+    <string name="sure_to_logout">هل أنت متأكد أنك تريد تسجيل الخروج؟</string>
+</resources>
