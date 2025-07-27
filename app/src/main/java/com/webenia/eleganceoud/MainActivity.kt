@@ -30,7 +30,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             val navController = rememberNavController()
-
+            // habibaa commit
             EleganceOudTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { paddingValues ->
                     Column(
