@@ -15,7 +15,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.elegance_oud.util.UserUtil
 import com.webenia.eleganceoud.presentation.navigation.NavGraph
@@ -31,18 +30,19 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             val navController = rememberNavController()
+            // habibaa commit
             EleganceOudTheme {
+                Scaffold(modifier = Modifier.fillMaxSize()) { paddingValues ->
                     Column(
                         modifier = Modifier
-                            .fillMaxSize()
-                            .padding(top = 10.dp)
                             .background(Color.White)
+                            .padding(paddingValues)
                             .fillMaxSize(),
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
                         NavGraph(navController)
-
+                    }
                 }
             }
         }

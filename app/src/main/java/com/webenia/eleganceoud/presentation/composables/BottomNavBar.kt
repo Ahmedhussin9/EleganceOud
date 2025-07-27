@@ -2,7 +2,6 @@ package com.webenia.eleganceoud.presentation.composables
 
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -25,9 +24,7 @@ fun ChipBottomNavigationBar(
     NavigationBar(
         containerColor = Color.White,
         tonalElevation = 0.dp,
-        modifier = Modifier
-            .wrapContentHeight()
-            .shadow(1.dp)
+        modifier = Modifier.height(56.dp).shadow(1.dp)
 
     ) {
         items.forEachIndexed { index, item ->
