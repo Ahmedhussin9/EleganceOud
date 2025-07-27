@@ -1,14 +1,13 @@
 package com.webenia.eleganceoud.data.remote.response.fav
 
 import com.squareup.moshi.JsonClass
-import android.os.Parcelable
 import com.squareup.moshi.Json
 
 @JsonClass(generateAdapter = true)
 data class GetFavoritesResponse(
 
-	@Json(name="GetFavoritesResponse")
-	val getFavoritesResponse: List<GetFavoritesResponseItem?>? = null
+	@Json(name="favorites")
+	val favorites: List<FavoritesItem?>? = null
 )
 
 @JsonClass(generateAdapter = true)
@@ -22,7 +21,7 @@ data class Discount(
 )
 
 @JsonClass(generateAdapter = true)
-data class GetFavoritesResponseItem(
+data class FavoritesItem(
 
 	@Json(name="images")
 	val images: List<String?>? = null,
@@ -46,7 +45,7 @@ data class GetFavoritesResponseItem(
 	val favoriteId: Int? = null,
 
 	@Json(name="price_after_discount")
-	val priceAfterDiscount: String? = null,
+	val priceAfterDiscount: Double? = null,
 
 	@Json(name="currency_code")
 	val currencyCode: String? = null,

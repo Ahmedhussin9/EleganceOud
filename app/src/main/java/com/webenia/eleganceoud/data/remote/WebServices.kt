@@ -114,7 +114,7 @@ interface WebServices {
     ): Response<DeleteFavResponse>
 
 
-    @GET("api/favorites")
+    @GET("api/favorites/mobile")
     @Headers("Accept: application/json")
     suspend fun getFavorites(
         @Header("Authorization") token: String

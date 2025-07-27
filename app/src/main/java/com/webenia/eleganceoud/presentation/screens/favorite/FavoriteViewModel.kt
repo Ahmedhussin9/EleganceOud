@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elegance_oud.util.state.Resource
 import com.webenia.eleganceoud.domain.mapper.toUiModel
+import com.webenia.eleganceoud.domain.repository.fav.DeleteFavRepository
 import com.webenia.eleganceoud.domain.repository.fav.GetFavoritesRepository
 import com.webenia.eleganceoud.util.state.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,7 +19,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FavoriteViewModel @Inject constructor(
-    private val repository: GetFavoritesRepository
+    private val getFavoritesRepository: GetFavoritesRepository,
+    private val removeFavoritesRepository: DeleteFavRepository
 ) : ViewModel() {
     var uiState by mutableStateOf(FavoriteUiState())
         private set
@@ -26,17 +28,14 @@ class FavoriteViewModel @Inject constructor(
     private var _uiEvent = MutableSharedFlow<FavoriteUiEvents>()
     val uiEvent = _uiEvent.asSharedFlow()
 
-    init {
-        getFavorites()
-    }
 
     fun getFavorites() {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.getFavorites().collect { resource ->
+            getFavoritesRepository.getFavorites().collect { resource ->
                 when (resource) {
                     is Resource.Success -> {
                         uiState = uiState.copy(
-                            products = resource.data?.getFavoritesResponse?.map {
+                            products = resource.data?.favorites?.map {
                                 it?.toUiModel()
                             },
                             isLoading = false
@@ -65,10 +64,38 @@ class FavoriteViewModel @Inject constructor(
         }
     }
 
+    fun removeFavorite(productId: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            removeFavoritesRepository.deleteFav(
+                productId = productId
+            ).collect{
+                when (it){
+                    is Resource.Success -> {
+                        getFavorites()
+                    }
+                    is Resource.Error -> {
+                        val errorMessage = it.message ?: UiText.DynamicString(
+                            "Something went wrong"
+                        )
+                        uiState = uiState.copy(
+                            error = errorMessage,
+                            isLoading = false
+                        )
+                        sendUiEvent(FavoriteUiEvents.ShowToast(errorMessage))
+                    }
+                    is Resource.Loading -> {
+                        uiState = uiState.copy(
+                            isLoading = true
+                        )
+                    }
+                }
+            }
+        }
+    }
     fun onEvent(event: FavoriteEvent) {
         when (event) {
             is FavoriteEvent.FavoriteClick -> {
-
+                removeFavorite(event.productId)
             }
 
             is FavoriteEvent.ProductClicked -> {
