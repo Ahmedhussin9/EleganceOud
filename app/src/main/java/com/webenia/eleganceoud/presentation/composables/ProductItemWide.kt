@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -21,6 +22,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale.Companion.Crop
+import androidx.compose.ui.layout.ContentScale.Companion.Fit
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
@@ -51,7 +54,7 @@ fun ProductItemWide(
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .height(160.dp)
+            .wrapContentHeight()
             .clickable {
                 onClick()
             },
@@ -81,7 +84,8 @@ fun ProductItemWide(
                 AsyncImage(
                     model = BASE_IMAGE_URL + item.imageUrl,
                     contentDescription = null,
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = Fit
                 )
             }
             Column(
@@ -113,11 +117,11 @@ fun ProductItemWide(
                         Box(
                             modifier = Modifier
                                 .background(
-                                    color = Color.Red.copy(alpha = .8f),
+                                    color = Color.Red.copy(alpha = .5f),
                                     shape = RoundedCornerShape(8.dp)
                                 )
                                 .padding(
-                                    horizontal = 4.dp,
+                                    horizontal = 7.dp,
                                 )
                         ) {
                             Text(
@@ -176,7 +180,7 @@ fun ProductItemWide(
                             append(" ")
                             append(item.currencyCode)
                         },
-                        fontSize = 18.sp,
+                        fontSize = 16.sp,
                         fontWeight = FontWeight.Normal,
                         color = Color.Black,
                         maxLines = 1,

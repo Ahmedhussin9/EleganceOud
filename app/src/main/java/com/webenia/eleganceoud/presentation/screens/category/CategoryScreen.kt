@@ -94,7 +94,7 @@ fun CategoryScreenContent(
                 modifier = Modifier.padding(10.dp)
             )
             LazyVerticalGrid(
-                modifier = Modifier.padding(10.dp),
+                modifier = Modifier,
                 columns = GridCells.Fixed(2),
                 verticalArrangement = Arrangement.spacedBy(10.dp),
                 horizontalArrangement = Arrangement.spacedBy(10.dp)
