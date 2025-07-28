@@ -80,7 +80,9 @@ fun NavGraph(navController: NavHostController) {
             )
         }
         composable(AppDestination.Cart.route) {
-            CartScreenSetup()
+            CartScreenSetup(
+                navController = navController
+            )
         }
 
         composable(AppDestination.SignUp.route) {

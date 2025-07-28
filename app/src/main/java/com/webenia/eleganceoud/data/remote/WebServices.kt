@@ -1,6 +1,7 @@
 package com.webenia.eleganceoud.data.remote
 
 import ProductResponse
+import com.webenia.eleganceoud.data.remote.requests.add_to_cart.AddToCartRequest
 import com.webenia.eleganceoud.data.remote.requests.add_to_fav.AddToFavRequest
 import com.webenia.eleganceoud.data.remote.requests.login_request.SignInRequest
 import com.webenia.eleganceoud.data.remote.requests.resend_otp.ResendOtpRequest
@@ -11,6 +12,8 @@ import com.webenia.eleganceoud.data.remote.response.auth.otp.ResendOtpResponse
 import com.webenia.eleganceoud.data.remote.response.auth.otp.SubmitOtpResponse
 import com.webenia.eleganceoud.data.remote.response.auth.signout.SignOutResponse
 import com.webenia.eleganceoud.data.remote.response.auth.signup.RegisterResponse
+import com.webenia.eleganceoud.data.remote.response.cart.add_to_cart.AddToCartResponse
+import com.webenia.eleganceoud.data.remote.response.cart.get_cart.GetCartResponse
 import com.webenia.eleganceoud.data.remote.response.category_product.CategoryProductResponse
 import com.webenia.eleganceoud.data.remote.response.fav.AddToFavResponse
 import com.webenia.eleganceoud.data.remote.response.fav.DeleteFavResponse
@@ -119,4 +122,17 @@ interface WebServices {
     suspend fun getFavorites(
         @Header("Authorization") token: String
     ):Response<GetFavoritesResponse>
+
+    @POST("api/cart-items")
+    @Headers("Accept: application/json")
+    suspend fun addToCart(
+        @Header("Authorization") token: String,
+        @Body body: AddToCartRequest
+    ):Response<AddToCartResponse>
+
+    @GET("api/cart-items")
+    @Headers("Accept: application/json")
+    suspend fun getCartItems(
+        @Header("Authorization") token: String
+    ):Response<GetCartResponse>
 }

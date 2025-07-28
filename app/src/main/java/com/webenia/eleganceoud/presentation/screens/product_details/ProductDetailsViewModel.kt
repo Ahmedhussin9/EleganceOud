@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elegance_oud.util.state.Resource
 import com.webenia.eleganceoud.domain.mapper.toUiModel
+import com.webenia.eleganceoud.domain.repository.cart.AddToCartRepository
 import com.webenia.eleganceoud.domain.repository.fav.AddToFavRepository
 import com.webenia.eleganceoud.domain.repository.fav.DeleteFavRepository
 import com.webenia.eleganceoud.domain.repository.product.GetProductDetailsRepository
@@ -26,7 +27,8 @@ import javax.inject.Inject
 class ProductDetailsViewModel @Inject constructor(
     private val getProductDetailsRepository: GetProductDetailsRepository,
     private val addToFavRepository: AddToFavRepository,
-    private val deleteFavRepository: DeleteFavRepository
+    private val deleteFavRepository: DeleteFavRepository,
+    private val addToCartRepository: AddToCartRepository
 ) : ViewModel() {
     var uiState by mutableStateOf(ProductDetailsUiState())
         private set
@@ -66,7 +68,10 @@ class ProductDetailsViewModel @Inject constructor(
             }
 
             is ProductDetailsEvent.AddToCart -> {
-                // Add to cart logic
+                addToCart(
+                    productId = event.productId,
+                    quantity = event.quantity
+                )
             }
 
             is ProductDetailsEvent.OnBackClick -> {
@@ -83,18 +88,30 @@ class ProductDetailsViewModel @Inject constructor(
             }
 
             is ProductDetailsEvent.OnAddToFavFavClick -> {
-                // Add to favorites logic
                 addToFav(
                     productId = event.itemId
                 )
 
             }
+
             is ProductDetailsEvent.OnDeleteFavClick -> {
                 deleteFav(
                     productId = event.itemId
                 )
             }
+            is ProductDetailsEvent.OnPlusClicked->{
+                uiState=uiState.copy(
+                    quantity = uiState.quantity+1
+                )
 
+            }
+            is ProductDetailsEvent.OnMinusClicked->{
+                if (uiState.quantity>1){
+                    uiState=uiState.copy(
+                        quantity = uiState.quantity-1
+                    )
+                }
+            }
         }
     }
 
@@ -111,7 +128,7 @@ class ProductDetailsViewModel @Inject constructor(
                     }
 
                     is Resource.Success -> {
-                        sendUiEvent(ProductDetailsUiEvents.ShowToast(UiText.DynamicString("Added from favorites")))
+                        sendUiEvent(ProductDetailsUiEvents.ShowToast(UiText.DynamicString("Added to favorites")))
                         uiState.copy(
                             productDetails = uiState.productDetails?.copy(
                                 isFavorite = true
@@ -127,15 +144,17 @@ class ProductDetailsViewModel @Inject constructor(
             }
         }
     }
-    private fun deleteFav(productId: Int){
+
+    private fun deleteFav(productId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             deleteFavRepository.deleteFav(
                 productId = productId
-            ).collect{
-                when(it){
+            ).collect {
+                when (it) {
                     is Resource.Loading -> {
                         uiState = uiState.copy()
                     }
+
                     is Resource.Success -> {
                         uiState = uiState.copy(
                             productDetails = uiState.productDetails?.copy(
@@ -145,9 +164,14 @@ class ProductDetailsViewModel @Inject constructor(
                         )
                         sendUiEvent(ProductDetailsUiEvents.ShowToast(UiText.DynamicString("Removed from favorites")))
                     }
+
                     is Resource.Error -> {
                         uiState = uiState.copy()
-                        sendUiEvent(ProductDetailsUiEvents.ShowToast(it.message?:UiText.DynamicString("Something went wrong")))
+                        sendUiEvent(
+                            ProductDetailsUiEvents.ShowToast(
+                                it.message ?: UiText.DynamicString("Something went wrong")
+                            )
+                        )
                     }
                 }
             }
@@ -191,6 +215,36 @@ class ProductDetailsViewModel @Inject constructor(
 
         }
     }
+
+    private fun addToCart(productId: Int, quantity: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            addToCartRepository.addToCart(
+                productId = productId,
+                quantity = quantity
+            ).collect {
+                when (it) {
+                    is Resource.Loading -> {
+                        uiState = uiState.copy()
+                    }
+
+                    is Resource.Success -> {
+                        sendUiEvent(ProductDetailsUiEvents.ShowToast(UiText.DynamicString("Added to cart")))
+                    }
+
+                    is Resource.Error -> {
+                        uiState = uiState.copy()
+                        sendUiEvent(
+                            ProductDetailsUiEvents.ShowToast(
+                                it.message ?: UiText.DynamicString("Something went wrong")
+                            )
+                        )
+
+                    }
+                }
+            }
+        }
+    }
+
     private suspend fun sendUiEvent(event: ProductDetailsUiEvents) {
         _uiEvent.emit(event)
     }

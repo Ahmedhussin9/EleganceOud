@@ -9,6 +9,8 @@ import com.webenia.eleganceoud.data.remote.repositroy.auth.OtpRepositoryImpl
 import com.webenia.eleganceoud.data.remote.repositroy.auth.RegisterRepositoryImpl
 import com.webenia.eleganceoud.data.remote.repositroy.auth.SignInRepositoryImpl
 import com.webenia.eleganceoud.data.remote.repositroy.auth.SignOutRepositoryImpl
+import com.webenia.eleganceoud.data.remote.repositroy.cart.AddToCartRepositoryImpl
+import com.webenia.eleganceoud.data.remote.repositroy.cart.GetCartRepositoryImpl
 import com.webenia.eleganceoud.data.remote.repositroy.category_products.GetCategoryProductsRepositoryImpl
 import com.webenia.eleganceoud.data.remote.repositroy.fav.AddToFavRepositoryImpl
 import com.webenia.eleganceoud.data.remote.repositroy.fav.DeleteFavRepositoryImpl
@@ -23,6 +25,8 @@ import com.webenia.eleganceoud.domain.repository.auth.SignOutRepository
 import com.webenia.eleganceoud.domain.repository.auth.OtpRepository
 import com.webenia.eleganceoud.domain.repository.auth.RegisterRepository
 import com.webenia.eleganceoud.domain.repository.auth.SignInRepository
+import com.webenia.eleganceoud.domain.repository.cart.AddToCartRepository
+import com.webenia.eleganceoud.domain.repository.cart.GetCartRepository
 import com.webenia.eleganceoud.domain.repository.category_products.GetCategoryProductsRepository
 import com.webenia.eleganceoud.domain.repository.fav.AddToFavRepository
 import com.webenia.eleganceoud.domain.repository.fav.DeleteFavRepository
@@ -176,5 +180,15 @@ object AppModule {
     fun provideDeleteFavoriteRepository(webServices: WebServices): DeleteFavRepository {
         return DeleteFavRepositoryImpl(webServices)
 
+    }
+
+    @Provides
+    fun provideAddToCartRepository(webServices: WebServices): AddToCartRepository {
+        return AddToCartRepositoryImpl(webServices)
+    }
+
+    @Provides
+    fun provideGetCartRepository(webServices: WebServices): GetCartRepository {
+        return GetCartRepositoryImpl(webServices)
     }
 }

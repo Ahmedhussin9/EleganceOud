@@ -7,6 +7,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -46,6 +47,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Alignment.Companion.Start
@@ -126,7 +128,6 @@ fun ProductScreenSetup(
         state = viewModel.uiState,
         onEvent = viewModel::onEvent,
         onFavClick = {
-
             if (viewModel.uiState.productDetails?.isFavorite == false) {
                 viewModel.onEvent(ProductDetailsEvent.OnAddToFavFavClick(productId))
             } else {
@@ -143,7 +144,6 @@ fun ProductScreenContent(
     onEvent: (ProductDetailsEvent) -> Unit,
     onFavClick: () -> Unit
 ) {
-
 
     var selectedIndex by remember { mutableIntStateOf(0) }
     if (state.isLoading) {
@@ -167,8 +167,27 @@ fun ProductScreenContent(
             bottomBar = {
                 AddToCartRow(
                     onAddToCart = {
-                        // Your add to cart logic
-                    }
+                        onEvent(
+                            ProductDetailsEvent.AddToCart(
+                                productId = state.productDetails?.id ?: 0,
+                                quantity = state.quantity
+                            )
+                        )
+                    },
+                    onMinus = {
+                        onEvent(
+                            ProductDetailsEvent.OnMinusClicked
+                        )
+                    },
+                    onPlusClick = {
+                        onEvent(
+                            ProductDetailsEvent.OnPlusClicked
+                        )
+
+                    },
+                    quantityState = state.quantity,
+                    availability = state.productDetails?.isAvailable ?: false
+
                 )
             },
             modifier = Modifier.background(Color.White)
@@ -184,8 +203,29 @@ fun ProductScreenContent(
                 contentPadding = PaddingValues(10.dp)
             ) {
                 item {
-                    SwipeImageSlider(images = state.productDetails?.imagesList ?: emptyList())
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(300.dp)
+                    ) {
+                        SwipeImageSlider(images = state.productDetails?.imagesList ?: emptyList())
+
+                        if (state.productDetails?.isAvailable == false) {
+                            Text(
+                                text = "Unavailable",
+                                color = Color.White,
+                                modifier = Modifier
+                                    .align(Alignment.TopEnd)
+                                    .padding(8.dp)
+                                    .background(Color.Red, shape = RoundedCornerShape(8.dp))
+                                    .padding(horizontal = 8.dp, vertical = 4.dp),
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
+                    }
                 }
+
 
                 item {
                     ExpandableText(
