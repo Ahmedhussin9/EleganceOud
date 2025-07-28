@@ -23,6 +23,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -44,9 +45,12 @@ import com.webenia.eleganceoud.ui.theme.Primary
 @Composable
 fun AddToCartRow(
     onAddToCart: () -> Unit,
+    quantityState: Int,
+    onPlusClick: () -> Unit,
+    onMinus: () -> Unit,
+    availability:Boolean,
     modifier: Modifier = Modifier
 ) {
-    var quantity by remember { mutableStateOf(1) }
 
     Row(
         modifier = modifier
@@ -60,10 +64,9 @@ fun AddToCartRow(
         verticalAlignment = Alignment.CenterVertically
     ) {
         QuantityCounter(
-            count = quantity,
-            onCountChange = { newCount ->
-                quantity = newCount
-            }
+            count = quantityState,
+            onMinus = onMinus,
+            onPlusClick = onPlusClick
         )
         Spacer(modifier = Modifier.width(16.dp))
         Button(
@@ -76,7 +79,8 @@ fun AddToCartRow(
             colors = ButtonDefaults.buttonColors(
                 containerColor = Primary,
                 contentColor = White
-            )
+            ),
+            enabled = availability
         ) {
             Icon(
                 painter = painterResource(
@@ -105,7 +109,8 @@ fun AddToCartRow(
 @Composable
 fun QuantityCounter(
     count: Int,
-    onCountChange: (Int) -> Unit,
+    onPlusClick: () -> Unit,
+    onMinus: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -124,7 +129,7 @@ fun QuantityCounter(
     ) {
         IconButton(
             onClick = {
-                if (count > 1) onCountChange(count - 1)
+                if (count > 1) onMinus()
             }
         ) {
             Icon(
@@ -141,7 +146,7 @@ fun QuantityCounter(
 
         IconButton(
             onClick = {
-                onCountChange(count + 1)
+                onPlusClick()
             }
         ) {
             Icon(
@@ -156,6 +161,10 @@ fun QuantityCounter(
 @Preview(showBackground = true)
 fun AddToCartRowPreview() {
     AddToCartRow(
-        onAddToCart = {}
+        onAddToCart = {},
+        onMinus = {},
+        onPlusClick = {},
+        quantityState = 2,
+        availability = false
     )
 }
