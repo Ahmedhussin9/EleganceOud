@@ -43,7 +43,7 @@ import com.webenia.eleganceoud.ui.theme.VeryLightGrey
 fun ProductItemWide(
     item: ProductUiModel,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit,
+    onClick: (productId: Int) -> Unit,
     onFavClick: (productId: Int) -> Unit,
     onAddToCartClick: (productId: Int) -> Unit
 ) {
@@ -56,7 +56,9 @@ fun ProductItemWide(
             .fillMaxWidth()
             .wrapContentHeight()
             .clickable {
-                onClick()
+                onClick(
+                    item.id
+                )
             },
         colors = CardDefaults.cardColors(
             containerColor = Color.White,

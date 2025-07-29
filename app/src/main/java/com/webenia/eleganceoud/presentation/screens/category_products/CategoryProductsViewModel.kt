@@ -9,11 +9,13 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.elegance_oud.util.state.Resource
 import com.webenia.eleganceoud.domain.mapper.toUiModel
 import com.webenia.eleganceoud.domain.model.product.ProductUiModel
+import com.webenia.eleganceoud.domain.repository.cart.AddToCartRepository
 import com.webenia.eleganceoud.domain.repository.category_products.GetCategoryProductsRepository
 import com.webenia.eleganceoud.domain.repository.fav.AddToFavRepository
 import com.webenia.eleganceoud.domain.repository.fav.DeleteFavRepository
 import com.webenia.eleganceoud.presentation.navigation.AppDestination
 import com.webenia.eleganceoud.presentation.screens.category.CategoryUiEvents
+import com.webenia.eleganceoud.presentation.screens.favorite.FavoriteUiEvents
 import com.webenia.eleganceoud.presentation.screens.product_details.ProductDetailsUiEvents
 import com.webenia.eleganceoud.util.state.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,7 +29,8 @@ import javax.inject.Inject
 class CategoryProductsViewModel @Inject constructor(
     private val getCategoryProductsRepository: GetCategoryProductsRepository,
     private val addToFavRepository: AddToFavRepository,
-    private val deleteFavRepository: DeleteFavRepository
+    private val deleteFavRepository: DeleteFavRepository,
+    private val addToCartRepository: AddToCartRepository
 ) : ViewModel() {
     var uiState by mutableStateOf(CategoryProductsUiState())
         private set
@@ -53,7 +56,7 @@ class CategoryProductsViewModel @Inject constructor(
             }
 
             is CategoryProductEvents.OnFavClicked -> {
-                viewModelScope.launch (Dispatchers.IO){
+                viewModelScope.launch(Dispatchers.IO) {
                     if (events.categoryProduct.isFavorite == false) {
                         addToFav(
                             events.categoryProduct.id
@@ -69,7 +72,7 @@ class CategoryProductsViewModel @Inject constructor(
             }
 
             is CategoryProductEvents.OnAddToCartClicked -> {
-
+                addToCart(events.categoryProduct.id)
             }
         }
     }
@@ -160,6 +163,37 @@ class CategoryProductsViewModel @Inject constructor(
             }
         }
     }
+
+    fun addToCart(productId: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            addToCartRepository.addToCart(
+                productId = productId,
+                quantity = 1
+            ).collect {
+                when (it) {
+                    is Resource.Loading -> {
+                        uiState = uiState.copy()
+                    }
+
+                    is Resource.Success -> {
+                        sendUiEvent(CategoryProductUiEvents.ShowToast(UiText.DynamicString("Added to cart")))
+                        uiState = uiState.copy()
+                    }
+
+                    is Resource.Error -> {
+                        uiState = uiState.copy()
+                        sendUiEvent(
+                            CategoryProductUiEvents.ShowToast(
+                                it.message ?: UiText.DynamicString("Something went wrong")
+                            )
+                        )
+                    }
+
+                }
+            }
+        }
+    }
+
 
     private fun deleteFav(productId: Int) {
         viewModelScope.launch(Dispatchers.IO) {

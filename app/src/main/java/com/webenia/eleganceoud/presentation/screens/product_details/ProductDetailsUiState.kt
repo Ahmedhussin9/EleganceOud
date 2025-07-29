@@ -8,4 +8,5 @@ data class ProductDetailsUiState (
     val isLoading: Boolean = false,
     val error: String? = null,
     val selectedWeight: ProductAmountUiModel? = null,
+    val quantity:Int = 1
     )
