@@ -9,6 +9,9 @@ import com.elegance_oud.util.state.Resource
 import com.webenia.eleganceoud.domain.mapper.toCartModel
 import com.webenia.eleganceoud.domain.model.cart.CartModel
 import com.webenia.eleganceoud.domain.repository.cart.GetCartRepository
+import com.webenia.eleganceoud.domain.repository.fav.AddToFavRepository
+import com.webenia.eleganceoud.domain.repository.fav.DeleteFavRepository
+import com.webenia.eleganceoud.presentation.navigation.AppDestination
 import com.webenia.eleganceoud.presentation.screens.category.CategoryUiEvents
 import com.webenia.eleganceoud.util.state.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,7 +23,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CartViewModel @Inject constructor(
-    private val getCartRepository: GetCartRepository
+    private val getCartRepository: GetCartRepository,
+    private val addToFavRepository: AddToFavRepository,
+    private val deleteFavRepository: DeleteFavRepository
 ) : ViewModel() {
     var uiState by mutableStateOf(CartUiState())
         private set
@@ -28,6 +33,92 @@ class CartViewModel @Inject constructor(
     private var _uiEvent = MutableSharedFlow<CartUiEvents>()
     val uiEvent = _uiEvent.asSharedFlow()
 
+    fun onEvent(events: CartEvents) {
+        when (events) {
+            is CartEvents.OnFavClicked -> {
+                viewModelScope.launch(Dispatchers.IO) {
+                    if (events.categoryProduct.isFavorite == false) {
+                        addToFav(
+                            events.categoryProduct.id
+                        )
+                    } else {
+                        removeFromFav(
+                            events.categoryProduct.id
+                        )
+                    }
+                }
+            }
+
+            is CartEvents.OnPlusClicked -> {
+
+            }
+
+            is CartEvents.OnMinusClicked -> {
+            }
+
+            is CartEvents.OnDeleteClicked -> {
+            }
+
+            is CartEvents.OnCheckoutClicked -> {
+            }
+
+            is CartEvents.OnProductClicked -> {
+                viewModelScope.launch(
+                    Dispatchers.IO
+                ) {
+                    sendUiEvent(
+                        CartUiEvents.Navigate(
+                            AppDestination.ProductDetails(
+                                events.categoryProduct.id
+                            )
+                        )
+                    )
+                }
+            }
+        }
+    }
+
+    fun addToFav(id: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            addToFavRepository.addToFav(id).collect {
+                when (it) {
+                    is Resource.Loading -> {
+                        uiState = uiState.copy()
+                    }
+
+                    is Resource.Success -> {
+                        sendUiEvent(CartUiEvents.ShowToast(UiText.DynamicString("Added to favorites")))
+                    }
+
+                    is Resource.Error -> {
+                        uiState = uiState.copy()
+                    }
+
+                }
+            }
+        }
+    }
+
+    fun removeFromFav(id: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            deleteFavRepository.deleteFav(id).collect {
+                when (it) {
+                    is Resource.Loading -> {
+                        uiState = uiState.copy()
+                    }
+
+                    is Resource.Success -> {
+                        sendUiEvent(CartUiEvents.ShowToast(UiText.DynamicString("Removed from favorites")))
+                    }
+
+                    is Resource.Error -> {
+                        uiState = uiState.copy()
+                    }
+
+                }
+            }
+        }
+    }
 
     fun getCart() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -48,7 +139,7 @@ class CartViewModel @Inject constructor(
                     }
 
                     is Resource.Error -> {
-                        uiState = uiState.copy(isLoading = false,error = it.message)
+                        uiState = uiState.copy(isLoading = false, error = it.message)
                         sendUiEvent(
                             CartUiEvents.ShowToast(
                                 it.message

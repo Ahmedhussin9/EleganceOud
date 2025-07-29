@@ -16,7 +16,7 @@ fun DataItem.toUiModel(): ProductUiModel {
         hasDiscount = discount != null,
         discount = product?.discount?.discountValue?.toDoubleOrNull(),
         priceAfterDiscount = product?.priceAfterDiscount?.toDoubleOrNull(),
-        description = ""
+        description = "",
     )
 }
 
