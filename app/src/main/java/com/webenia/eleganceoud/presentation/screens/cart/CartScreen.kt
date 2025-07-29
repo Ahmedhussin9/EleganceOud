@@ -26,6 +26,7 @@ import androidx.navigation.NavController
 import com.webenia.eleganceoud.R
 import com.webenia.eleganceoud.domain.model.product.ProductUiModel
 import com.webenia.eleganceoud.presentation.composables.ProductItemWide
+import com.webenia.eleganceoud.presentation.navigation.AppDestination
 import com.webenia.eleganceoud.presentation.screens.favorite.FavoriteEvent
 import com.webenia.eleganceoud.ui.theme.Primary
 
@@ -46,20 +47,33 @@ fun CartScreenSetup(
                 }
 
                 is CartUiEvents.Navigate -> {
-                    navController.navigate(it.destination.route)
+                    when (val destination = it.destination) {
+                        is AppDestination.ProductDetails -> {
+                            navController.navigate(
+                                destination.createRoute(destination.productId)
+                            )
+                        }
+
+                        else -> {
+                            navController.navigate(it.destination.route)
+                        }
+                    }
+
                 }
             }
         }
     }
     CartScreenContent(
-        state = viewModel.uiState
+        state = viewModel.uiState,
+        onEvent = viewModel::onEvent
     )
 
 }
 
 @Composable
 fun CartScreenContent(
-    state: CartUiState
+    state: CartUiState,
+    onEvent: (CartEvents) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -86,11 +100,26 @@ fun CartScreenContent(
             modifier = Modifier.padding(10.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
+
             items(items) { item ->
+
                 ProductItemWide(
                     item = item,
-                    onClick = { /* handle click */ },
-                    onFavClick = { /* handle fav */ },
+                    onClick = {
+                        onEvent(
+                            CartEvents.OnProductClicked(
+                                item
+                            )
+                        )
+                    },
+                    onFavClick = {
+                        onEvent(
+                            CartEvents.OnFavClicked(
+                                item
+                            )
+                        )
+
+                    },
                     onAddToCartClick = { /* handle add */ }
                 )
             }
@@ -104,6 +133,8 @@ fun CartScreenContent(
 @Preview(showBackground = true, showSystemUi = true)
 fun PreviewCartScreen() {
     CartScreenContent(
-        state = CartUiState()
+        state = CartUiState(),
+        onEvent = {}
+
     )
 }

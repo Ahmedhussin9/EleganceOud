@@ -114,7 +114,9 @@ fun FavoriteScreenContent(
                                 onFavClick = {
                                     onEvent(FavoriteEvent.FavoriteClick(it))
                                 },
-                                onAddToCartClick = {}
+                                onAddToCartClick = {
+                                    onEvent(FavoriteEvent.AddToCartClick(it))
+                                }
                             )
                         }
                     }
