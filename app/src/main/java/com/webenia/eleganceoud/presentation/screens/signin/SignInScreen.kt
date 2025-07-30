@@ -31,6 +31,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
@@ -113,7 +114,7 @@ fun SignInScreenContent(
         )
         Spacer(modifier = Modifier.height(6.dp))
         Text(
-            text = "Welcome!",
+            text = stringResource(R.string.welcome),
             color = MidGrey,
             fontFamily = poppinsFamily,
             fontWeight = FontWeight.Bold,
@@ -121,7 +122,7 @@ fun SignInScreenContent(
         )
         Spacer(modifier = Modifier.height(6.dp))
         Text(
-            text = "login or sign up to continue in our app",
+            text = stringResource(R.string.login_or_sign_up_to_continue_in_our_app),
             color = LightGrey,
             fontFamily = poppinsFamily,
             fontWeight = FontWeight.Normal,
@@ -130,14 +131,14 @@ fun SignInScreenContent(
         Spacer(modifier = Modifier.height(10.dp))
         UnderLinedEditText(
             state = state.email,
-            filedName = "Email",
+            filedName = stringResource(R.string.email),
             onValueChange = { onEvent(SignInEvent.EmailChanged(it)) },
             imeAction = ImeAction.Next,
             focusRequester = focusRequesterEmail
         )
         UnderLinedEditText(
             state = state.password,
-            filedName = "Password",
+            filedName = stringResource(R.string.password),
             onValueChange = { onEvent(SignInEvent.PasswordChanged(it)) },
             isPasswordField = true,
             imeAction = ImeAction.Next,
@@ -150,7 +151,7 @@ fun SignInScreenContent(
             horizontalArrangement = Arrangement.End
         ) {
             Text(
-                text = "Don't have an account yet?",
+                text = stringResource(R.string.don_t_have_an_account_yet),
                 color = Primary,
                 fontFamily = poppinsFamily,
                 fontWeight = FontWeight.Normal,
@@ -169,7 +170,7 @@ fun SignInScreenContent(
                 onEvent(SignInEvent.Submit)
             }) {
             Text(
-                text = "Sign in",
+                text = stringResource(R.string.sign_in),
                 color = Color.White,
                 fontFamily = poppinsFamily,
                 fontWeight = FontWeight.Bold,

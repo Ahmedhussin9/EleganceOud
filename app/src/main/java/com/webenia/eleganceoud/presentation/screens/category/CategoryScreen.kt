@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -29,6 +30,9 @@ import com.webenia.eleganceoud.presentation.composables.CategoryItemShimmer
 import com.webenia.eleganceoud.presentation.navigation.AppDestination
 import com.webenia.eleganceoud.presentation.screens.home.HomeEvents
 import com.webenia.eleganceoud.ui.theme.Primary
+import com.webenia.eleganceoud.R
+
+
 
 
 @Composable
@@ -83,7 +87,7 @@ fun CategoryScreenContent(
                 horizontalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = "Categories",
+                    text = stringResource(R.string.categories),
                     modifier = Modifier.padding(10.dp),
                     color = Primary,
                     fontWeight = FontWeight.SemiBold,

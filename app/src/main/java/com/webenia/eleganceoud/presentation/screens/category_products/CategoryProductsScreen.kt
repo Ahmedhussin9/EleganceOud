@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -42,6 +43,8 @@ import com.webenia.eleganceoud.presentation.navigation.AppDestination
 import com.webenia.eleganceoud.presentation.screens.product_details.ProductDetailsEvent
 import com.webenia.eleganceoud.ui.theme.CardGrey
 import com.webenia.eleganceoud.ui.theme.Primary
+import com.webenia.eleganceoud.R
+
 
 @Composable
 fun CategoryProductsSetup(
@@ -125,7 +128,7 @@ fun CategoryProductsContent(
                     onBackClick.invoke()
                 }
                 Text(
-                    text = state.categoryName ?: "Category Name",
+                    text = state.categoryName ?: stringResource(R.string.categories),
                     fontSize = 24.sp,
                     maxLines = 1,
                     softWrap = true,
