@@ -17,5 +17,7 @@
     <string name="cancel">Cancel</string>
     <string name="logout">Log out</string>
     <string name="sure_to_logout">Are you sure you want to log out?</string>
+    <string name="categories">Categories</string>
+    <string name="cart">Cart</string>
 
 </resources>

@@ -18,8 +18,10 @@ sealed class ProductDetailsEvent {
         val itemId: Int
     ):ProductDetailsEvent()
     class GetProductDetails(val productId: Int) : ProductDetailsEvent()
-    object AddToCart : ProductDetailsEvent()
+    class AddToCart(val productId: Int,val quantity:Int) : ProductDetailsEvent()
     object OnBackClick: ProductDetailsEvent()
      class ProductClicked(val productId: Int) : ProductDetailsEvent()
+    object OnPlusClicked:ProductDetailsEvent()
+    object OnMinusClicked:ProductDetailsEvent()
 
 }
