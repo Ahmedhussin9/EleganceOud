@@ -36,6 +36,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -126,7 +127,7 @@ fun HomeScreenContent(
                     modifier = Modifier.size(25.dp)
                 )
                 Text(
-                    "Categories",
+                    stringResource(R.string.categories),
                     color = Primary,
                     fontSize = 24.sp,
                     modifier = Modifier.padding(10.dp),
@@ -161,7 +162,7 @@ fun HomeScreenContent(
                     modifier = Modifier.size(25.dp)
                 )
                 Text(
-                    "Our Brands",
+                    stringResource(R.string.our_brands),
                     color = Primary,
                     fontSize = 24.sp,
                     modifier = Modifier.padding(10.dp),
@@ -192,7 +193,7 @@ fun HomeScreenContent(
                     modifier = Modifier.size(25.dp)
                 )
                 Text(
-                    "Our Products",
+                    stringResource(R.string.our_products),
                     color = Primary,
                     fontSize = 24.sp,
                     modifier = Modifier.padding(10.dp),
@@ -230,7 +231,7 @@ fun HomeScreenContent(
                     modifier = Modifier.size(25.dp)
                 )
                 Text(
-                    "Latest Products",
+                    stringResource(R.string.latest_products),
                     color = Primary,
                     fontSize = 24.sp,
                     modifier = Modifier.padding(10.dp),
@@ -282,7 +283,7 @@ fun HomeScreenContent(
                     }
                 }
                 Text(
-                    "Best-selling Products",
+                    stringResource(R.string.best_selling_products),
                     color = Primary,
                     fontSize = 24.sp,
                     modifier = Modifier.padding(10.dp),

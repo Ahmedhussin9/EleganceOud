@@ -81,7 +81,7 @@ class SignUpViewModel @Inject constructor(
                         phone = uiState.phone,
                         password = uiState.password,
                         password_confirmation = uiState.confirmPassword,
-                        country_id = "12",
+                        country_id = "+971",
                         role = "user"
                     )
                     repository.registerUser(

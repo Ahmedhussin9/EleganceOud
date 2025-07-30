@@ -57,6 +57,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource.Companion.SideEffect
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration.Companion.LineThrough
@@ -66,6 +67,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.webenia.eleganceoud.R
 import com.webenia.eleganceoud.domain.model.product.ProductAmountUiModel
 import com.webenia.eleganceoud.domain.model.product.ProductDetailsUiModel
 import com.webenia.eleganceoud.domain.model.product.ProductUiModel
@@ -212,7 +214,7 @@ fun ProductScreenContent(
 
                         if (state.productDetails?.isAvailable == false) {
                             Text(
-                                text = "Unavailable",
+                                text = stringResource(R.string.unavailable),
                                 color = Color.White,
                                 modifier = Modifier
                                     .align(Alignment.TopEnd)
@@ -242,7 +244,7 @@ fun ProductScreenContent(
                         verticalAlignment = CenterVertically
                     ) {
                         Text(
-                            text = "PRICE",
+                            text = stringResource(R.string.price),
                             fontSize = 18.sp,
                             color = Color.Gray,
                             fontWeight = FontWeight.Bold
@@ -291,7 +293,7 @@ fun ProductScreenContent(
                             verticalAlignment = CenterVertically
                         ) {
                             Text(
-                                text = "SELECT WEIGHT",
+                                text = stringResource(R.string.select_weight),
                                 fontSize = 18.sp,
                                 color = Color.Gray,
                                 fontWeight = FontWeight.Bold
@@ -318,7 +320,7 @@ fun ProductScreenContent(
                                 )
                                 Spacer(modifier = Modifier.width(5.dp))
                                 Text(
-                                    text = "Reset",
+                                    text = stringResource(R.string.reset),
                                     fontSize = 12.sp,
                                     color = Color.Black,
                                     fontWeight = FontWeight.Bold
@@ -358,7 +360,7 @@ fun ProductScreenContent(
                 if (state.productDetails?.relatedProducts?.isNotEmpty() == true) {
                     item {
                         Text(
-                            text = "RELATED PRODUCTS",
+                            text = stringResource(R.string.related_products),
                             fontSize = 18.sp,
                             color = Color.Gray,
                             fontWeight = FontWeight.Bold,
@@ -390,7 +392,7 @@ fun ProductScreenContent(
                 ) {
                     item {
                         Text(
-                            text = "RELATED PRODUCTS",
+                            text = stringResource(R.string.related_products),
                             fontSize = 18.sp,
                             color = Color.Gray,
                             fontWeight = FontWeight.Bold,

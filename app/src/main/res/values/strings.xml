@@ -19,5 +19,35 @@
     <string name="sure_to_logout">Are you sure you want to log out?</string>
     <string name="categories">Categories</string>
     <string name="cart">Cart</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="favorites">Favorites</string>
+    <string name="our_brands">Our Brands</string>
+    <string name="our_products">Our Products</string>
+    <string name="latest_products">Latest Products</string>
+    <string name="best_selling_products">Best-selling Products</string>
+    <string name="skip">Skip</string>
+    <string name="email_otp_verification">Email OTP Verification</string>
+    <string name="get_your_code">GET YOUR CODE</string>
+    <string name="please_enter_the_code_sent_to_you_on_your_email_address">Please enter the code sent to you on your email address !</string>
+    <string name="didn_t_receive_the_code">Didn\'t receive the code?</string>
+    <string name="resend_in_s">" Resend in %1$ds"</string>
+    <string name="resend">" Resend"</string>
+    <string name="submit">Submit</string>
+    <string name="unavailable">Unavailable</string>
+    <string name="price">PRICE</string>
+    <string name="select_weight">SELECT WEIGHT</string>
+    <string name="related_products">RELATED PRODUCTS</string>
+    <string name="login_or_sign_up_to_continue_in_our_app">login or sign up to continue in our app</string>
+    <string name="welcome">Welcome!</string>
+    <string name="email">Email</string>
+    <string name="don_t_have_an_account_yet">Don\'t have an account yet?</string>
+    <string name="sign_in">Sign in</string>
+    <string name="reset">Reset</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="create_an_new_account">Create an new account</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="password">Password</string>
+    <string name="phone">Phone</string>
+    <string name="name">Name</string>
 
 </resources>

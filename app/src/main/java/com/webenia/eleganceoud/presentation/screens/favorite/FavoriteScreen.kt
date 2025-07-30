@@ -25,12 +25,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.webenia.eleganceoud.R
 import com.webenia.eleganceoud.presentation.composables.ProductItemWide
 import com.webenia.eleganceoud.presentation.composables.ShimmerEffect
 import com.webenia.eleganceoud.presentation.screens.category_products.ProductItemShimmer
@@ -90,7 +92,7 @@ fun FavoriteScreenContent(
                 horizontalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = "Favorites",
+                    text = stringResource(R.string.favorites),
                     modifier = Modifier.padding(10.dp),
                     color = Primary,
                     fontWeight = FontWeight.SemiBold,
