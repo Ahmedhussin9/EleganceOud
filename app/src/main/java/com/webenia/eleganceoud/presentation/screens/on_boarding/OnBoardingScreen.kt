@@ -29,6 +29,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -88,7 +89,7 @@ fun OnBoardingScreenContent(
         ) {
             if (pagerState.currentPage < onboardingPages.lastIndex) {
                 TextButton(onClick = { onDone() }) {
-                    Text("Skip", color = Primary, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                    Text(stringResource(R.string.skip), color = Primary, fontWeight = FontWeight.Bold, fontSize = 18.sp)
                 }
             } else {
                 Spacer(modifier = Modifier.width(64.dp))
@@ -146,9 +147,11 @@ fun OnBoardingScreenContent(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Button(
-                modifier = Modifier.fillMaxWidth().clip(
-                    RoundedCornerShape(5.dp)
-                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(
+                        RoundedCornerShape(5.dp)
+                    ),
                 onClick = {
                     if (pagerState.currentPage == onboardingPages.lastIndex) {
                         onDone()
