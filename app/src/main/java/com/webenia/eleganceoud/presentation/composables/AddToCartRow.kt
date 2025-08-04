@@ -49,6 +49,7 @@ fun AddToCartRow(
     onPlusClick: () -> Unit,
     onMinus: () -> Unit,
     availability:Boolean,
+
     modifier: Modifier = Modifier
 ) {
 
@@ -111,13 +112,14 @@ fun QuantityCounter(
     count: Int,
     onPlusClick: () -> Unit,
     onMinus: () -> Unit,
+    fontSize :Int = 18,
+    iconModifier:Modifier =Modifier,
     modifier: Modifier = Modifier
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         modifier = modifier
-            .fillMaxHeight()
             .clip(
                 RoundedCornerShape(
                     30.dp
@@ -128,6 +130,7 @@ fun QuantityCounter(
             )
     ) {
         IconButton(
+            modifier = iconModifier,
             onClick = {
                 if (count > 1) onMinus()
             }
@@ -140,11 +143,12 @@ fun QuantityCounter(
 
         Text(
             text = count.toString(),
-            fontSize = 18.sp,
+            fontSize = fontSize.sp,
             fontWeight = FontWeight.Bold
         )
 
         IconButton(
+            modifier = iconModifier,
             onClick = {
                 onPlusClick()
             }

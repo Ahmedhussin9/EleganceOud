@@ -35,34 +35,23 @@ class CartViewModel @Inject constructor(
 
     fun onEvent(events: CartEvents) {
         when (events) {
-            is CartEvents.OnFavClicked -> {
-                viewModelScope.launch(Dispatchers.IO) {
-                    if (events.categoryProduct.isFavorite == false) {
-                        addToFav(
-                            events.categoryProduct.id
-                        )
-                    } else {
-                        removeFromFav(
-                            events.categoryProduct.id
-                        )
-                    }
-                }
-            }
+            is CartEvents.OnCountChange->{
 
-            is CartEvents.OnPlusClicked -> {
+            }
+            is CartEvents.OnPlusClick -> {
 
             }
 
-            is CartEvents.OnMinusClicked -> {
+            is CartEvents.OnMinusClick -> {
             }
 
-            is CartEvents.OnDeleteClicked -> {
+            is CartEvents.OnDeleteClick -> {
             }
 
             is CartEvents.OnCheckoutClicked -> {
             }
 
-            is CartEvents.OnProductClicked -> {
+            is CartEvents.OnProductClick -> {
                 viewModelScope.launch(
                     Dispatchers.IO
                 ) {
@@ -78,47 +67,7 @@ class CartViewModel @Inject constructor(
         }
     }
 
-    fun addToFav(id: Int) {
-        viewModelScope.launch(Dispatchers.IO) {
-            addToFavRepository.addToFav(id).collect {
-                when (it) {
-                    is Resource.Loading -> {
-                        uiState = uiState.copy()
-                    }
 
-                    is Resource.Success -> {
-                        sendUiEvent(CartUiEvents.ShowToast(UiText.DynamicString("Added to favorites")))
-                    }
-
-                    is Resource.Error -> {
-                        uiState = uiState.copy()
-                    }
-
-                }
-            }
-        }
-    }
-
-    fun removeFromFav(id: Int) {
-        viewModelScope.launch(Dispatchers.IO) {
-            deleteFavRepository.deleteFav(id).collect {
-                when (it) {
-                    is Resource.Loading -> {
-                        uiState = uiState.copy()
-                    }
-
-                    is Resource.Success -> {
-                        sendUiEvent(CartUiEvents.ShowToast(UiText.DynamicString("Removed from favorites")))
-                    }
-
-                    is Resource.Error -> {
-                        uiState = uiState.copy()
-                    }
-
-                }
-            }
-        }
-    }
 
     fun getCart() {
         viewModelScope.launch(Dispatchers.IO) {
