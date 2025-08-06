@@ -6,11 +6,12 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.elegance_oud.util.state.Resource
+import com.webenia.eleganceoud.R
 import com.webenia.eleganceoud.domain.mapper.toUiModel
 import com.webenia.eleganceoud.domain.model.brands.toUiModel
+import com.webenia.eleganceoud.domain.repository.home.GetCategoriesRepository
 import com.webenia.eleganceoud.domain.repository.home.GetHomeBestSellingRepository
 import com.webenia.eleganceoud.domain.repository.home.GetHomeBrandsRepository
-import com.webenia.eleganceoud.domain.repository.home.GetCategoriesRepository
 import com.webenia.eleganceoud.domain.repository.home.GetHomeLatestProductsRepository
 import com.webenia.eleganceoud.domain.repository.home.GetOurProductsRepository
 import com.webenia.eleganceoud.presentation.navigation.AppDestination
@@ -21,6 +22,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getOurProductsRepository: GetOurProductsRepository,
@@ -37,7 +39,6 @@ class HomeViewModel @Inject constructor(
     val uiEvent = _uiEvent.asSharedFlow()
 
 
-
     fun getHome() {
         getOurProducts()
         getHomeCategories()
@@ -48,20 +49,30 @@ class HomeViewModel @Inject constructor(
 
     fun onEvent(
         event: HomeEvents
-    ){
-        when(event){
+    ) {
+        when (event) {
             is HomeEvents.ProductClicked -> {
                 viewModelScope.launch {
                     sendUiEvent(HomeUiEvents.Navigate(AppDestination.ProductDetails(event.product.id)))
                 }
             }
+
             is HomeEvents.CategoryClicked -> {
                 viewModelScope.launch {
                     sendUiEvent(HomeUiEvents.Navigate(AppDestination.CategoryProduct(event.category.id)))
                 }
             }
+
+            is HomeEvents.ReloadClick -> {
+                getHome()
+                uiState = uiState.copy(
+                    isLoading = true,
+                    error = null
+                )
+            }
         }
     }
+
     private fun areAllRequestsDone(state: HomeUiState): Boolean {
         return state.ourProductsDone &&
                 state.categoriesDone &&
@@ -77,15 +88,24 @@ class HomeViewModel @Inject constructor(
                     is Resource.Loading -> {}
                     is Resource.Success -> {
                         val newState = uiState.copy(
-                            ourProductsList = state.data?.data?.map { it.toUiModel() } ?: emptyList(),
+                            ourProductsList = state.data?.data?.map { it.toUiModel() }
+                                ?: emptyList(),
                             ourProductsDone = true
                         )
                         uiState = newState.copy(isLoading = !areAllRequestsDone(newState))
                     }
+
                     is Resource.Error -> {
                         val newState = uiState.copy(ourProductsDone = true)
-                        uiState = newState.copy(isLoading = !areAllRequestsDone(newState))
-                        sendUiEvent(HomeUiEvents.ShowToast(state.message ?: UiText.DynamicString("Try again later")))
+                        uiState = newState.copy(
+                            isLoading = !areAllRequestsDone(newState),
+                            error = UiText.StringResource(R.string.check_your_internet_connection)
+                        )
+                        sendUiEvent(
+                            HomeUiEvents.ShowToast(
+                                state.message ?: UiText.DynamicString("Try again later")
+                            )
+                        )
                     }
                 }
             }
@@ -99,15 +119,24 @@ class HomeViewModel @Inject constructor(
                     is Resource.Loading -> {}
                     is Resource.Success -> {
                         val newState = uiState.copy(
-                            categoriesList = state.data?.data?.map { it.toUiModel() } ?: emptyList(),
+                            categoriesList = state.data?.data?.map { it.toUiModel() }
+                                ?: emptyList(),
                             categoriesDone = true
                         )
                         uiState = newState.copy(isLoading = !areAllRequestsDone(newState))
                     }
+
                     is Resource.Error -> {
                         val newState = uiState.copy(categoriesDone = true)
-                        uiState = newState.copy(isLoading = !areAllRequestsDone(newState))
-                        sendUiEvent(HomeUiEvents.ShowToast(state.message ?: UiText.DynamicString("Try again later")))
+                        uiState = newState.copy(
+                            isLoading = !areAllRequestsDone(newState),
+                            error = UiText.StringResource(R.string.check_your_internet_connection)
+                        )
+                        sendUiEvent(
+                            HomeUiEvents.ShowToast(
+                                state.message ?: UiText.DynamicString("Try again later")
+                            )
+                        )
                     }
                 }
             }
@@ -126,9 +155,13 @@ class HomeViewModel @Inject constructor(
                         )
                         uiState = newState.copy(isLoading = !areAllRequestsDone(newState))
                     }
+
                     is Resource.Error -> {
                         val newState = uiState.copy(brandsDone = true)
-                        uiState = newState.copy(isLoading = !areAllRequestsDone(newState))
+                        uiState = newState.copy(
+                            isLoading = !areAllRequestsDone(newState),
+                            error = UiText.StringResource(R.string.check_your_internet_connection)
+                        )
                     }
                 }
             }
@@ -142,14 +175,19 @@ class HomeViewModel @Inject constructor(
                     is Resource.Loading -> {}
                     is Resource.Success -> {
                         val newState = uiState.copy(
-                            bestSellingList = state.data?.data?.map { it.toUiModel() } ?: emptyList(),
+                            bestSellingList = state.data?.data?.map { it.toUiModel() }
+                                ?: emptyList(),
                             bestSellingDone = true
                         )
                         uiState = newState.copy(isLoading = !areAllRequestsDone(newState))
                     }
+
                     is Resource.Error -> {
                         val newState = uiState.copy(bestSellingDone = true)
-                        uiState = newState.copy(isLoading = !areAllRequestsDone(newState))
+                        uiState = newState.copy(
+                            isLoading = !areAllRequestsDone(newState),
+                            error = UiText.StringResource(R.string.check_your_internet_connection)
+                        )
                     }
                 }
             }
@@ -163,14 +201,19 @@ class HomeViewModel @Inject constructor(
                     is Resource.Loading -> {}
                     is Resource.Success -> {
                         val newState = uiState.copy(
-                            latestProductsList = state.data?.data?.map { it.toUiModel() } ?: emptyList(),
+                            latestProductsList = state.data?.data?.map { it.toUiModel() }
+                                ?: emptyList(),
                             latestProductsDone = true
                         )
                         uiState = newState.copy(isLoading = !areAllRequestsDone(newState))
                     }
+
                     is Resource.Error -> {
                         val newState = uiState.copy(latestProductsDone = true)
-                        uiState = newState.copy(isLoading = !areAllRequestsDone(newState))
+                        uiState = newState.copy(
+                            isLoading = !areAllRequestsDone(newState),
+                            error = UiText.StringResource(R.string.check_your_internet_connection)
+                        )
                     }
                 }
             }

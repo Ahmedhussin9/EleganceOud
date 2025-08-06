@@ -120,6 +120,11 @@ fun MainScreenContent(
             NavHost(
                 navController = navHostController,
                 startDestination = "home",
+                enterTransition = {
+                    slideIn
+                },
+                exitTransition = { slideOut },
+                popEnterTransition = { slideUp },
                 modifier = Modifier.fillMaxSize(),
             ) {
                 composable("home") { HomeScreenSetup(

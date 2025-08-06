@@ -50,7 +50,7 @@
     <string name="password">كلمة المرور</string>
     <string name="phone">رقم الهاتف</string>
     <string name="name">الاسم</string>
-
+    <string name="reload">Reload</string>
 
 
 </resources>

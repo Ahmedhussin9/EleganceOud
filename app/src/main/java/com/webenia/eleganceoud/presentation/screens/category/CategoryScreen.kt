@@ -1,7 +1,6 @@
 package com.webenia.eleganceoud.presentation.screens.category
 
 
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,7 +9,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.Text
@@ -25,14 +23,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.webenia.eleganceoud.R
 import com.webenia.eleganceoud.presentation.composables.CategoryItem
 import com.webenia.eleganceoud.presentation.composables.CategoryItemShimmer
+import com.webenia.eleganceoud.presentation.composables.ReloadButton
 import com.webenia.eleganceoud.presentation.navigation.AppDestination
-import com.webenia.eleganceoud.presentation.screens.home.HomeEvents
 import com.webenia.eleganceoud.ui.theme.Primary
-import com.webenia.eleganceoud.R
-
-
+import com.webenia.eleganceoud.util.state.UiText
 
 
 @Composable
@@ -47,8 +44,10 @@ fun CategoryScreenSetup(
                 is CategoryUiEvents.Navigate -> {
                     when (val destination = event.destination) {
                         is AppDestination.CategoryProduct ->
-                            navController.navigate(destination.createRoute(destination.categoryId)
+                            navController.navigate(
+                                destination.createRoute(destination.categoryId)
                             )
+
                         else -> navController.navigate(destination.route)
                     }
 
@@ -81,6 +80,12 @@ fun CategoryScreenContent(
     ) {
         if (state.isLoading) {
             CategoryShimmerEffect()
+        } else if (state.error != null) {
+            ReloadButton(
+                {
+                    onEvent(CategoryEvent.OnReloadClicked)
+                }
+            )
         } else {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -105,8 +110,7 @@ fun CategoryScreenContent(
             ) {
                 items(state.categoriesList.size) { item ->
                     CategoryItem(
-                        item = state.categoriesList[item]
-                        , onClick = {
+                        item = state.categoriesList[item], onClick = {
                             onEvent(CategoryEvent.OnCategoryClicked(state.categoriesList[item]))
 
                         }
@@ -136,7 +140,10 @@ fun CategoryShimmerEffect() {
 @Preview(showBackground = true, showSystemUi = true)
 fun PreviewCategoryScreen() {
     CategoryScreenContent(
-        state = CategoryUiState(),
+        state = CategoryUiState(
+            isLoading = false,
+            error = UiText.DynamicString("ll")
+        ),
         onEvent = { }
     )
 }

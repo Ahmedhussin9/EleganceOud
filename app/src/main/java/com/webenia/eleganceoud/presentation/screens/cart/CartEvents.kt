@@ -8,6 +8,7 @@ sealed class CartEvents {
     data class OnMinusClick( val categoryProduct: CartItemModel) : CartEvents()
     data class OnDeleteClick( val categoryProduct: CartItemModel) : CartEvents()
     data class OnCountChange(val productId: Int, val newCount: Int) : CartEvents()
+    object OnReloadClick:CartEvents()
 
     data class OnProductClick(val categoryProduct: CartItemModel):CartEvents()
     object OnCheckoutClicked : CartEvents()

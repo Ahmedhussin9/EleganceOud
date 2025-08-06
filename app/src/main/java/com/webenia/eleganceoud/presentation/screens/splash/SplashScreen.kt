@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -26,6 +27,8 @@ fun SplashScreenSetup(
 fun SplashScreenContent(
     onDone: () -> Unit = {}
 ) {
+    val context = LocalContext.current
+
     LaunchedEffect(true) {
         delay(1000)
         onDone()

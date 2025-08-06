@@ -12,7 +12,6 @@ import com.webenia.eleganceoud.domain.repository.cart.GetCartRepository
 import com.webenia.eleganceoud.domain.repository.fav.AddToFavRepository
 import com.webenia.eleganceoud.domain.repository.fav.DeleteFavRepository
 import com.webenia.eleganceoud.presentation.navigation.AppDestination
-import com.webenia.eleganceoud.presentation.screens.category.CategoryUiEvents
 import com.webenia.eleganceoud.util.state.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -35,11 +34,19 @@ class CartViewModel @Inject constructor(
 
     fun onEvent(events: CartEvents) {
         when (events) {
-            is CartEvents.OnCountChange->{
+            is CartEvents.OnCountChange -> {
 
             }
+
             is CartEvents.OnPlusClick -> {
 
+            }
+
+            is CartEvents.OnReloadClick -> {
+                getCart()
+                uiState = uiState.copy(
+                    error = null
+                )
             }
 
             is CartEvents.OnMinusClick -> {
@@ -66,7 +73,6 @@ class CartViewModel @Inject constructor(
             }
         }
     }
-
 
 
     fun getCart() {

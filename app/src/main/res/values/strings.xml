@@ -50,5 +50,6 @@
     <string name="phone">Phone</string>
     <string name="name">Name</string>
     <string name="checkout">Checkout</string>
+    <string name="reload">Reload</string>
 
 </resources>

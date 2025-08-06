@@ -40,6 +40,12 @@ class CategoryViewModel @Inject constructor(
                     sendUiEvent(CategoryUiEvents.Navigate(AppDestination.CategoryProduct(event.category.id)))
                 }
             }
+            is CategoryEvent.OnReloadClicked->{
+                getCategories()
+                uiState = uiState.copy(
+                    error = null
+                )
+            }
         }
     }
 
@@ -56,7 +62,7 @@ class CategoryViewModel @Inject constructor(
                     }
 
                     is Resource.Error -> {
-                        uiState = uiState.copy(error = categoriesResource.message)
+                        uiState = uiState.copy(error = categoriesResource.message, isLoading = false)
                         sendUiEvent(
                             CategoryUiEvents.ShowToast(
                                 categoriesResource.message

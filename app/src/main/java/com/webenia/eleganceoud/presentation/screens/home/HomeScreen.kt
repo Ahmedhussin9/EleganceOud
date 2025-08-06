@@ -50,9 +50,11 @@ import com.webenia.eleganceoud.presentation.composables.CategoryItem
 import com.webenia.eleganceoud.presentation.composables.CategoryItemPreview
 import com.webenia.eleganceoud.presentation.composables.LoadingOverlay
 import com.webenia.eleganceoud.presentation.composables.ProductItem
+import com.webenia.eleganceoud.presentation.composables.ReloadButton
 import com.webenia.eleganceoud.presentation.composables.TopBar
 import com.webenia.eleganceoud.presentation.navigation.AppDestination
 import com.webenia.eleganceoud.ui.theme.Primary
+import com.webenia.eleganceoud.util.state.UiText
 
 
 @Composable
@@ -98,8 +100,6 @@ fun HomeScreenContent(
     state: HomeUiState,
     onEvent: (HomeEvents) -> Unit
 ) {
-
-    val context = LocalContext.current
     if (state.isLoading) {
         Column(
             modifier = Modifier
@@ -108,6 +108,10 @@ fun HomeScreenContent(
         ) {
             HomeShimmerEffect()
         }
+    }else if (state.error!=null){
+        ReloadButton({
+            onEvent(HomeEvents.ReloadClick)
+        })
     } else {
         Column(
             modifier = Modifier
@@ -341,8 +345,8 @@ fun HomeScreenContentPreview() {
     HomeScreenContent(
         state = HomeUiState(
             ourProductsList = list,
-            isLoading = true,
-
+            isLoading = false,
+            error = UiText.DynamicString(":A")
             ),
         onEvent = {}
     )

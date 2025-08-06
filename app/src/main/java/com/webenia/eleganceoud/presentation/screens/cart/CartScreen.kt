@@ -2,6 +2,7 @@ package com.webenia.eleganceoud.presentation.screens.cart
 
 
 import android.widget.Toast
+import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -43,9 +44,12 @@ import com.webenia.eleganceoud.R
 import com.webenia.eleganceoud.domain.model.product.ProductUiModel
 import com.webenia.eleganceoud.presentation.composables.CartProductItem
 import com.webenia.eleganceoud.presentation.composables.ProductItemWide
+import com.webenia.eleganceoud.presentation.composables.ReloadButton
 import com.webenia.eleganceoud.presentation.navigation.AppDestination
 import com.webenia.eleganceoud.presentation.screens.favorite.FavoriteEvent
+import com.webenia.eleganceoud.presentation.screens.favorite.FavoriteShimmer
 import com.webenia.eleganceoud.ui.theme.Primary
+import com.webenia.eleganceoud.util.state.UiText
 
 @Composable
 fun CartScreenSetup(
@@ -92,87 +96,98 @@ fun CartScreenContent(
     state: CartUiState,
     onEvent: (CartEvents) -> Unit
 ) {
-    Box(modifier = Modifier.fillMaxSize()) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(bottom = 55.dp)
-        ) {
-            Text(
-                text = stringResource(R.string.cart),
-                modifier = Modifier
-                    .padding(16.dp)
-                    .align(Alignment.CenterHorizontally),
-                color = Primary,
-                fontWeight = FontWeight.SemiBold,
-                fontSize = 24.sp
-            )
-
-            val items = state.cartModel.cartItems.orEmpty()
-
-            LazyColumn(
+    if(state.isLoading){
+        FavoriteShimmer()
+    }else if(state.error!=null){
+        ReloadButton(
+            onClick = {
+                onEvent(CartEvents.OnReloadClick)
+            }
+        )
+    }else{
+        Box(modifier = Modifier.fillMaxSize()) {
+            Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = 16.dp),
-                verticalArrangement = Arrangement.spacedBy(10.dp)
-            ) {
-                items(items) { item ->
-                    CartProductItem(
-                        item = item,
-                        countState = item.countInCart,
-                        onClick = {
-                            onEvent(CartEvents.OnProductClick(item))
-                        },
-                        onPlusClick = {
-                            onEvent(CartEvents.OnPlusClick(item))
-                        },
-                        onMinusClick = {
-                            onEvent(CartEvents.OnMinusClick(item))
-                        },
-                        onDeleteClick = {
-                            onEvent(CartEvents.OnDeleteClick(item))
-                        },
-
-                    )
-                }
-            }
-        }
-
-        Button(
-            onClick = {
-                onEvent(CartEvents.OnCheckoutClicked)
-            },
-            modifier = Modifier
-                .height(50.dp)
-                .align(Alignment.BottomEnd)
-                .padding(horizontal = 30.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Primary
-            ),
-            shape = RoundedCornerShape(30.dp)
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically
+                    .padding(bottom = 55.dp)
             ) {
                 Text(
-                    text = stringResource(R.string.checkout),
-                    color = Color.White,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.SemiBold
+                    text = stringResource(R.string.cart),
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .align(Alignment.CenterHorizontally),
+                    color = Primary,
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 24.sp
                 )
-                Spacer(
-                    modifier = Modifier.widthIn(10.dp)
-                )
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_arrow_right),
-                    contentDescription = null,
-                    tint = Color.White,
-                    modifier = Modifier.size(30.dp)
-                )
+
+                val items = state.cartModel.cartItems.orEmpty()
+
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(horizontal = 16.dp),
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    items(items) { item ->
+                        CartProductItem(
+                            item = item,
+                            countState = item.countInCart,
+                            onClick = {
+                                onEvent(CartEvents.OnProductClick(item))
+                            },
+                            onPlusClick = {
+                                onEvent(CartEvents.OnPlusClick(item))
+                            },
+                            onMinusClick = {
+                                onEvent(CartEvents.OnMinusClick(item))
+                            },
+                            onDeleteClick = {
+                                onEvent(CartEvents.OnDeleteClick(item))
+                            },
+
+                            )
+                    }
+                }
             }
 
+            Button(
+                onClick = {
+                    onEvent(CartEvents.OnCheckoutClicked)
+                },
+                modifier = Modifier
+                    .height(50.dp)
+                    .align(Alignment.BottomEnd)
+                    .padding(horizontal = 30.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Primary
+                ),
+                shape = RoundedCornerShape(30.dp)
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = stringResource(R.string.checkout),
+                        color = Color.White,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                    Spacer(
+                        modifier = Modifier.widthIn(10.dp)
+                    )
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_arrow_right),
+                        contentDescription = null,
+                        tint = Color.White,
+                        modifier = Modifier.size(30.dp)
+                    )
+                }
+
+            }
         }
     }
+
 }
 
 
@@ -180,7 +195,9 @@ fun CartScreenContent(
 @Preview(showBackground = true, showSystemUi = true)
 fun PreviewCartScreen() {
     CartScreenContent(
-        state = CartUiState(),
+        state = CartUiState(
+           
+        ),
         onEvent = {}
 
     )
