@@ -9,6 +9,7 @@ import com.webenia.eleganceoud.domain.model.product.ProductUiModel
 fun DataItem.toUiModel(): CartItemModel {
     return CartItemModel(
         id = product?.id ?: -1,
+        cartId = id?:-1,
         name = product?.nameEn ?: "Product Name",
         price =product?.convertedPrice?: 0.0,
         priceAfterDiscount = product?.convertedTotal?:0.0,
@@ -39,7 +40,8 @@ fun GetCartResponse.toCartModel(): CartModel {
                 discount = 0.0,
                 priceAfterDiscount = 0.0,
                 description = "",
-                countInCart = 1
+                countInCart = 1,
+                cartId = 1
             )
         } ?: emptyList()
     )

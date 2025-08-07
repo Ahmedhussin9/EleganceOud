@@ -1,7 +1,8 @@
 package com.webenia.eleganceoud.domain.model.cart
 
 data class CartItemModel(
-    val id: Int,
+    val cartId: Int,
+    val id:Int,
     val name: String,
     val description: String,
     val price: Double,

@@ -167,7 +167,8 @@ fun PreviewCartProductItem() {
             price = 0.0,
             imageUrl = "",
             currencyCode = "",
-            hasDiscount = true
+            hasDiscount = true,
+            cartId = 1
         ),
         onClick = {},
         onPlusClick = {},
