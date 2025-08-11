@@ -20,4 +20,37 @@
     <string name="sure_to_logout">هل أنت متأكد أنك تريد تسجيل الخروج؟</string>
     <string name="categories">الأصناف</string>
     <string name="cart">عربة التسوق</string>
+    <string name="sign_up">إنشاء حساب</string>
+    <string name="favorites">المفضلة</string>
+    <string name="our_brands">علاماتنا التجارية</string>
+    <string name="our_products">منتجاتنا</string>
+    <string name="latest_products">أحدث المنتجات</string>
+    <string name="best_selling_products">المنتجات الأكثر مبيعًا</string>
+    <string name="skip">تخطي</string>
+    <string name="email_otp_verification">التحقق من البريد الإلكتروني عبر رمز OTP</string>
+    <string name="get_your_code">احصل على الرمز</string>
+    <string name="please_enter_the_code_sent_to_you_on_your_email_address">يرجى إدخال الرمز المرسل إلى بريدك الإلكتروني!</string>
+    <string name="didn_t_receive_the_code">لم تستلم الرمز؟</string>
+    <string name="resend_in_s">"إعادة الإرسال خلال %1$d ثانية"</string>
+    <string name="resend">"إعادة الإرسال"</string>
+    <string name="submit">إرسال</string>
+    <string name="unavailable">غير متوفر</string>
+    <string name="price">السعر</string>
+    <string name="select_weight">اختر الوزن</string>
+    <string name="related_products">منتجات ذات صلة</string>
+    <string name="login_or_sign_up_to_continue_in_our_app">سجّل الدخول أو أنشئ حسابًا للمتابعة في تطبيقنا</string>
+    <string name="welcome">مرحبًا!</string>
+    <string name="email">البريد الإلكتروني</string>
+    <string name="don_t_have_an_account_yet">ألا تملك حسابًا بعد؟</string>
+    <string name="sign_in">تسجيل الدخول</string>
+    <string name="reset">إعادة تعيين</string>
+    <string name="already_have_an_account">هل لديك حساب بالفعل؟</string>
+    <string name="create_an_new_account">إنشاء حساب جديد</string>
+    <string name="confirm_password">تأكيد كلمة المرور</string>
+    <string name="password">كلمة المرور</string>
+    <string name="phone">رقم الهاتف</string>
+    <string name="name">الاسم</string>
+    <string name="reload">Reload</string>
+
+
 </resources>

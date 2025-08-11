@@ -33,6 +33,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -118,7 +119,7 @@ fun OtpScreenContent(
         )
         Spacer(modifier = Modifier.height(20.dp))
         Text(
-            text = "Email OTP Verification",
+            text = stringResource(R.string.email_otp_verification),
             color = MidGrey,
             fontFamily = poppinsFamily,
             fontWeight = FontWeight.Bold,
@@ -126,7 +127,7 @@ fun OtpScreenContent(
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = "GET YOUR CODE",
+            text = stringResource(R.string.get_your_code),
             color = MidGrey,
             fontFamily = poppinsFamily,
             fontWeight = FontWeight.Bold,
@@ -134,7 +135,7 @@ fun OtpScreenContent(
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = "Please enter the code sent to you on your email address !",
+            text = stringResource(R.string.please_enter_the_code_sent_to_you_on_your_email_address),
             color = LightGrey,
             fontFamily = poppinsFamily,
             fontWeight = FontWeight.Normal,
@@ -157,7 +158,7 @@ fun OtpScreenContent(
             horizontalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "Didn't receive the code?",
+                text = stringResource(R.string.didn_t_receive_the_code),
                 color = MidGrey,
                 fontFamily = poppinsFamily,
                 fontWeight = FontWeight.Normal,
@@ -165,7 +166,7 @@ fun OtpScreenContent(
             )
             if (timer > 0) {
                 Text(
-                    text = " Resend in ${timer}s",
+                    text = stringResource(R.string.resend_in_s, timer),
                     color = LightGrey,
                     fontFamily = poppinsFamily,
                     fontWeight = FontWeight.Normal,
@@ -173,7 +174,7 @@ fun OtpScreenContent(
                 )
             } else {
                 Text(
-                    text = " Resend",
+                    text = stringResource(R.string.resend),
                     color = Primary,
                     fontSize = 16.sp,
                     textAlign = TextAlign.Center,
@@ -198,7 +199,7 @@ fun OtpScreenContent(
                 onEvent(OtpEvents.SubmitOtp)
             }) {
             Text(
-                text = "Submit",
+                text = stringResource(R.string.submit),
                 color = Color.White,
                 fontFamily = poppinsFamily,
                 fontWeight = FontWeight.Bold,
@@ -211,7 +212,7 @@ fun OtpScreenContent(
 }
 
 @Composable
-@Preview(showBackground = true, showSystemUi = true)
+@Preview(showBackground = true, showSystemUi = true, locale = "ar")
 fun OtpScreenPreview() {
     OtpScreenContent(
         state = OtpUiState(),

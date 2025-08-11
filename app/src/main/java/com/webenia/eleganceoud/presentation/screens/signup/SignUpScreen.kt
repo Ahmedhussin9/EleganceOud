@@ -118,7 +118,7 @@ fun SignUpScreenContent(
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = "Sign Up",
+            text = stringResource(R.string.sign_up),
             color = MidGrey,
             fontFamily = poppinsFamily,
             fontWeight = FontWeight.Bold,
@@ -126,7 +126,7 @@ fun SignUpScreenContent(
         )
         Spacer(modifier = Modifier.height(6.dp))
         Text(
-            text = "Create an new account",
+            text = stringResource(R.string.create_an_new_account),
             color = LightGrey,
             fontFamily = poppinsFamily,
             fontWeight = FontWeight.Normal,
@@ -136,7 +136,7 @@ fun SignUpScreenContent(
 
         UnderLinedEditText(
             state = state.name,
-            filedName = "Name",
+            filedName = stringResource(R.string.name),
             onValueChange = { onEvent(SignUpEvent.NameChanged(it)) },
             imeAction = ImeAction.Next,
             focusRequester = focusRequesterName,
@@ -145,7 +145,7 @@ fun SignUpScreenContent(
 
         UnderLinedEditText(
             state = state.email,
-            filedName = "Email",
+            filedName = stringResource(R.string.email),
             onValueChange = { onEvent(SignUpEvent.EmailChanged(it)) },
             imeAction = ImeAction.Next,
             focusRequester = focusRequesterEmail,
@@ -154,7 +154,7 @@ fun SignUpScreenContent(
 
         UnderLinedEditText(
             state = state.phone,
-            filedName = "Phone",
+            filedName = stringResource(R.string.phone),
             onValueChange = { onEvent(SignUpEvent.PhoneChanged(it)) },
             imeAction = ImeAction.Next,
             focusRequester = focusRequesterPhone,
@@ -164,7 +164,7 @@ fun SignUpScreenContent(
 
         UnderLinedEditText(
             state = state.password,
-            filedName = "Password",
+            filedName = stringResource(R.string.password),
             onValueChange = { onEvent(SignUpEvent.PasswordChanged(it)) },
             isPasswordField = true,
             imeAction = ImeAction.Next,
@@ -174,7 +174,7 @@ fun SignUpScreenContent(
 
         UnderLinedEditText(
             state = state.confirmPassword,
-            filedName = "Confirm Password",
+            filedName = stringResource(R.string.confirm_password),
             onValueChange = { onEvent(SignUpEvent.ConfirmPasswordChanged(it)) },
             isPasswordField = true,
             imeAction = ImeAction.Done,
@@ -188,7 +188,7 @@ fun SignUpScreenContent(
             horizontalArrangement = Arrangement.End
         ) {
             Text(
-                text = "Already have an account?",
+                text = stringResource(R.string.already_have_an_account),
                 color = Primary,
                 fontFamily = poppinsFamily,
                 fontWeight = FontWeight.Normal,
@@ -225,7 +225,7 @@ fun SignUpScreenContent(
                 onSubmitClick()
             }) {
             Text(
-                text = "Sign up",
+                text = stringResource(R.string.sign_up),
                 color = Color.White,
                 fontFamily = poppinsFamily,
                 fontWeight = FontWeight.Bold,

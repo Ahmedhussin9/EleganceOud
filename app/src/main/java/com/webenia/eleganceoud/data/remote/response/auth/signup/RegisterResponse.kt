@@ -1,16 +1,20 @@
 package com.webenia.eleganceoud.data.remote.response.auth.signup
 
+import com.squareup.moshi.JsonClass
+
+@JsonClass(generateAdapter = true)
+
 data class RegisterResponse(
     val message: String,
     val data: RegisterData,
     val success: Boolean,
     val token: String
 )
-
+@JsonClass(generateAdapter = true)
 data class RegisterData(
     val user: UserDto
 )
-
+@JsonClass(generateAdapter = true)
 data class UserDto(
     val id: Int,
     val name: String,

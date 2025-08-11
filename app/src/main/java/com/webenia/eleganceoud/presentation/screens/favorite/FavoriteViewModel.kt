@@ -154,6 +154,12 @@ class FavoriteViewModel @Inject constructor(
             is FavoriteEvent.OnBackClick -> {
 
             }
+            is FavoriteEvent.OnReloadClicked->{
+                getFavorites()
+                uiState = uiState.copy(
+                    error = null
+                )
+            }
 
 
         }

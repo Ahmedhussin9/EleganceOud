@@ -6,4 +6,5 @@ sealed class CategoryEvent {
      data class OnCategoryClicked(
         val category: CategoryUiModel
     ) : CategoryEvent()
+    data object OnReloadClicked:CategoryEvent()
 }

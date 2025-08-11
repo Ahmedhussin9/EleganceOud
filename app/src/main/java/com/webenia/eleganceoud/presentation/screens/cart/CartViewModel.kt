@@ -8,11 +8,10 @@ import androidx.lifecycle.viewModelScope
 import com.elegance_oud.util.state.Resource
 import com.webenia.eleganceoud.domain.mapper.toCartModel
 import com.webenia.eleganceoud.domain.model.cart.CartModel
+import com.webenia.eleganceoud.domain.repository.cart.DeleteCartItemRepository
 import com.webenia.eleganceoud.domain.repository.cart.GetCartRepository
-import com.webenia.eleganceoud.domain.repository.fav.AddToFavRepository
-import com.webenia.eleganceoud.domain.repository.fav.DeleteFavRepository
+import com.webenia.eleganceoud.domain.repository.cart.UpdateCartItemRepository
 import com.webenia.eleganceoud.presentation.navigation.AppDestination
-import com.webenia.eleganceoud.presentation.screens.category.CategoryUiEvents
 import com.webenia.eleganceoud.util.state.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -24,8 +23,8 @@ import javax.inject.Inject
 @HiltViewModel
 class CartViewModel @Inject constructor(
     private val getCartRepository: GetCartRepository,
-    private val addToFavRepository: AddToFavRepository,
-    private val deleteFavRepository: DeleteFavRepository
+    private val updateCartItemRepository: UpdateCartItemRepository,
+    private val deleteCartItemRepository: DeleteCartItemRepository
 ) : ViewModel() {
     var uiState by mutableStateOf(CartUiState())
         private set
@@ -35,34 +34,41 @@ class CartViewModel @Inject constructor(
 
     fun onEvent(events: CartEvents) {
         when (events) {
-            is CartEvents.OnFavClicked -> {
-                viewModelScope.launch(Dispatchers.IO) {
-                    if (events.categoryProduct.isFavorite == false) {
-                        addToFav(
-                            events.categoryProduct.id
-                        )
-                    } else {
-                        removeFromFav(
-                            events.categoryProduct.id
-                        )
-                    }
-                }
-            }
-
-            is CartEvents.OnPlusClicked -> {
+            is CartEvents.OnCountChange -> {
 
             }
 
-            is CartEvents.OnMinusClicked -> {
+            is CartEvents.OnPlusClick -> {
+                updateItemInCart(
+                    events.categoryProduct.cartId,
+                    events.categoryProduct.countInCart + 1
+                )
+
             }
 
-            is CartEvents.OnDeleteClicked -> {
+            is CartEvents.OnMinusClick -> {
+                updateItemInCart(
+                    events.categoryProduct.cartId,
+                    events.categoryProduct.countInCart - 1
+                )
+            }
+
+            is CartEvents.OnReloadClick -> {
+                getCart()
+                uiState = uiState.copy(
+                    error = null
+                )
+            }
+
+
+            is CartEvents.OnDeleteClick -> {
+                deleteCartItem(productId = events.categoryProduct.cartId)
             }
 
             is CartEvents.OnCheckoutClicked -> {
             }
 
-            is CartEvents.OnProductClicked -> {
+            is CartEvents.OnProductClick -> {
                 viewModelScope.launch(
                     Dispatchers.IO
                 ) {
@@ -78,47 +84,6 @@ class CartViewModel @Inject constructor(
         }
     }
 
-    fun addToFav(id: Int) {
-        viewModelScope.launch(Dispatchers.IO) {
-            addToFavRepository.addToFav(id).collect {
-                when (it) {
-                    is Resource.Loading -> {
-                        uiState = uiState.copy()
-                    }
-
-                    is Resource.Success -> {
-                        sendUiEvent(CartUiEvents.ShowToast(UiText.DynamicString("Added to favorites")))
-                    }
-
-                    is Resource.Error -> {
-                        uiState = uiState.copy()
-                    }
-
-                }
-            }
-        }
-    }
-
-    fun removeFromFav(id: Int) {
-        viewModelScope.launch(Dispatchers.IO) {
-            deleteFavRepository.deleteFav(id).collect {
-                when (it) {
-                    is Resource.Loading -> {
-                        uiState = uiState.copy()
-                    }
-
-                    is Resource.Success -> {
-                        sendUiEvent(CartUiEvents.ShowToast(UiText.DynamicString("Removed from favorites")))
-                    }
-
-                    is Resource.Error -> {
-                        uiState = uiState.copy()
-                    }
-
-                }
-            }
-        }
-    }
 
     fun getCart() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -156,6 +121,64 @@ class CartViewModel @Inject constructor(
         }
     }
 
+    fun deleteCartItem(productId: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            deleteCartItemRepository.deleteCartItem(
+                productId = productId
+            ).collect {
+                when (it) {
+                    is Resource.Success -> {
+                        getCart()
+                    }
+
+                    is Resource.Error -> {
+                        uiState = uiState.copy(
+                            isLoading = false,
+                            error = it.message
+                        )
+                        sendUiEvent(
+                            CartUiEvents.ShowToast(
+                                it.message ?: UiText.DynamicString("Try again later")
+                            )
+                        )
+                    }
+
+                    is Resource.Loading -> {
+                        uiState = uiState.copy(isLoading = true)
+                    }
+                }
+            }
+
+        }
+    }
+
+    private fun updateItemInCart(productId: Int, quantity: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            updateCartItemRepository.updateCartItem(quantity, productId).collect {
+                when (it) {
+                    is Resource.Success -> {
+                        getCart()
+                    }
+
+                    is Resource.Error -> {
+                        uiState = uiState.copy(
+                            isLoading = false,
+                            error = it.message
+                        )
+                        sendUiEvent(
+                            CartUiEvents.ShowToast(
+                                it.message ?: UiText.DynamicString("Try again later")
+                            )
+                        )
+                    }
+
+                    is Resource.Loading -> {
+                        uiState = uiState.copy(isLoading = true)
+                    }
+                }
+            }
+        }
+    }
 
     private suspend fun sendUiEvent(event: CartUiEvents) {
         _uiEvent.emit(event)

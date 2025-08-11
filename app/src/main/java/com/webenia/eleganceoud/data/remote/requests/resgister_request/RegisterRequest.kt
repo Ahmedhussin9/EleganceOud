@@ -1,5 +1,8 @@
 package com.webenia.eleganceoud.data.remote.requests.resgister_request
 
+import com.squareup.moshi.JsonClass
+
+@JsonClass(generateAdapter = true)
 data class RegisterRequest(
     val name: String,
     val email: String,

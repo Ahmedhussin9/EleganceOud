@@ -6,5 +6,5 @@ data class CartModel (
     val totalPrice:Double,
     val totalQuantity:Int,
     val currencyCode:String,
-    val cartItems:List<ProductUiModel>?
+    val cartItems:List<CartItemModel>?
 )
