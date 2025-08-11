@@ -82,7 +82,7 @@ fun CategoryProductsSetup(
     LaunchedEffect(true) {
         viewModel.getCategoryProducts(
             categoryId = categoryId,
-            currency = "AED"
+            currency = "USD"
         )
     }
     CategoryProductsContent(

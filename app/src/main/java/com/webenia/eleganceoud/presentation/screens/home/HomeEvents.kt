@@ -10,4 +10,5 @@ sealed class HomeEvents(){
     data class CategoryClicked(
         val category: CategoryUiModel
     ) : HomeEvents()
+    object ReloadClick:HomeEvents()
 }

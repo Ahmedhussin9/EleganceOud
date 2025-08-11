@@ -7,13 +7,15 @@ import com.webenia.eleganceoud.data.remote.requests.login_request.SignInRequest
 import com.webenia.eleganceoud.data.remote.requests.resend_otp.ResendOtpRequest
 import com.webenia.eleganceoud.data.remote.requests.resgister_request.RegisterRequest
 import com.webenia.eleganceoud.data.remote.requests.submit_otp.SubmitOtpRequest
-import com.webenia.eleganceoud.data.remote.response.home.our_products.ProductsResponse
+import com.webenia.eleganceoud.data.remote.requests.update_cart_item.UpdateCartItemRequest
 import com.webenia.eleganceoud.data.remote.response.auth.otp.ResendOtpResponse
 import com.webenia.eleganceoud.data.remote.response.auth.otp.SubmitOtpResponse
 import com.webenia.eleganceoud.data.remote.response.auth.signout.SignOutResponse
 import com.webenia.eleganceoud.data.remote.response.auth.signup.RegisterResponse
 import com.webenia.eleganceoud.data.remote.response.cart.add_to_cart.AddToCartResponse
+import com.webenia.eleganceoud.data.remote.response.cart.delete_item.DeleteCartItemResponse
 import com.webenia.eleganceoud.data.remote.response.cart.get_cart.GetCartResponse
+import com.webenia.eleganceoud.data.remote.response.cart.update_in_cart.UpdateCartItemResponse
 import com.webenia.eleganceoud.data.remote.response.category_product.CategoryProductResponse
 import com.webenia.eleganceoud.data.remote.response.fav.AddToFavResponse
 import com.webenia.eleganceoud.data.remote.response.fav.DeleteFavResponse
@@ -22,6 +24,7 @@ import com.webenia.eleganceoud.data.remote.response.home.best_sellings.HomeBestS
 import com.webenia.eleganceoud.data.remote.response.home.brands.HomeBrandsResponse
 import com.webenia.eleganceoud.data.remote.response.home.category.CategoriesResponse
 import com.webenia.eleganceoud.data.remote.response.home.latest_products.HomeLatestProductsResponse
+import com.webenia.eleganceoud.data.remote.response.home.our_products.ProductsResponse
 import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.Body
@@ -121,18 +124,33 @@ interface WebServices {
     @Headers("Accept: application/json")
     suspend fun getFavorites(
         @Header("Authorization") token: String
-    ):Response<GetFavoritesResponse>
+    ): Response<GetFavoritesResponse>
 
     @POST("api/cart-items")
     @Headers("Accept: application/json")
     suspend fun addToCart(
         @Header("Authorization") token: String,
         @Body body: AddToCartRequest
-    ):Response<AddToCartResponse>
+    ): Response<AddToCartResponse>
 
     @GET("api/cart-items")
     @Headers("Accept: application/json")
     suspend fun getCartItems(
         @Header("Authorization") token: String
-    ):Response<GetCartResponse>
+    ): Response<GetCartResponse>
+
+    @POST("api/cart-items/{product_id}")
+    @Headers("Accept: application/json")
+    suspend fun updateCartItem(
+        @Header("Authorization") token: String,
+        @Path("product_id") productId: Int,
+        @Body body: UpdateCartItemRequest
+    ): Response<UpdateCartItemResponse>
+
+    @DELETE("api/cart-items/{product_id}")
+    @Headers("Accept: application/json")
+    suspend fun deleteCartItem(
+        @Header("Authorization") token: String,
+        @Path("product_id") productId: Int,
+    ): Response<DeleteCartItemResponse>
 }

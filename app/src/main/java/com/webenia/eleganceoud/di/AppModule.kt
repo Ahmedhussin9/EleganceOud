@@ -3,37 +3,40 @@ package com.webenia.eleganceoud.di
 import android.content.Context
 import android.util.Log
 import com.elegance_oud.util.isNetworkAvailable
-import com.google.gson.GsonBuilder
 import com.webenia.eleganceoud.data.remote.WebServices
 import com.webenia.eleganceoud.data.remote.repositroy.auth.OtpRepositoryImpl
 import com.webenia.eleganceoud.data.remote.repositroy.auth.RegisterRepositoryImpl
 import com.webenia.eleganceoud.data.remote.repositroy.auth.SignInRepositoryImpl
 import com.webenia.eleganceoud.data.remote.repositroy.auth.SignOutRepositoryImpl
 import com.webenia.eleganceoud.data.remote.repositroy.cart.AddToCartRepositoryImpl
+import com.webenia.eleganceoud.data.remote.repositroy.cart.DeleteCartItemRepositoryImpl
 import com.webenia.eleganceoud.data.remote.repositroy.cart.GetCartRepositoryImpl
+import com.webenia.eleganceoud.data.remote.repositroy.cart.UpdateCartItemRepositoryImpl
 import com.webenia.eleganceoud.data.remote.repositroy.category_products.GetCategoryProductsRepositoryImpl
 import com.webenia.eleganceoud.data.remote.repositroy.fav.AddToFavRepositoryImpl
 import com.webenia.eleganceoud.data.remote.repositroy.fav.DeleteFavRepositoryImpl
 import com.webenia.eleganceoud.data.remote.repositroy.fav.GetFavoritesRepositoryImpl
+import com.webenia.eleganceoud.data.remote.repositroy.home.GetCategoriesRepositoryImpl
 import com.webenia.eleganceoud.data.remote.repositroy.home.GetHomeBestSellingRepositoryImpl
 import com.webenia.eleganceoud.data.remote.repositroy.home.GetHomeBrandsRepositoryImpl
-import com.webenia.eleganceoud.data.remote.repositroy.home.GetCategoriesRepositoryImpl
 import com.webenia.eleganceoud.data.remote.repositroy.home.GetHomeLatestProductsRepositoryImpl
 import com.webenia.eleganceoud.data.remote.repositroy.home.GetOurProductsRepositoryImpl
 import com.webenia.eleganceoud.data.remote.repositroy.product.GetProductDetailsRepositoryImpl
-import com.webenia.eleganceoud.domain.repository.auth.SignOutRepository
 import com.webenia.eleganceoud.domain.repository.auth.OtpRepository
 import com.webenia.eleganceoud.domain.repository.auth.RegisterRepository
 import com.webenia.eleganceoud.domain.repository.auth.SignInRepository
+import com.webenia.eleganceoud.domain.repository.auth.SignOutRepository
 import com.webenia.eleganceoud.domain.repository.cart.AddToCartRepository
+import com.webenia.eleganceoud.domain.repository.cart.DeleteCartItemRepository
 import com.webenia.eleganceoud.domain.repository.cart.GetCartRepository
+import com.webenia.eleganceoud.domain.repository.cart.UpdateCartItemRepository
 import com.webenia.eleganceoud.domain.repository.category_products.GetCategoryProductsRepository
 import com.webenia.eleganceoud.domain.repository.fav.AddToFavRepository
 import com.webenia.eleganceoud.domain.repository.fav.DeleteFavRepository
 import com.webenia.eleganceoud.domain.repository.fav.GetFavoritesRepository
+import com.webenia.eleganceoud.domain.repository.home.GetCategoriesRepository
 import com.webenia.eleganceoud.domain.repository.home.GetHomeBestSellingRepository
 import com.webenia.eleganceoud.domain.repository.home.GetHomeBrandsRepository
-import com.webenia.eleganceoud.domain.repository.home.GetCategoriesRepository
 import com.webenia.eleganceoud.domain.repository.home.GetHomeLatestProductsRepository
 import com.webenia.eleganceoud.domain.repository.home.GetOurProductsRepository
 import com.webenia.eleganceoud.domain.repository.product.GetProductDetailsRepository
@@ -47,7 +50,6 @@ import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
@@ -190,5 +192,15 @@ object AppModule {
     @Provides
     fun provideGetCartRepository(webServices: WebServices): GetCartRepository {
         return GetCartRepositoryImpl(webServices)
+    }
+
+    @Provides
+    fun provideUpdateInCartRepository(webServices: WebServices): UpdateCartItemRepository {
+        return UpdateCartItemRepositoryImpl(webServices)
+    }
+
+    @Provides
+    fun provideDeleteCartItemRepository(webServices: WebServices): DeleteCartItemRepository {
+        return DeleteCartItemRepositoryImpl(webServices)
     }
 }
