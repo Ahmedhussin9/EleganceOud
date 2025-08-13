@@ -41,8 +41,8 @@ import com.webenia.eleganceoud.presentation.composables.ShimmerEffect
 import com.webenia.eleganceoud.presentation.composables.shimmerEffect
 import com.webenia.eleganceoud.presentation.navigation.AppDestination
 import com.webenia.eleganceoud.presentation.screens.product_details.ProductDetailsEvent
-import com.webenia.eleganceoud.ui.theme.CardGrey
-import com.webenia.eleganceoud.ui.theme.Primary
+import com.webenia.eleganceoud.presentation.ui.theme.CardGrey
+import com.webenia.eleganceoud.presentation.ui.theme.Primary
 import com.webenia.eleganceoud.R
 
 

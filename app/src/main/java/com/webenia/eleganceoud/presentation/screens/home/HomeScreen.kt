@@ -53,7 +53,7 @@ import com.webenia.eleganceoud.presentation.composables.ProductItem
 import com.webenia.eleganceoud.presentation.composables.ReloadButton
 import com.webenia.eleganceoud.presentation.composables.TopBar
 import com.webenia.eleganceoud.presentation.navigation.AppDestination
-import com.webenia.eleganceoud.ui.theme.Primary
+import com.webenia.eleganceoud.presentation.ui.theme.Primary
 import com.webenia.eleganceoud.util.state.UiText
 
 

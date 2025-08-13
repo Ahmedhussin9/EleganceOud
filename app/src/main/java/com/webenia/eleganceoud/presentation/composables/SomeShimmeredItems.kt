@@ -17,7 +17,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.webenia.eleganceoud.ui.theme.CardGrey
+import com.webenia.eleganceoud.presentation.ui.theme.CardGrey
 
 @Composable
 fun ShimmerIconWithText() {

@@ -39,9 +39,9 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.elegance_oud.util.BASE_IMAGE_URL
 import com.webenia.eleganceoud.domain.model.cart.CartItemModel
-import com.webenia.eleganceoud.ui.theme.HoverGrey
-import com.webenia.eleganceoud.ui.theme.LightGreen
-import com.webenia.eleganceoud.ui.theme.Primary
+import com.webenia.eleganceoud.presentation.ui.theme.HoverGrey
+import com.webenia.eleganceoud.presentation.ui.theme.LightGreen
+import com.webenia.eleganceoud.presentation.ui.theme.Primary
 
 
 @Composable

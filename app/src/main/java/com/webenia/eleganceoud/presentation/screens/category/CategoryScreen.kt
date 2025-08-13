@@ -28,7 +28,7 @@ import com.webenia.eleganceoud.presentation.composables.CategoryItem
 import com.webenia.eleganceoud.presentation.composables.CategoryItemShimmer
 import com.webenia.eleganceoud.presentation.composables.ReloadButton
 import com.webenia.eleganceoud.presentation.navigation.AppDestination
-import com.webenia.eleganceoud.ui.theme.Primary
+import com.webenia.eleganceoud.presentation.ui.theme.Primary
 import com.webenia.eleganceoud.util.state.UiText
 
 

@@ -19,7 +19,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.material3.Text
-import com.webenia.eleganceoud.ui.theme.Primary
+import com.webenia.eleganceoud.presentation.ui.theme.Primary
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)

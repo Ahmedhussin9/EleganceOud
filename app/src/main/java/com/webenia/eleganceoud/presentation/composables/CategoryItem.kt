@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.elegance_oud.util.BASE_IMAGE_URL
 import com.webenia.eleganceoud.domain.model.category.CategoryUiModel
-import com.webenia.eleganceoud.ui.theme.CardGrey
+import com.webenia.eleganceoud.presentation.ui.theme.CardGrey
 
 @Composable
 fun CategoryItem(

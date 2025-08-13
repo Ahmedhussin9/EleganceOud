@@ -34,10 +34,10 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.elegance_oud.util.BASE_IMAGE_URL
 import com.webenia.eleganceoud.domain.model.product.ProductUiModel
-import com.webenia.eleganceoud.ui.theme.HoverGrey
-import com.webenia.eleganceoud.ui.theme.LightGreen
-import com.webenia.eleganceoud.ui.theme.Primary
-import com.webenia.eleganceoud.ui.theme.VeryLightGrey
+import com.webenia.eleganceoud.presentation.ui.theme.HoverGrey
+import com.webenia.eleganceoud.presentation.ui.theme.LightGreen
+import com.webenia.eleganceoud.presentation.ui.theme.Primary
+import com.webenia.eleganceoud.presentation.ui.theme.VeryLightGrey
 
 @Composable
 fun ProductItemWide(

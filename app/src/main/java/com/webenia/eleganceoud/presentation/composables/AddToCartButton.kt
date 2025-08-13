@@ -17,7 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.webenia.eleganceoud.R
-import com.webenia.eleganceoud.ui.theme.VeryLightGrey
+import com.webenia.eleganceoud.presentation.ui.theme.VeryLightGrey
 
 
 @Composable

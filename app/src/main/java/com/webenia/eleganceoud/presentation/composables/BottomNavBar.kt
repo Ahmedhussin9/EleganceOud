@@ -18,7 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.webenia.eleganceoud.presentation.screens.main.BottomNavItem
-import com.webenia.eleganceoud.ui.theme.Primary
+import com.webenia.eleganceoud.presentation.ui.theme.Primary
 @Composable
 fun ChipBottomNavigationBar(
     items: List<BottomNavItem>,

@@ -38,9 +38,9 @@ import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.webenia.eleganceoud.ui.theme.MidGrey
-import com.webenia.eleganceoud.ui.theme.Primary
-import com.webenia.eleganceoud.ui.theme.poppinsFamily
+import com.webenia.eleganceoud.presentation.ui.theme.MidGrey
+import com.webenia.eleganceoud.presentation.ui.theme.Primary
+import com.webenia.eleganceoud.presentation.ui.theme.poppinsFamily
 
 @Composable
 fun UnderLinedEditText(

@@ -1,4 +1,4 @@
-package com.webenia.eleganceoud.ui.theme
+package com.webenia.eleganceoud.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

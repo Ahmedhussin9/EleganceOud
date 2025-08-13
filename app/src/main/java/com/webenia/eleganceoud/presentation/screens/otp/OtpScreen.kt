@@ -45,10 +45,10 @@ import com.webenia.eleganceoud.R
 import com.webenia.eleganceoud.presentation.composables.BackButton
 import com.webenia.eleganceoud.presentation.composables.OtpTextField
 import com.webenia.eleganceoud.presentation.navigation.AppDestination
-import com.webenia.eleganceoud.ui.theme.LightGrey
-import com.webenia.eleganceoud.ui.theme.MidGrey
-import com.webenia.eleganceoud.ui.theme.Primary
-import com.webenia.eleganceoud.ui.theme.poppinsFamily
+import com.webenia.eleganceoud.presentation.ui.theme.LightGrey
+import com.webenia.eleganceoud.presentation.ui.theme.MidGrey
+import com.webenia.eleganceoud.presentation.ui.theme.Primary
+import com.webenia.eleganceoud.presentation.ui.theme.poppinsFamily
 
 @Composable
 fun OtpScreenSetup(

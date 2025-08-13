@@ -15,6 +15,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.elegance_oud.util.EnsureNotificationPermissionIfNeeded
 import com.elegance_oud.util.UserUtil
 import com.webenia.eleganceoud.presentation.screens.favorite.FavoriteScreenSetup
 import com.webenia.eleganceoud.presentation.screens.cart.CartScreenSetup
@@ -69,6 +70,10 @@ fun NavGraph(navController: NavHostController) {
             })
         }
         composable(AppDestination.Main.route) {
+            EnsureNotificationPermissionIfNeeded(
+                onGranted = {},
+                onDenied = {}
+            )
             MainScreenEntryPoint(navController = navController)
         }
         composable(AppDestination.Category.route) {

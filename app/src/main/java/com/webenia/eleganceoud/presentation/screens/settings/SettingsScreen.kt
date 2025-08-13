@@ -45,8 +45,8 @@ import com.elegance_oud.util.LocalUtil.setLocal
 import com.webenia.eleganceoud.R
 import com.webenia.eleganceoud.presentation.composables.BackButton
 import com.webenia.eleganceoud.presentation.navigation.AppDestination
-import com.webenia.eleganceoud.ui.theme.CardGrey
-import com.webenia.eleganceoud.ui.theme.Primary
+import com.webenia.eleganceoud.presentation.ui.theme.CardGrey
+import com.webenia.eleganceoud.presentation.ui.theme.Primary
 
 @Composable
 fun SettingsScreenSetup(

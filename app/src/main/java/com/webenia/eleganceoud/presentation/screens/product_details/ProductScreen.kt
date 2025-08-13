@@ -79,8 +79,8 @@ import com.webenia.eleganceoud.presentation.composables.SwipeImageSlider
 import com.webenia.eleganceoud.presentation.composables.ToggleHeartIcon
 import com.webenia.eleganceoud.presentation.composables.WeightItem
 import com.webenia.eleganceoud.presentation.navigation.AppDestination
-import com.webenia.eleganceoud.ui.theme.MidGrey
-import com.webenia.eleganceoud.ui.theme.Primary
+import com.webenia.eleganceoud.presentation.ui.theme.MidGrey
+import com.webenia.eleganceoud.presentation.ui.theme.Primary
 
 @Composable
 fun ProductScreenSetup(

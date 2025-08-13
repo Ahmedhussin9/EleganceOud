@@ -24,7 +24,7 @@ import androidx.navigation.compose.rememberNavController
 import com.elegance_oud.util.LocalUtil
 import com.elegance_oud.util.UserUtil
 import com.webenia.eleganceoud.presentation.navigation.NavGraph
-import com.webenia.eleganceoud.ui.theme.EleganceOudTheme
+import com.webenia.eleganceoud.presentation.ui.theme.EleganceOudTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -32,6 +32,9 @@ import androidx.compose.runtime.CompositionLocalProvider
 
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
+import com.webenia.eleganceoud.worker.NotificationScheduler
+import com.webenia.eleganceoud.worker.NotifyChannels
+import java.time.LocalTime
 import java.util.Locale
 
 
@@ -43,13 +46,12 @@ class MainActivity : ComponentActivity() {
         LocalUtil.init(context)
         LocalUtil.loadLocal(this)
         UserUtil.init(context)
+        enableDailyReminders(context)
         enableEdgeToEdge()
         setContent {
             val navController = rememberNavController()
             EleganceOudTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { paddingValues ->
-                    val context = LocalContext.current
-                    val activity = context as Activity
                     val currentLanguage = LocalUtil.getLang()
 
                     Log.e("LANG", currentLanguage.toString(), )
@@ -71,5 +73,15 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+    private fun enableDailyReminders(context: Context) {
+        NotifyChannels.ensure(context) // make sure channel exists
+
+        NotificationScheduler.scheduleDailyTimes(
+            context = context,
+            times = listOf(LocalTime.of(9, 0), LocalTime.of(18, 0)),
+            title = "Daily Reminder",
+            message = "Quick check-in!"
+        )
     }
 }

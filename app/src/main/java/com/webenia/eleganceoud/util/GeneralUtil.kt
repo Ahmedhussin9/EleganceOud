@@ -2,9 +2,17 @@
 package com.elegance_oud.util
 
 import android.content.Context
+import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.os.Build
 import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.platform.LocalContext
+import androidx.core.content.ContextCompat
 
 import com.webenia.eleganceoud.util.state.ApiState
 import com.google.gson.Gson
@@ -48,6 +56,38 @@ fun <T> toResultFlow(call: suspend () -> Response<T>): Flow<ApiState<T>> = flow 
     } catch (e: Exception) {
         Log.e("networkResponse", "Exception\n ${e.message.toString()}")
         emit(ApiState.Error(UiText.StringResource(R.string.something_went_wrong)))
+    }
+}
+@Composable
+fun EnsureNotificationPermissionIfNeeded(
+    onGranted: () -> Unit,
+    onDenied: () -> Unit
+) {
+    val context = LocalContext.current
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        val hasPermission = ContextCompat.checkSelfPermission(
+            context,
+            android.Manifest.permission.POST_NOTIFICATIONS
+        ) == PackageManager.PERMISSION_GRANTED
+
+        if (hasPermission) {
+            onGranted()
+        } else {
+            val launcher = rememberLauncherForActivityResult(
+                ActivityResultContracts.RequestPermission()
+            ) { granted ->
+                if (granted) onGranted() else onDenied()
+            }
+
+            // Call this launcher when user taps "Enable notifications"
+            LaunchedEffect(Unit) {
+                launcher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
+    } else {
+        // Below Android 13 → no runtime permission
+        onGranted()
     }
 }
 

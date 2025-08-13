@@ -32,7 +32,7 @@ import com.webenia.eleganceoud.presentation.composables.CategoryItemShimmer
 import com.webenia.eleganceoud.presentation.composables.ProductItemShimmer
 import com.webenia.eleganceoud.presentation.composables.ShimmerEffect
 import com.webenia.eleganceoud.presentation.composables.ShimmerIconWithText
-import com.webenia.eleganceoud.ui.theme.CardGrey
+import com.webenia.eleganceoud.presentation.ui.theme.CardGrey
 
 @Composable
 fun HomeShimmerEffect() {

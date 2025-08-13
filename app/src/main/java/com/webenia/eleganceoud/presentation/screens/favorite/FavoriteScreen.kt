@@ -25,7 +25,7 @@ import com.webenia.eleganceoud.R
 import com.webenia.eleganceoud.presentation.composables.ProductItemWide
 import com.webenia.eleganceoud.presentation.composables.ReloadButton
 import com.webenia.eleganceoud.presentation.screens.category_products.ProductItemShimmer
-import com.webenia.eleganceoud.ui.theme.Primary
+import com.webenia.eleganceoud.presentation.ui.theme.Primary
 
 @Composable
 fun FavoriteScreenSetup(

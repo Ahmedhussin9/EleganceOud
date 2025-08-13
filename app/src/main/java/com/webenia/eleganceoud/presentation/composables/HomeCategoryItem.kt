@@ -26,10 +26,10 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.webenia.eleganceoud.R
 import com.webenia.eleganceoud.domain.model.CategoryItem
-import com.webenia.eleganceoud.ui.theme.HoverGrey
-import com.webenia.eleganceoud.ui.theme.LightGrey
-import com.webenia.eleganceoud.ui.theme.MidGrey
-import com.webenia.eleganceoud.ui.theme.VeryLightGrey
+import com.webenia.eleganceoud.presentation.ui.theme.HoverGrey
+import com.webenia.eleganceoud.presentation.ui.theme.LightGrey
+import com.webenia.eleganceoud.presentation.ui.theme.MidGrey
+import com.webenia.eleganceoud.presentation.ui.theme.VeryLightGrey
 
 @Composable
 fun HomeCategoryItem(item: CategoryItem) {

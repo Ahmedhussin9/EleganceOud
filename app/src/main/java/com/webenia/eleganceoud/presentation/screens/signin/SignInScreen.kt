@@ -45,10 +45,10 @@ import com.webenia.eleganceoud.presentation.composables.LoadingOverlay
 import com.webenia.eleganceoud.presentation.composables.UnderLinedEditText
 import com.webenia.eleganceoud.presentation.navigation.AppDestination
 import com.webenia.eleganceoud.presentation.screens.signup.SignUpEvent
-import com.webenia.eleganceoud.ui.theme.LightGrey
-import com.webenia.eleganceoud.ui.theme.MidGrey
-import com.webenia.eleganceoud.ui.theme.Primary
-import com.webenia.eleganceoud.ui.theme.poppinsFamily
+import com.webenia.eleganceoud.presentation.ui.theme.LightGrey
+import com.webenia.eleganceoud.presentation.ui.theme.MidGrey
+import com.webenia.eleganceoud.presentation.ui.theme.Primary
+import com.webenia.eleganceoud.presentation.ui.theme.poppinsFamily
 
 
 @Composable
